@@ -2,7 +2,9 @@
   "parser": "babel-eslint",
   "plugins": [
     "react-native",
-    "flowtype"
+    "flowtype",
+    "jsx-a11y",
+    "import"
   ],
   "rules": {
     "comma-dangle": [
