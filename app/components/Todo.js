@@ -8,15 +8,16 @@ import TodoItem from './TodoItem';
 
 const { width } = Dimensions.get('window');
 
-export default class Todo extends Component {
+type props = {
+	removeTodo: Function,
+	setVisibilityFilter: Function,
+	toggleTodo: Function,
+	todos: Array<any>,
+	displayType: string,
+}
 
-	static propTypes = {
-		removeTodo: React.PropTypes.func,
-		setVisibilityFilter: React.PropTypes.func,
-		toggleTodo: React.PropTypes.func,
-		todos: React.PropTypes.array,
-		displayType: React.PropTypes.string,
-	}
+export default class Todo extends Component {
+	props: Props;
 
 	constructor(props) {
 		super(props);

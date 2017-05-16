@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { addTodo, toggleTodo, removeTodo, setVisibilityFilter } from './action';
 import Todo from './components/Todo';
 
-
 function mapStateToProps(state) {
 	return {
-		todos: state.todos,
-		displayType: state.displayType,
+		todos: state.get('todos'),
+		displayType: state.get('displayType'),
 	};
 }
 
