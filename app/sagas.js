@@ -1,11 +1,11 @@
 // @flow
 
-import { call, put, takeLatest } from "redux-saga/effects"
+import { put, takeLatest } from "redux-saga/effects"
 import { fromJS } from "immutable"
 import types from "./constants"
 import { setAccessPoints } from "./action"
 
-function* fetchAccessPoint(action) {
+function* fetchAccessPoint() {
 	yield put(setAccessPoints(fromJS(["hoge", "fuga"])))
 }
 
