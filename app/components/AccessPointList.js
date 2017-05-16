@@ -1,17 +1,20 @@
 // @flow
 
 import React from "react"
-import { Container, Header, Title, Content, List } from "native-base"
+import { Container, Header, Title, Content, List, ListItem } from "native-base"
 import { View, Text } from "react-native"
 
 type Props = {
-	accessPoints: any
+	accessPoints: any,
+	loadAccessPoints: Function
 }
 
 export default class AccessPointList extends React.Component {
 	props: Props
 
-	componentDidMount() {}
+	componentDidMount() {
+		this.props.loadAccessPoints()
+	}
 
 	renderAccessPointList() {
 		const { accessPoints } = this.props

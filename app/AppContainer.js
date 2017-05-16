@@ -1,7 +1,7 @@
 // @flow
 
 import { connect } from "react-redux"
-import { setAccessPoints } from "./action"
+import { setAccessPoints, loadAccessPoints } from "./action"
 import AccessPointList from "./components/AccessPointList"
 
 function mapStateToProps(state) {
@@ -12,7 +12,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		setAccessPoints: accessPoints => dispatch(setAccessPoints(accessPoints)),
+		loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),
 	}
 }
 

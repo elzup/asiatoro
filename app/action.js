@@ -8,3 +8,9 @@ export function setAccessPoints(accessPoints) {
 		accessPoints,
 	}
 }
+
+export function loadAccessPoints() {
+	return {
+		type: types.LOAD_ACCESS_POINTS,
+	}
+}

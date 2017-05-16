@@ -1,13 +1,18 @@
 // @flow
 
 import React, { Component } from "react"
-import { createStore } from "redux"
+import { createStore, applyMiddleware } from "redux"
+import createSagaMiddleware from "redux-saga"
 import { Provider } from "react-redux"
 
 import AppContainer from "./AppContainer"
 import reducer from "./reducer"
+import sagas from "./sagas"
 
-const store = createStore(reducer)
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(reducer, applyMiddleware(sagaMiddleware))
+
+sagaMiddleware.run(sagas)
 
 export default class Index extends Component {
 	render() {
