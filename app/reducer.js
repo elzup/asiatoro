@@ -25,12 +25,12 @@ export default function (state = initialState, action) {
 						};
 					}
 					return todo;
-				}),
-			};
+				});
+			});
 		case 'SET_VISIBILITY_FILTER':
-			return {
-				...state, displayType: action.displayType,
-			};
+			return state.set('displayType', action.displayType);
+		case types.SET_ACCESS_POINTS:
+			return state.set('accessPoints', action.accessPoints);
 		default:
 	}
 	return state;

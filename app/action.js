@@ -1,5 +1,7 @@
 // @flow
 
+import types from './constants'
+
 export function addTodo(payload) {
 	return {
 		type: 'ADD_TODO',
@@ -25,5 +27,12 @@ export function setVisibilityFilter(displayType) {
 	return {
 		type: 'SET_VISIBILITY_FILTER',
 		displayType,
+	};
+}
+
+export function setAccessPoints(accessPoints) {
+	return {
+		type: types.SET_ACCESS_POINTS,
+		accessPoints,
 	};
 }
