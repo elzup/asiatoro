@@ -1,26 +1,23 @@
 // @flow
 
-const initialState = {
+import { fromJS, toJS } from 'immutable'
+import types from './constants';
+
+const initialState = fromJS({
 	todos: [],
+	accessPoints: false,
 	displayType: 'all',
-};
+});
 
 export default function (state = initialState, action) {
 	switch (action.type) {
 		case 'ADD_TODO':
-			return {
-				...state,
-				todos: [...state.todos, { text: action.payload, completed: false }],
-			};
+			return state.update('todos', todos => todos.concat({ text: action.payload, completed: false }));
 		case 'REMOVE_TODO':
-			return {
-				...state,
-				todos: [...state.todos.slice(0, action.index), ...state.todos.slice(action.index + 1)],
-			};
+			return state.update('todos', todos => [...todos.slice(0, action.index), ...todos.slice(action.index + 1)]);
 		case 'TOGGLE_TODO':
-			return {
-				...state,
-				todos: state.todos.map((todo, index) => {
+			return state.update('todos', todos => {
+				return todos.map((todo, index) => {
 					if (index === action.index) {
 						return {
 							...todo,
