@@ -1,23 +1,19 @@
 // @flow
 
-import { connect } from 'react-redux';
-import { addTodo, toggleTodo, removeTodo, setVisibilityFilter } from './action';
-import Todo from './components/Todo';
+import { connect } from "react-redux"
+import { setAccessPoints } from "./action"
+import AccessPointList from "./components/AccessPointList"
 
 function mapStateToProps(state) {
 	return {
-		todos: state.get('todos'),
-		displayType: state.get('displayType'),
-	};
+		accessPoints: state.get("accessPoints"),
+	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		addTodo: payload => dispatch(addTodo(payload)),
-		toggleTodo: index => dispatch(toggleTodo(index)),
-		removeTodo: index => dispatch(removeTodo(index)),
-		setVisibilityFilter: displayType => dispatch(setVisibilityFilter(displayType)),
-	};
+		setAccessPoints: accessPoints => dispatch(setAccessPoints(accessPoints)),
+	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todo);
+export default connect(mapStateToProps, mapDispatchToProps)(AccessPointList)

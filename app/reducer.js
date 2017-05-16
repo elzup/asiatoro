@@ -1,37 +1,17 @@
 // @flow
 
-import { fromJS, toJS } from 'immutable'
-import types from './constants';
+import { fromJS } from "immutable"
+import types from "./constants"
 
 const initialState = fromJS({
-	todos: [],
-	accessPoints: false,
-	displayType: 'all',
-});
+	accessPoints: [],
+})
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
 	switch (action.type) {
-		case 'ADD_TODO':
-			return state.update('todos', todos => todos.concat({ text: action.payload, completed: false }));
-		case 'REMOVE_TODO':
-			return state.update('todos', todos => [...todos.slice(0, action.index), ...todos.slice(action.index + 1)]);
-		case 'TOGGLE_TODO':
-			return state.update('todos', todos => {
-				return todos.map((todo, index) => {
-					if (index === action.index) {
-						return {
-							...todo,
-							completed: !todo.completed,
-						};
-					}
-					return todo;
-				});
-			});
-		case 'SET_VISIBILITY_FILTER':
-			return state.set('displayType', action.displayType);
 		case types.SET_ACCESS_POINTS:
-			return state.set('accessPoints', action.accessPoints);
+			return state.set("accessPoints", action.accessPoints)
 		default:
 	}
-	return state;
+	return state
 }

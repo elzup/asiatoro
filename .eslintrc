@@ -2,6 +2,7 @@
   "parser": "babel-eslint",
   "plugins": [
     "react-native",
+    "react",
     "flowtype",
     "jsx-a11y",
     "import"
