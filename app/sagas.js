@@ -15,7 +15,8 @@ function* fetchAccessPoint() {
 		accessPoints = JSON.parse(res)
 		accessPoints.push("in iOS")
 	} else {
-		console.log(NativeUtilModuleAndroid)
+		const res = yield call(NativeUtilModuleAndroid.getAccessPoints)
+		accessPoints = res.split("#")
 		accessPoints.push("in Android")
 	}
 	console.log(accessPoints)
