@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from "redux"
 import createSagaMiddleware from "redux-saga"
 import { Provider } from "react-redux"
 
-import AppContainer from "./AppContainer"
+import AppContainer from "./containers/AppContainer"
 import reducer from "./reducer"
 import sagas from "./sagas"
 

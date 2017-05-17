@@ -1,7 +1,7 @@
 // @flow
 
 import React from "react"
-import { Container, Header, Title, Content, List, ListItem } from "native-base"
+import { Content, List, ListItem } from "native-base"
 import { View, Text } from "react-native"
 
 type Props = {
@@ -30,19 +30,13 @@ export default class AccessPointList extends React.Component {
 
 	render() {
 		return (
-			<Container>
-				<Header>
-					<Title>Access Points</Title>
-				</Header>
-
-				<Content contentContainerStyle={{ justifyContent: "space-between" }}>
-					<View>
-						<List>
-							{this.renderAccessPointList()}
-						</List>
-					</View>
-				</Content>
-			</Container>
+			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
+				<View>
+					<List>
+						{this.renderAccessPointList()}
+					</List>
+				</View>
+			</Content>
 		)
 	}
 }
