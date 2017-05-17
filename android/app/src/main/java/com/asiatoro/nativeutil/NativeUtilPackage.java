@@ -1,4 +1,4 @@
-package com.asiatoro;
+package com.asiatoro.nativeutil;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AnExampleReactPackage implements ReactPackage {
+public class NativeUtilPackage implements ReactPackage {
 
     @Override
     public List<Class<? extends JavaScriptModule>> createJSModules() {
@@ -27,7 +27,7 @@ public class AnExampleReactPackage implements ReactPackage {
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
 
-        modules.add(new ToastModule(reactContext));
+        modules.add(new NativeUtilModule(reactContext));
 
         return modules;
     }
