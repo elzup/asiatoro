@@ -4,21 +4,10 @@ import { call, put, takeLatest } from "redux-saga/effects"
 import { fromJS } from "immutable"
 import types from "./constants"
 import { setAccessPoints } from "./action"
-import { NativeModules, Platform } from "react-native"
-
-const { ReadAccessPoint, NativeUtilModuleAndroid } = NativeModules
+import { getAccessPoints } from "./natives/NetworkUtil"
 
 function* fetchAccessPoint() {
-	let accessPoints = ["none"]
-	if (Platform.OS === "ios") {
-		const res = yield call(ReadAccessPoint.getAccessPoints)
-		accessPoints = JSON.parse(res)
-		accessPoints.push("in iOS")
-	} else {
-		const res = yield call(NativeUtilModuleAndroid.getAccessPoints)
-		accessPoints = res.split("#")
-		accessPoints.push("in Android")
-	}
+	const accessPoints = yield call(getAccessPoints)
 	console.log(accessPoints)
 	yield put(setAccessPoints(fromJS(accessPoints)))
 }
