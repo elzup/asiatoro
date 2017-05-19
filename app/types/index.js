@@ -8,3 +8,9 @@ export class AccessPointRecord
 	bssid: string
 	follow: boolean
 }
+
+export class UserRecord extends Record({ id: 0, name: "", token: "" }) {
+	id: number
+	name: string
+	token: boolean
+}

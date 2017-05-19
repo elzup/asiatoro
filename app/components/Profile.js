@@ -1,42 +1,61 @@
 // @flow
 
 import React from "react"
-import { Content, List, ListItem } from "native-base"
-import { View, Text } from "react-native"
-import { AccessPointRecord } from "../types"
+import { Form, Content, Input, Item, Button } from "native-base"
+import { Text } from "react-native"
+import { UserRecord } from "../types"
 
 type Props = {
-	accessPoints: any,
-	loadAccessPoints: Function
+	user: UserRecord,
+	setUser: Function
+}
+
+type State = {
+	id: number,
+	token: string
 }
 
 export default class AccessPointList extends React.Component {
 	props: Props
-
-	componentDidMount() {
-		this.props.loadAccessPoints()
-	}
-
-	renderAccessPointList() {
-		const { accessPoints } = this.props
-
-		return accessPoints.toArray().map((item: AccessPointRecord, index) => (
-			<ListItem style={{ flex: 1 }} key={item.bssid}>
-				<Text style={{ alignSelf: "center" }}>
-					{item.ssid}({item.bssid})
-				</Text>
-			</ListItem>
-		))
+	state: State = {
+		id: 0,
+		token: "",
 	}
 
 	render() {
 		return (
-			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
-				<View>
-					<List>
-						{this.renderAccessPointList()}
-					</List>
-				</View>
+			<Content>
+				<Form>
+					<Item>
+						<Input
+							placeholder="ID"
+							value={this.state.id}
+							onChangeText={id => this.setState({ id })}
+						/>
+					</Item>
+					<Item last>
+						<Input
+							placeholder="Token"
+							value={this.state.token}
+							onChangeText={token => this.setState({ token })}
+						/>
+					</Item>
+				</Form>
+				<Button
+					success
+					block
+					onPress={() => {
+						this.props.setUser(
+							new UserRecord({
+								id: this.state.id,
+								name: "elzup",
+								token: this.state.token,
+							})
+						)
+					}}
+				>
+					<Text>設定</Text>
+				</Button>
 			</Content>
 		)
 	}

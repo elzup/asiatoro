@@ -1,18 +1,18 @@
 // @flow
 
 import { connect } from "react-redux"
-import { loadAccessPoints } from "../../action"
+import { setUser } from "../../action"
 import Profile from "../../components/Profile"
 
 function mapStateToProps(state) {
 	return {
-		accessPoints: state.get("accessPoints"),
+		user: state.get("user"),
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),
+		setUser: accessPoints => dispatch(setUser()),
 	}
 }
 
