@@ -1,6 +1,7 @@
 // @flow
 
 import { Record } from "immutable"
+import moment from "moment"
 
 export class UserRecord extends Record({ id: 0, name: "", token: "" }) {
 	id: number
@@ -11,6 +12,14 @@ export class UserRecord extends Record({ id: 0, name: "", token: "" }) {
 export class CheckinRecord extends Record({ user: null, created_at: "" }) {
 	user: UserRecord
 	created_at: string
+
+	timestamp() {
+		return moment(this.created_at)
+	}
+
+	justNow() {
+		return this.timestamp() < moment().add(-15, "m")
+	}
 }
 
 export class AccessPointRecord
