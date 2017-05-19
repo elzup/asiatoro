@@ -28,7 +28,9 @@ export default class FollowAccessPointList extends React.Component {
 			>
 				<Icon name="person" />
 				<Text>{ci.user.name}</Text>
-				<Text>{ci.timestamp().fromNow()}</Text>
+				<Text style={{ fontSize: 10 }}>
+					{ci.timestamp().fromNow()}
+				</Text>
 			</View>
 		)
 	}
