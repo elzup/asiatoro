@@ -11,9 +11,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.uimanager.IllegalViewOperationException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import static android.content.Context.WIFI_SERVICE;
 
@@ -50,25 +52,24 @@ public class NativeUtilModule extends ReactContextBaseJavaModule {
     public void getAccessPoints(Promise promise) {
         WifiManager manager = (WifiManager) (getReactApplicationContext().getApplicationContext().getSystemService(WIFI_SERVICE));
         if (manager.getWifiState() != WifiManager.WIFI_STATE_ENABLED) {
-            promise.resolve("Wifi not enabled");
+            promise.resolve(null);
             return;
         }
         manager.startScan();
         List<ScanResult> apList = manager.getScanResults();
-        String[] aps = new String[apList.size()];
+        ArrayList<String> aps = new ArrayList<>();
         if (apList.size() == 0) {
             promise.resolve("AP not found");
             return;
         }
-        for (int i = 0; i < apList.size(); i++) {
-            aps[i] = "SSID:" + apList.get(i).SSID + "\n"
-                    + apList.get(i).frequency + "MHz " + apList.get(i).level + "dBm";
+        for (ScanResult ap: apList) {
+            aps.add(ap.SSID + "#" + ap.BSSID + "#" + ap.level);
         }
 
         StringBuilder buf = new StringBuilder();
         for (String str : aps) {
             // SSID に使えない記号
-            buf.append(str).append("#");
+            buf.append(str).append("##");
         }
         String text = buf.substring(0, buf.length() - 1);
         try {
