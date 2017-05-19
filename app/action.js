@@ -10,6 +10,19 @@ export function setAccessPoints(accessPoints: AccessPointRecord) {
 	}
 }
 
+export function loadFollowAccessPoints() {
+	return {
+		type: types.LOAD_FOLLOW_ACCESS_POINTS,
+	}
+}
+
+export function loadFollowAccessPointsEnd(followAccessPoints) {
+	return {
+		type: types.LOAD_FOLLOW_ACCESS_POINTS_END,
+		followAccessPoints,
+	}
+}
+
 export function loadAccessPoints() {
 	return {
 		type: types.LOAD_ACCESS_POINTS,
