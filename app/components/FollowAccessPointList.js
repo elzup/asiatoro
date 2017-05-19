@@ -1,8 +1,8 @@
 // @flow
 
 import React from "react"
-import { Content, List, ListItem } from "native-base"
-import { View, Text } from "react-native"
+import { Content, Card, CardItem, Icon, Right } from "native-base"
+import { Text } from "react-native"
 import { AccessPointRecord, CheckinRecord } from "../types"
 
 type Props = {
@@ -15,8 +15,9 @@ export default class FollowAccessPointList extends React.Component {
 	componentDidMount() {}
 
 	renderCheckinCardItem(ci: CheckinRecord) {
+		console.log(ci)
 		return (
-			<CardItem>
+			<CardItem key={ci.user.name}>
 				<Icon active name="logo-googleplus" />
 				<Text>{ci.user}</Text>
 				<Right>
@@ -27,8 +28,11 @@ export default class FollowAccessPointList extends React.Component {
 	}
 
 	renderAccessPointCard(ap: AccessPointRecord) {
+		console.log(ap.checkins)
 		return (
-			<Card dataArray={ap.checkins} renderRow={this.renderCheckinCardItem} />
+			<Card key={ap.bssid}>
+				{ap.checkins.map(ci => this.renderCheckinCardItem(ci))}
+			</Card>
 		)
 	}
 

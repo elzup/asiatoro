@@ -4,6 +4,7 @@ import { call, put, takeLatest } from "redux-saga/effects"
 import { fromJS } from "immutable"
 import { AsyncStorage } from "react-native"
 import AsiatoroClient from "./networks/Client"
+import { CheckinRecord } from "./types"
 
 import types from "./constants"
 import {
@@ -23,7 +24,12 @@ function* fetchAccessPoint() {
 function* fetchFollowAccessPoints() {
 	console.log("fetch fap")
 	const res = yield AsiatoroClient.getFollowAccessPoint()
-	const followAccessPoints = res.data.map(v => new AccessPointRecord(v))
+	const followAccessPoints = res.data.map(ap => {
+		const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
+			return new CheckinRecord({ ...ci, user: new UserRecord(ci.user) })
+		})
+		return new AccessPointRecord({ ...ap, checkins })
+	})
 	yield put(loadFollowAccessPointsEnd(followAccessPoints))
 }
 

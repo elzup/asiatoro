@@ -8,7 +8,7 @@ export class UserRecord extends Record({ id: 0, name: "", token: "" }) {
 	token: boolean
 }
 
-export class CheckinRecord extends Record() {
+export class CheckinRecord extends Record({ user: null, created_at: "" }) {
 	user: UserRecord
 	created_at: string
 }
