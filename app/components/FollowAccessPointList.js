@@ -18,11 +18,7 @@ export default class FollowAccessPointList extends React.Component {
 		console.log(ci)
 		return (
 			<CardItem key={ci.user.name}>
-				<Icon active name="logo-googleplus" />
-				<Text>{ci.user}</Text>
-				<Right>
-					<Icon name="arrow-forward" />
-				</Right>
+				<Text>{ci.user.name}</Text>
 			</CardItem>
 		)
 	}
@@ -31,6 +27,9 @@ export default class FollowAccessPointList extends React.Component {
 		console.log(ap.checkins)
 		return (
 			<Card key={ap.bssid}>
+				<CardItem header>
+					<Text>{ap.ssid}({ap.bssid})</Text>
+				</CardItem>
 				{ap.checkins.map(ci => this.renderCheckinCardItem(ci))}
 			</Card>
 		)
