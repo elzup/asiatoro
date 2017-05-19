@@ -29,8 +29,8 @@ export default class AccessPointList extends React.Component {
 					<Item>
 						<Input
 							placeholder="ID"
-							value={this.state.id}
-							onChangeText={id => this.setState({ id })}
+							value={this.state.id.toString()}
+							onChangeText={id => this.setState({ id: parseInt(id) || 1 })}
 						/>
 					</Item>
 					<Item last>
