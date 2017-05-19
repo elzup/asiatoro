@@ -4,6 +4,7 @@ import React, { Component } from "react"
 import { Container, Header, Tab, Tabs } from "native-base"
 import AccessPointContainer from "./AccessPointContainer"
 import ProfileContainer from "./ProfileContainer"
+import FollowContainer from "./FollowContainer"
 
 export default class AppContainer extends Component {
 	render() {
@@ -11,7 +12,10 @@ export default class AppContainer extends Component {
 			<Container>
 				<Header hasTabs />
 				<Tabs>
-					<Tab heading="Network 一覧">
+					<Tab heading="Home">
+						<FollowContainer />
+					</Tab>
+					<Tab heading="Networks">
 						<AccessPointContainer />
 					</Tab>
 					<Tab heading="Profile">

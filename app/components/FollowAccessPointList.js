@@ -3,40 +3,41 @@
 import React from "react"
 import { Content, List, ListItem } from "native-base"
 import { View, Text } from "react-native"
-import { AccessPointRecord } from "../types"
+import { AccessPointRecord, CheckinRecord } from "../types"
 
 type Props = {
-	accessPoints: any,
-	loadAccessPoints: Function
+	followAccessPoints: Array<AccessPointRecord>
 }
 
 export default class FollowAccessPointList extends React.Component {
 	props: Props
 
-	componentDidMount() {
-		this.props.loadAccessPoints()
+	componentDidMount() {}
+
+	renderCheckinCardItem(ci: CheckinRecord) {
+		return (
+			<CardItem>
+				<Icon active name="logo-googleplus" />
+				<Text>{ci.user}</Text>
+				<Right>
+					<Icon name="arrow-forward" />
+				</Right>
+			</CardItem>
+		)
 	}
 
-	renderAccessPointList() {
-		const { accessPoints } = this.props
-
-		return accessPoints.toArray().map((item: AccessPointRecord, index) => (
-			<ListItem style={{ flex: 1 }} key={item.bssid}>
-				<Text style={{ alignSelf: "center" }}>
-					{item.ssid}({item.bssid})
-				</Text>
-			</ListItem>
-		))
+	renderAccessPointCard(ap: AccessPointRecord) {
+		return (
+			<Card dataArray={ap.checkins} renderRow={this.renderCheckinCardItem} />
+		)
 	}
 
 	render() {
 		return (
 			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
-				<View>
-					<List>
-						{this.renderAccessPointList()}
-					</List>
-				</View>
+				{this.props.followAccessPoints.map(ap =>
+					this.renderAccessPointCard(ap)
+				)}
 			</Content>
 		)
 	}
