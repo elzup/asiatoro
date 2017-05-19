@@ -12,7 +12,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		setUser: accessPoints => dispatch(setUser()),
+		setUser: user => dispatch(setUser(user)),
 	}
 }
 

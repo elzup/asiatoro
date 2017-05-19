@@ -5,6 +5,7 @@ import types from "./constants"
 
 const initialState = fromJS({
 	accessPoints: [],
+	followAccessPoints: [],
 	user: [],
 })
 

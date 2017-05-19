@@ -12,8 +12,14 @@ function* fetchAccessPoint() {
 	yield put(setAccessPoints(fromJS(accessPoints)))
 }
 
+function* fetchFollowAccessPoints({ user }) {
+	console.log("fetch follow ap")
+	console.log(user)
+}
+
 function* sagas() {
 	yield takeLatest(types.LOAD_ACCESS_POINTS, fetchAccessPoint)
+	yield takeLatest(types.SET_USER, fetchFollowAccessPoints)
 }
 
 export default sagas
