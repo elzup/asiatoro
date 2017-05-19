@@ -3,6 +3,8 @@
 import { call, put, takeLatest } from "redux-saga/effects"
 import { fromJS } from "immutable"
 import { AsyncStorage } from "react-native"
+import AsiatoroClient from "./networks/Client"
+
 import types from "./constants"
 import {
 	setAccessPoints,
@@ -18,14 +20,19 @@ function* fetchAccessPoint() {
 	yield put(setAccessPoints(fromJS(accessPoints)))
 }
 
-function* fetchFollowAccessPoints({ user }) {
+function* fetchFollowAccessPoints() {
 	console.log("fetch fap")
+	const res = yield AsiatoroClient.getFollowAccessPoint()
+	const followAccessPoints = res.data.map(v => new AccessPointRecord(v))
+	yield put(loadFollowAccessPointsEnd(followAccessPoints))
 }
 
 function* loadUser() {
 	const id = parseInt(yield AsyncStorage.getItem("user_id"))
 	const token = yield AsyncStorage.getItem("user_token")
-	yield put(setUser(new UserRecord({ id, token })))
+	const user = new UserRecord({ id, token })
+	AsiatoroClient.setUser(user)
+	yield put(setUser(user))
 }
 
 function* saveUser({ user }) {

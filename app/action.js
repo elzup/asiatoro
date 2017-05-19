@@ -10,10 +10,9 @@ export function setAccessPoints(accessPoints: AccessPointRecord) {
 	}
 }
 
-export function loadFollowAccessPoints(user: UserRecord) {
+export function loadFollowAccessPoints() {
 	return {
 		type: types.LOAD_FOLLOW_ACCESS_POINTS,
-		user,
 	}
 }
 
