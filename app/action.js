@@ -22,3 +22,9 @@ export function setUser(user: UserRecord) {
 		user,
 	}
 }
+
+export function loadUser() {
+	return {
+		type: types.LOAD_USER,
+	}
+}

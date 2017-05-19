@@ -1,7 +1,7 @@
 // @flow
 
 import { connect } from "react-redux"
-import { setUser } from "../../action"
+import { loadUser, setUser } from "../../action"
 import Profile from "../../components/Profile"
 
 function mapStateToProps(state) {
@@ -13,6 +13,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		setUser: user => dispatch(setUser(user)),
+		loadUser: () => dispatch(loadUser()),
 	}
 }
 
