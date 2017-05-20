@@ -8,6 +8,7 @@ const { ReadAccessPoint, NativeUtilModuleAndroid } = NativeModules
 export function* getAccessPoints(): Array<AccessPointRecord> {
 	if (Platform.OS === "ios") {
 		const res = yield ReadAccessPoint.getAccessPoints()
+		debugger
 		return JSON.parse(res)
 	} else {
 		const res = yield NativeUtilModuleAndroid.getAccessPoints()
