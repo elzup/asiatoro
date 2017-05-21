@@ -15,14 +15,15 @@ class ReadAccessPoint: NSObject {
   
   @objc(getAccessPoints:reject:)
   func getAccessPoints(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-    let (ssid, bssid) = ReadAccessPoint.infos()
-    print("SSID=\(ssid) BSSID=\(bssid)")
+    guard let (ssid, bssid) = ReadAccessPoint.infos() else {
+      resolve("[]")
+      return
+    }
+    // print("SSID=\(ssid) BSSID=\(bssid)")
     
     do {
       let jsonData = try JSONSerialization.data(withJSONObject: [["ssid": ssid, "bssid": bssid]], options: [])
-      print(jsonData)
       let jsonStr = String(bytes: jsonData, encoding: .utf8)!
-      print(jsonStr)
       resolve(jsonStr)
       return
     } catch (let e) {
@@ -31,10 +32,9 @@ class ReadAccessPoint: NSObject {
     resolve("[]")
   }
   
-  class func infos() -> (ssid: String, mac: String) {
-    print("infos-start")
+  class func infos() -> (ssid: String, mac: String)? {
     guard let cfas: NSArray = CNCopySupportedInterfaces() else {
-      return ("unknown", "unknown")
+      return nil
     }
     for cfa in cfas {
       guard let dict = CFBridgingRetain(
@@ -48,6 +48,6 @@ class ReadAccessPoint: NSObject {
       }
       return (ssid, mac)
     }
-    return ("unknown", "unknown")
+    return nil
   }
 }
