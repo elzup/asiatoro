@@ -23,6 +23,11 @@ function* fetchAccessPoint() {
 
 function* fetchFollowAccessPoints() {
 	console.log("fetch fap")
+	const id = parseInt((yield AsyncStorage.getItem("user_id")) || 0)
+	if (!id) {
+		yield put(loadFollowAccessPointsEnd([]))
+		return
+	}
 	const res = yield AsiatoroClient.getFollowAccessPoint()
 	const followAccessPoints = res.data.map(ap => {
 		const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
@@ -34,8 +39,8 @@ function* fetchFollowAccessPoints() {
 }
 
 function* loadUser() {
-	const id = parseInt(yield AsyncStorage.getItem("user_id"))
-	const token = yield AsyncStorage.getItem("user_token")
+	const id = parseInt((yield AsyncStorage.getItem("user_id")) || 0)
+	const token = (yield AsyncStorage.getItem("user_token")) || "temp"
 	const user = new UserRecord({ id, token })
 	AsiatoroClient.setUser(user)
 	yield put(setUser(user))
