@@ -2,11 +2,12 @@
 
 import { fromJS } from "immutable"
 import types from "./constants"
+import { UserRecord } from "./types"
 
 const initialState = fromJS({
 	accessPoints: [],
 	followAccessPoints: [],
-	user: [],
+	user: new UserRecord(),
 })
 
 export default function(state = initialState, action) {

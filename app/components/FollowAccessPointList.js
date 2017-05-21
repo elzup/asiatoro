@@ -3,10 +3,11 @@
 import React from "react"
 import { Content, Card, CardItem, Icon, Col, Grid } from "native-base"
 import { View, Text } from "react-native"
-import { AccessPointRecord, CheckinRecord } from "../types"
+import { AccessPointRecord, CheckinRecord, UserRecord } from "../types"
 
 type Props = {
-	followAccessPoints: Array<AccessPointRecord>
+	followAccessPoints: Array<AccessPointRecord>,
+	user: UserRecord
 }
 
 export default class FollowAccessPointList extends React.Component {
@@ -52,12 +53,39 @@ export default class FollowAccessPointList extends React.Component {
 		)
 	}
 
-	render() {
+	renderNavigateRegister() {
+		if (this.props.user.isRegistered()) {
+			return null
+		}
+		return <Text style={{ margin: 10 }}>Profile タブでユーザ登録しよう！</Text>
+	}
+
+	renderNoFollow() {
+		if (
+			!this.props.user.isRegistered() ||
+			this.props.followAccessPoints.length > 0
+		) {
+			return null
+		}
+		return <Text style={{ margin: 10 }}>Networks タブでネットワークをフォローしよう！</Text>
+	}
+
+	renderCards() {
 		return (
-			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
+			<View>
 				{this.props.followAccessPoints.map(ap =>
 					this.renderAccessPointCard(ap)
 				)}
+			</View>
+		)
+	}
+
+	render() {
+		return (
+			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
+				{this.renderNavigateRegister()}
+				{this.renderNoFollow()}
+				{this.renderCards()}
 			</Content>
 		)
 	}
