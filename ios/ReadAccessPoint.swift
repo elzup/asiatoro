@@ -33,7 +33,7 @@ class ReadAccessPoint: NSObject {
   }
   
   class func infos() -> (ssid: String, mac: String)? {
-    guard let cfas: NSArray = CNCopySupportedInterfaces() else {
+      guard let cfas: NSArray = CNCopySupportedInterfaces() else {
       return nil
     }
     for cfa in cfas {

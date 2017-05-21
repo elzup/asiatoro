@@ -7,6 +7,7 @@ const LOAD_FOLLOW_ACCESS_POINTS_END =
 	"asiatoro/app/LOAD_FOLLOW_ACCESS_POINTS_END"
 
 const SET_USER = "asiatoro/app/SET_USER"
+const UPDATE_USER = "asiatoro/app/UPDATE_USER"
 const LOAD_USER = "asiatoro/app/LOAD_USER"
 
 export default (types = {
@@ -15,5 +16,6 @@ export default (types = {
 	LOAD_FOLLOW_ACCESS_POINTS,
 	LOAD_FOLLOW_ACCESS_POINTS_END,
 	SET_USER,
+	UPDATE_USER,
 	LOAD_USER,
 })

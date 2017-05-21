@@ -6,16 +6,13 @@ import { View, Text } from "react-native"
 import { AccessPointRecord } from "../types"
 
 type Props = {
-	accessPoints: any,
-	loadAccessPoints: Function
+	accessPoints: any
 }
 
 export default class AccessPointList extends React.Component {
 	props: Props
 
-	componentDidMount() {
-		this.props.loadAccessPoints()
-	}
+	componentDidMount() {}
 
 	renderAccessPointList() {
 		const { accessPoints } = this.props

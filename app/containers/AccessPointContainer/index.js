@@ -1,7 +1,6 @@
 // @flow
 
 import { connect } from "react-redux"
-import { loadAccessPoints } from "../../action"
 import AccessPointList from "../../components/AccessPointList"
 
 function mapStateToProps(state) {
@@ -10,10 +9,8 @@ function mapStateToProps(state) {
 	}
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),
-	}
+function mapDispatchToProps() {
+	return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessPointList)
