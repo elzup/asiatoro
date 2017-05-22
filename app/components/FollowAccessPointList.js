@@ -16,7 +16,6 @@ export default class FollowAccessPointList extends React.Component {
 	componentDidMount() {}
 
 	renderCheckinCardItem(ci: CheckinRecord) {
-		console.log(ci)
 		return (
 			<View
 				style={{

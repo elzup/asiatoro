@@ -44,16 +44,17 @@ function* loadUser() {
 		return
 	}
 	const user = new UserRecord({ id: parseInt(id), token, name })
-	yield put(setUser(new UserRecord()))
+	yield put(setUser(user))
 	AsiatoroClient.setUser(user)
 	yield put(loadFollowAccessPoints(user))
 }
 
-function* saveUser({ user }) {
+function* registerUser({ user }) {
 	yield AsyncStorage.setItem("user_id", user.id.toString())
 	yield AsyncStorage.setItem("user_token", user.token)
-	yield AsyncStorage.setItem("user_pass", user.token)
-	yield AsyncStorage.setItem("user_name", user.token)
+	yield AsyncStorage.setItem("user_pass", user.pass)
+	yield AsyncStorage.setItem("user_name", user.name)
+	yield put(setUser(user))
 	AsiatoroClient.setUser(user)
 	yield put(loadFollowAccessPoints(user))
 }
@@ -74,7 +75,7 @@ function* createUser({ name }: { name: string }) {
 
 function* sagas() {
 	yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
-	yield takeLatest(ActionTypes.UPDATE_USER, saveUser)
+	yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
 	yield takeLatest(ActionTypes.LOAD_USER, loadUser)
 	yield takeLatest(
 		ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,

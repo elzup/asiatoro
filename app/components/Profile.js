@@ -36,8 +36,8 @@ export default class AccessPointList extends React.Component {
 	componentDidMount() {}
 
 	componentWillReceiveProps(props) {
-		const { id, token } = props.user
-		this.setState({ id, token })
+		const { name } = props.user
+		this.setState({ name })
 	}
 
 	renderRegistered() {
