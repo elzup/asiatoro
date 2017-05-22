@@ -53,35 +53,26 @@ export default class AccessPointList extends React.Component {
 		if (user.isRegistered()) {
 			return null
 		}
-		debugger
+		const duplicateNameError =
+			this.props.error === ErrorTypes.USER_NAME_DUPLICATE
 		return (
 			<View>
 				<Form>
-					<Item
-						style={{ marginBottom: 10 }}
-						error={this.props.error === ErrorTypes.USER_NAME_DUPLICATE}
-					>
+					<Item style={{ marginBottom: 10 }} error={duplicateNameError}>
 						<Label>ユーザ名</Label>
 						<Input
 							error
 							placeholder="yourname"
 							value={this.state.name}
 							onChangeText={name => {
-								this.setState({ name })
+								this.setState({ name: name.toLowerCase() })
 								if (this.props.error === ErrorTypes.USER_NAME_DUPLICATE) {
-									this.setError(false)
+									this.props.setError(false)
 								}
 							}}
 						/>
-						<Icon
-							name="close-circle"
-							onPress={() => {
-								this.setState({ name: "" })
-								if (this.props.error === ErrorTypes.USER_NAME_DUPLICATE) {
-									this.setError(false)
-								}
-							}}
-						/>
+						<Text>{duplicateNameError && "ユーザ名が使われています。"}</Text>
+						<Icon name="close-circle" />
 					</Item>
 				</Form>
 				<Button

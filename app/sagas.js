@@ -12,6 +12,7 @@ import {
 	setAccessPoints,
 	setUser,
 	setError,
+	updateUser,
 	loadFollowAccessPoints,
 	loadFollowAccessPointsEnd,
 } from "./action"
@@ -37,40 +38,43 @@ function* fetchFollowAccessPoints() {
 function* loadUser() {
 	const id = yield AsyncStorage.getItem("user_id")
 	const token = yield AsyncStorage.getItem("user_token")
+	const name = yield AsyncStorage.getItem("user_name")
 	if (id === null || token === null) {
 		yield put(setUser(new UserRecord()))
 		return
 	}
-	const user = new UserRecord({ id: parseInt(id), token })
+	const user = new UserRecord({ id: parseInt(id), token, name })
 	yield put(setUser(new UserRecord()))
 	AsiatoroClient.setUser(user)
 	yield put(loadFollowAccessPoints(user))
 }
 
-function* updateUser({ user }) {
+function* saveUser({ user }) {
 	yield AsyncStorage.setItem("user_id", user.id.toString())
 	yield AsyncStorage.setItem("user_token", user.token)
+	yield AsyncStorage.setItem("user_pass", user.token)
+	yield AsyncStorage.setItem("user_name", user.token)
 	AsiatoroClient.setUser(user)
 	yield put(loadFollowAccessPoints(user))
 }
 
 function* createUser({ name }: { name: string }) {
-	const user = new UserRecord({ name, pass: randomString(10) })
-	const res = yield AsiatoroClient.postUser({
-		name: user.name,
-		pass: user.pass,
-	})
+	const pass = randomString(10)
+	const res = yield AsiatoroClient.postUser({ name, pass })
 	if (res.status === 400) {
 		yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
 		return
 	}
-	debugger
-	yield put(setUser(new UserRecord()))
+	const id = res.data.id
+	const token = res.data.token
+
+	const user = new UserRecord({ name, pass, id, token })
+	yield put(updateUser(user))
 }
 
 function* sagas() {
 	yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
-	yield takeLatest(ActionTypes.UPDATE_USER, updateUser)
+	yield takeLatest(ActionTypes.UPDATE_USER, saveUser)
 	yield takeLatest(ActionTypes.LOAD_USER, loadUser)
 	yield takeLatest(
 		ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,

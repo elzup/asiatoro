@@ -31,7 +31,7 @@ export function loadAccessPoints() {
 
 export function updateUser(user: UserRecord) {
 	return {
-		type: ActionTypes.SET_USER,
+		type: ActionTypes.UPDATE_USER,
 		user,
 	}
 }
