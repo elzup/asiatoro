@@ -5,6 +5,7 @@ import AccessPointList from "../../components/AccessPointList"
 
 function mapStateToProps(state) {
 	return {
+		followAccessPoints: state.get("followAccessPoints"),
 		accessPoints: state.get("accessPoints"),
 	}
 }

@@ -14,7 +14,7 @@ import {
 	setError,
 	updateUser,
 	loadFollowAccessPoints,
-	loadFollowAccessPointsEnd,
+	setFollowAccessPoints,
 } from "./action"
 import { getAccessPoints } from "./natives/NetworkUtil"
 import { UserRecord, AccessPointRecord } from "./types"
@@ -32,7 +32,7 @@ function* fetchFollowAccessPoints() {
 		})
 		return new AccessPointRecord({ ...ap, checkins })
 	})
-	yield put(loadFollowAccessPointsEnd(followAccessPoints))
+	yield put(setFollowAccessPoints(followAccessPoints))
 }
 
 function* loadUser() {

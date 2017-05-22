@@ -3,6 +3,12 @@
 import { ActionTypes } from "./constants"
 import { AccessPointRecord, UserRecord } from "./types"
 
+export function loadAccessPoints() {
+	return {
+		type: ActionTypes.LOAD_ACCESS_POINTS,
+	}
+}
+
 export function setAccessPoints(accessPoints: AccessPointRecord) {
 	return {
 		type: ActionTypes.SET_ACCESS_POINTS,
@@ -16,16 +22,10 @@ export function loadFollowAccessPoints() {
 	}
 }
 
-export function loadFollowAccessPointsEnd(followAccessPoints) {
+export function setFollowAccessPoints(followAccessPoints) {
 	return {
 		type: ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END,
 		followAccessPoints,
-	}
-}
-
-export function loadAccessPoints() {
-	return {
-		type: ActionTypes.LOAD_ACCESS_POINTS,
 	}
 }
 
