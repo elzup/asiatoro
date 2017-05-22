@@ -1,12 +1,13 @@
 // @flow
 
 import React from "react"
-import { Content, Icon, List, ListItem, Right, Text } from "native-base"
+import { Content, Icon, Button, List, ListItem, Right, Text } from "native-base"
 import { View } from "react-native"
 import { AccessPointRecord } from "../types"
 
 type Props = {
-	accessPoints: Array<AccessPointRecord>
+	accessPoints: Array<AccessPointRecord>,
+	postFollow: (ap: AccessPointRecord) => {}
 }
 
 export default class AccessPointList extends React.Component {
@@ -23,7 +24,13 @@ export default class AccessPointList extends React.Component {
 					{ap.ssid}({ap.bssid})
 				</Text>
 				<Right>
-					<Icon active={ap.follow} name="star" color="yellow" />
+					<Button
+						onPress={() => {
+							this.props.postFollow(ap, !ap.follow)
+						}}
+					>
+						<Icon active={ap.follow} name="star" color="yellow" />
+					</Button>
 				</Right>
 			</ListItem>
 		))

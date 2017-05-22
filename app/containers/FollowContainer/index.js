@@ -10,8 +10,10 @@ function mapStateToProps(state) {
 	}
 }
 
-function mapDispatchToProps() {
-	return {}
+function mapDispatchToProps(dispatch) {
+	return {
+		post: user => dispatch(setUser(user)),
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(

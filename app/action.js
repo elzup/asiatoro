@@ -62,3 +62,18 @@ export function setError(error: string | false) {
 		error,
 	}
 }
+
+export function postFollow(accessPoint: AccessPointRecord, follow: boolean) {
+	return {
+		type: ActionTypes.POST_FOLLOW,
+		accessPoint,
+		follow,
+	}
+}
+
+export function toggleFollow(accessPoint: AccessPointRecord) {
+	return {
+		type: ActionTypes.TOGGLE_FOLLOW,
+		accessPoint,
+	}
+}

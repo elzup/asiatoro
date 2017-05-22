@@ -9,6 +9,7 @@ const initialState = fromJS({
 	followAccessPoints: [],
 	user: new UserRecord(),
 	userRegisterError: false,
+	loadingFollow: false,
 })
 
 export default function(state = initialState, action) {
@@ -28,6 +29,16 @@ export default function(state = initialState, action) {
 			return state
 				.set("followAccessPoints", action.followAccessPoints)
 				.set("accessPoints", aps)
+
+		case ActionTypes.POST_FOLLOW:
+			return state.set("loadingFollow", true)
+		case ActionTypes.TOGGLE_FOLLOW:
+			const { accessPoint } = action
+			aps = state
+				.get("accessPoints")
+				.delete(accessPoint)
+				.insert(accessPoint.set("follow", !accessPoint.follow))
+			return state.set("loadingFollow", false).set("accessPoints", aps)
 
 		case ActionTypes.SET_USER:
 			return state.set("user", action.user)

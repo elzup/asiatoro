@@ -12,6 +12,7 @@ import {
 	setAccessPoints,
 	setUser,
 	setError,
+	toggleFollow,
 	updateUser,
 	loadFollowAccessPoints,
 	setFollowAccessPoints,
@@ -76,6 +77,21 @@ function* createUser({ name }: { name: string }) {
 	yield put(updateUser(user))
 }
 
+function* postFollow({
+	accessPoint,
+	follow,
+}: {
+	accessPoint: AccessPointRecord,
+	follow: boolean
+}) {
+	if (follow) {
+		yield AsiatoroClient.postFollow({ ap: accessPoint })
+	} else {
+		yield AsiatoroClient.deleteFollow({ ap: accessPoint })
+	}
+	yield put(toggleFollow(accessPoint))
+}
+
 function* sagas() {
 	yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
 	yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
@@ -85,6 +101,7 @@ function* sagas() {
 		fetchFollowAccessPoints
 	)
 	yield takeLatest(ActionTypes.CREATE_USER, createUser)
+	yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
 }
 
 export default sagas
