@@ -21,8 +21,8 @@ export default function(state = initialState, action) {
 			return state.set("user", action.user)
 		case ActionTypes.CREATE_USER:
 			return state.set("userRegisterError", false)
-		case ActionTypes.CREATE_USER_END:
-			return state.set("userRegisterError", error)
+		case ActionTypes.SET_ERROR:
+			return state.set("userRegisterError", action.error)
 		default:
 	}
 	return state

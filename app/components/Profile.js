@@ -1,16 +1,25 @@
 // @flow
 
 import React from "react"
-import { Form, Content, Input, Item, Button } from "native-base"
-import { Text } from "react-native"
+import {
+	Form,
+	Content,
+	Input,
+	Button,
+	Label,
+	Text,
+	Item,
+	Icon,
+} from "native-base"
+import { View } from "react-native"
 import { UserRecord } from "../types"
-import { ErrorType } from "../constants"
-// ErrorType.USER_NAME_DUPLICATE
+import { ErrorTypes } from "../constants"
 
 type Props = {
 	user: UserRecord,
-	userRegisterError: string,
+	error: string,
 	setUser: (user: UserRecord) => {},
+	setError: (error: string) => {},
 	createUser: (name: string) => {}
 }
 
@@ -44,20 +53,40 @@ export default class AccessPointList extends React.Component {
 		if (user.isRegistered()) {
 			return null
 		}
+		debugger
 		return (
 			<View>
 				<Form>
-					<Item>
+					<Item
+						style={{ marginBottom: 10 }}
+						error={this.props.error === ErrorTypes.USER_NAME_DUPLICATE}
+					>
+						<Label>ユーザ名</Label>
 						<Input
+							error
 							placeholder="yourname"
 							value={this.state.name}
-							onChangeText={name => this.setState({ name })}
+							onChangeText={name => {
+								this.setState({ name })
+								if (this.props.error === ErrorTypes.USER_NAME_DUPLICATE) {
+									this.setError(false)
+								}
+							}}
+						/>
+						<Icon
+							name="close-circle"
+							onPress={() => {
+								this.setState({ name: "" })
+								if (this.props.error === ErrorTypes.USER_NAME_DUPLICATE) {
+									this.setError(false)
+								}
+							}}
 						/>
 					</Item>
 				</Form>
 				<Button
-					success
 					block
+					primary
 					onPress={() => {
 						this.props.createUser(this.state.name)
 					}}
@@ -70,7 +99,7 @@ export default class AccessPointList extends React.Component {
 
 	render() {
 		return (
-			<Content>
+			<Content style={{ padding: 5 }}>
 				{this.renderRegistered()}
 				{this.renderRegisterForm()}
 			</Content>

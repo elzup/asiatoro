@@ -56,9 +56,9 @@ export function createUser(name: string) {
 	}
 }
 
-export function createUserEnd(error: string) {
+export function setError(error: string | false) {
 	return {
-		type: ActionTypes.CREATE_USER_END,
+		type: ActionTypes.SET_ERROR,
 		error,
 	}
 }

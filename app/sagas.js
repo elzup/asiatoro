@@ -7,10 +7,11 @@ import AsiatoroClient from "./networks/Client"
 import { CheckinRecord } from "./types"
 import randomString from "random-string"
 
-import { ActionTypes } from "./constants"
+import { ActionTypes, ErrorTypes } from "./constants"
 import {
 	setAccessPoints,
 	setUser,
+	setError,
 	loadFollowAccessPoints,
 	loadFollowAccessPointsEnd,
 } from "./action"
@@ -59,7 +60,12 @@ function* createUser({ name }: { name: string }) {
 		name: user.name,
 		pass: user.pass,
 	})
+	if (res.status === 400) {
+		yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
+		return
+	}
 	debugger
+	yield put(setUser(new UserRecord()))
 }
 
 function* sagas() {
