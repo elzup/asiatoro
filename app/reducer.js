@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable"
 import { ActionTypes } from "./constants"
-import { UserRecord, AccessPointRecord } from "./types"
+import { UserRecord } from "./types"
 
 const initialState = fromJS({
 	accessPoints: [],

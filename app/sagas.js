@@ -14,7 +14,6 @@ import {
 	setError,
 	toggleFollow,
 	updateUser,
-	loadFollowAccessPoints,
 	setFollowAccessPoints,
 } from "./action"
 import { getAccessPoints } from "./natives/NetworkUtil"
@@ -44,13 +43,10 @@ function* loadUser() {
 		yield put(setUser(new UserRecord()))
 		return
 	}
-	let user = new UserRecord({ id: parseInt(id), token, name })
-	if (__DEV__) {
-		user = new UserRecord({ id: 1, token: "token", name })
-	}
+	const user = new UserRecord({ id: parseInt(id), token, name })
 	yield put(setUser(user))
 	AsiatoroClient.setUser(user)
-	yield put(loadFollowAccessPoints(user))
+	yield fetchFollowAccessPoints()
 }
 
 function* registerUser({ user }) {
@@ -60,7 +56,7 @@ function* registerUser({ user }) {
 	yield AsyncStorage.setItem("user_name", user.name)
 	yield put(setUser(user))
 	AsiatoroClient.setUser(user)
-	yield put(loadFollowAccessPoints(user))
+	yield fetchFollowAccessPoints()
 }
 
 function* createUser({ name }: { name: string }) {
@@ -90,6 +86,7 @@ function* postFollow({
 		yield AsiatoroClient.deleteFollow({ ap: accessPoint })
 	}
 	yield put(toggleFollow(accessPoint))
+	yield fetchFollowAccessPoints()
 }
 
 function* sagas() {
