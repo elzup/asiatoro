@@ -11,6 +11,7 @@ export function* getAccessPoints(): Array<AccessPointRecord> {
 			new AccessPointRecord({ ssid: "Hoge", bssid: "aa:bb:cc:d1" }),
 			new AccessPointRecord({ ssid: "Fuga", bssid: "aa:bb:cc:d2" }),
 			new AccessPointRecord({ ssid: "Piyo", bssid: "aa:bb:cc:d3" }),
+			new AccessPointRecord({ ssid: "1号館", bssid: "bssid1" }),
 		]
 	}
 	if (Platform.OS === "ios") {

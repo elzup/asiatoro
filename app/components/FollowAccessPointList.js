@@ -18,6 +18,7 @@ export default class FollowAccessPointList extends React.Component {
 	renderCheckinCardItem(ci: CheckinRecord) {
 		return (
 			<View
+				key={ci.user.name}
 				style={{
 					width: 70,
 					borderRadius: 3,

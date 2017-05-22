@@ -17,12 +17,12 @@ export default class AccessPointList extends React.Component {
 	renderAccessPointList() {
 		const { accessPoints } = this.props
 
-		return accessPoints.toArray().map((item: AccessPointRecord, index) => (
-			<ListItem style={{ flex: 1 }} key={item.bssid}>
+		return accessPoints.toArray().map((ap: AccessPointRecord, index) => (
+			<ListItem style={{ flex: 1 }} key={ap.bssid}>
 				<Text style={{ alignSelf: "center" }}>
-					{item.ssid}({item.bssid})
+					{ap.ssid}({ap.bssid})
 				</Text>
-				<Icon visible={false} name="star" />
+				{ap.follow ? <Icon name="star" /> : null}
 			</ListItem>
 		))
 	}
