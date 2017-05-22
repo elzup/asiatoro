@@ -34,10 +34,12 @@ export default function(state = initialState, action) {
 			return state.set("loadingFollow", true)
 		case ActionTypes.TOGGLE_FOLLOW:
 			const { accessPoint } = action
-			aps = state
-				.get("accessPoints")
-				.delete(accessPoint)
-				.insert(accessPoint.set("follow", !accessPoint.follow))
+			aps = state.get("accessPoints").map(ap => {
+				if (ap === accessPoint) {
+					return accessPoint.set("follow", !accessPoint.follow)
+				}
+				return ap
+			})
 			return state.set("loadingFollow", false).set("accessPoints", aps)
 
 		case ActionTypes.SET_USER:
