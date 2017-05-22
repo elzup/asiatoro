@@ -15,11 +15,15 @@ class ReadAccessPoint: NSObject {
   
   @objc(getAccessPoints:reject:)
   func getAccessPoints(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-    let interfaces = CNCopySupportedInterfaces()
+    guard let (ssid, bssid) = ReadAccessPoint.infos() else {
+      resolve("[]")
+      return
+    }
+    // print("SSID=\(ssid) BSSID=\(bssid)")
+    
     do {
-      let jsonData = try JSONSerialization.data(withJSONObject: interfaces ?? [], options: [])
+      let jsonData = try JSONSerialization.data(withJSONObject: [["ssid": ssid, "bssid": bssid]], options: [])
       let jsonStr = String(bytes: jsonData, encoding: .utf8)!
-      print(jsonStr)
       resolve(jsonStr)
       return
     } catch (let e) {
@@ -28,4 +32,22 @@ class ReadAccessPoint: NSObject {
     resolve("[]")
   }
   
+  class func infos() -> (ssid: String, mac: String)? {
+      guard let cfas: NSArray = CNCopySupportedInterfaces() else {
+      return nil
+    }
+    for cfa in cfas {
+      guard let dict = CFBridgingRetain(
+        CNCopyCurrentNetworkInfo(cfa as! CFString)
+        ) as? NSDictionary else {
+          continue
+      }
+      guard let ssid = dict["SSID"] as? String,
+        let mac = dict["BSSID"] as? String else {
+          continue
+      }
+      return (ssid, mac)
+    }
+    return nil
+  }
 }

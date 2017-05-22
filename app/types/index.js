@@ -23,6 +23,10 @@ export class UserRecord extends Record({ id: 0, name: "", token: "" }) {
 	id: number
 	name: string
 	token: boolean
+
+	isRegistered(): boolean {
+		return this.id !== 0
+	}
 }
 
 export class CheckinRecord extends Record({ user: null, created_at: "" }) {

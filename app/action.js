@@ -29,6 +29,13 @@ export function loadAccessPoints() {
 	}
 }
 
+export function updateUser(user: UserRecord) {
+	return {
+		type: types.SET_USER,
+		user,
+	}
+}
+
 export function setUser(user: UserRecord) {
 	return {
 		type: types.SET_USER,

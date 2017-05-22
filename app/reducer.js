@@ -2,11 +2,12 @@
 
 import { fromJS } from "immutable"
 import types from "./constants"
+import { UserRecord } from "./types"
 
 const initialState = fromJS({
 	accessPoints: [],
 	followAccessPoints: [],
-	user: [],
+	user: new UserRecord(),
 })
 
 export default function(state = initialState, action) {
@@ -15,7 +16,6 @@ export default function(state = initialState, action) {
 			return state.set("accessPoints", action.accessPoints)
 		case types.LOAD_FOLLOW_ACCESS_POINTS_END:
 			return state.set("followAccessPoints", action.followAccessPoints)
-			return state.set("user", action.user)
 		case types.SET_USER:
 			return state.set("user", action.user)
 		default:

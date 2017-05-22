@@ -7,8 +7,7 @@ import { UserRecord } from "../types"
 
 type Props = {
 	user: UserRecord,
-	setUser: Function,
-	loadUser: Function
+	setUser: Function
 }
 
 type State = {
@@ -22,9 +21,7 @@ export default class AccessPointList extends React.Component {
 		id: 0,
 		token: "",
 	}
-	componentDidMount() {
-		this.props.loadUser()
-	}
+	componentDidMount() {}
 
 	componentWillReceiveProps(props) {
 		const { id, token } = props.user
