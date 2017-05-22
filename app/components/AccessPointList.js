@@ -3,11 +3,13 @@
 import React from "react"
 import { Content, Icon, Button, List, ListItem, Right, Text } from "native-base"
 import { View } from "react-native"
+import Spinner from "react-native-loading-spinner-overlay"
 import { AccessPointRecord } from "../types"
 
 type Props = {
 	accessPoints: Array<AccessPointRecord>,
-	postFollow: (ap: AccessPointRecord) => {}
+	postFollow: (ap: AccessPointRecord) => {},
+	loading: boolean
 }
 
 export default class AccessPointList extends React.Component {
@@ -25,6 +27,7 @@ export default class AccessPointList extends React.Component {
 				</Text>
 				<Right>
 					<Button
+						transparent
 						onPress={() => {
 							this.props.postFollow(ap, !ap.follow)
 						}}
@@ -44,6 +47,11 @@ export default class AccessPointList extends React.Component {
 						{this.renderAccessPointList()}
 					</List>
 				</View>
+				<Spinner
+					visible={this.props.loading}
+					textContent={"Loading..."}
+					textStyle={{ color: "#FFF" }}
+				/>
 			</Content>
 		)
 	}

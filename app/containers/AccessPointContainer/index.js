@@ -8,6 +8,7 @@ function mapStateToProps(state) {
 	return {
 		followAccessPoints: state.get("followAccessPoints"),
 		accessPoints: state.get("accessPoints"),
+		loading: state.get("loadingFollow"),
 	}
 }
 function mapDispatchToProps(dispatch) {
