@@ -5,6 +5,7 @@ import { fromJS } from "immutable"
 import { AsyncStorage } from "react-native"
 import AsiatoroClient from "./networks/Client"
 import { CheckinRecord } from "./types"
+import randomstring from "randomstring"
 
 import types from "./constants"
 import {
@@ -48,7 +49,17 @@ function* loadUser() {
 function* updateUser({ user }) {
 	yield AsyncStorage.setItem("user_id", user.id.toString())
 	yield AsyncStorage.setItem("user_token", user.token)
+	AsiatoroClient.setUser(user)
 	yield put(loadFollowAccessPoints(user))
+}
+
+function* createUser({ user }: { user: UserRecord }) {
+	user.pass = randomstring.generate(10)
+	const res = yield AsiatoroClient.postUser({
+		name: user.name,
+		pass: user.pass,
+	})
+	debugger
 }
 
 function* sagas() {
@@ -56,6 +67,7 @@ function* sagas() {
 	yield takeLatest(types.UPDATE_USER, updateUser)
 	yield takeLatest(types.LOAD_USER, loadUser)
 	yield takeLatest(types.LOAD_FOLLOW_ACCESS_POINTS, fetchFollowAccessPoints)
+	yield takeLatest(types.CREATE_USER, createUser)
 }
 
 export default sagas

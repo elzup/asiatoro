@@ -48,3 +48,17 @@ export function loadUser() {
 		type: types.LOAD_USER,
 	}
 }
+
+export function createUser(user: UserRecord) {
+	return {
+		type: types.CREATE_USER,
+		user,
+	}
+}
+
+export function createUserEnd(error) {
+	return {
+		type: types.CREATE_USER_END,
+		error,
+	}
+}

@@ -26,6 +26,12 @@ class AsiatoroClient {
 		}
 		return res
 	}
+
+	async postUser(params: { name: string, pass: string }) {
+		const res = await this.api.post("/v1/users", params)
+		console.log("res", res)
+		return res
+	}
 }
 
 export default new AsiatoroClient()

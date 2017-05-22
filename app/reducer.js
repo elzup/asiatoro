@@ -8,6 +8,7 @@ const initialState = fromJS({
 	accessPoints: [],
 	followAccessPoints: [],
 	user: new UserRecord(),
+	userRegisterError: false,
 })
 
 export default function(state = initialState, action) {
@@ -18,6 +19,10 @@ export default function(state = initialState, action) {
 			return state.set("followAccessPoints", action.followAccessPoints)
 		case types.SET_USER:
 			return state.set("user", action.user)
+		case types.CREATE_USER:
+			return state.set("userRegisterError", false)
+		case types.CREATE_USER_END:
+			return state.set("userRegisterError", error)
 		default:
 	}
 	return state

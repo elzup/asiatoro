@@ -19,9 +19,11 @@ moment.locale("ja", {
 	},
 })
 
-export class UserRecord extends Record({ id: 0, name: "", token: "" }) {
+export class UserRecord
+	extends Record({ id: 0, name: "", pass: "", token: "" }) {
 	id: number
 	name: string
+	pass: string
 	token: boolean
 
 	isRegistered(): boolean {
