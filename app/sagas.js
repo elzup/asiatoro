@@ -5,9 +5,9 @@ import { fromJS } from "immutable"
 import { AsyncStorage } from "react-native"
 import AsiatoroClient from "./networks/Client"
 import { CheckinRecord } from "./types"
-import randomstring from "randomstring"
+import randomString from "random-string"
 
-import types from "./constants"
+import { ActionTypes } from "./constants"
 import {
 	setAccessPoints,
 	setUser,
@@ -40,7 +40,7 @@ function* loadUser() {
 		yield put(setUser(new UserRecord()))
 		return
 	}
-	let user = new UserRecord({ id: parseInt(id), token })
+	const user = new UserRecord({ id: parseInt(id), token })
 	yield put(setUser(new UserRecord()))
 	AsiatoroClient.setUser(user)
 	yield put(loadFollowAccessPoints(user))
@@ -53,8 +53,8 @@ function* updateUser({ user }) {
 	yield put(loadFollowAccessPoints(user))
 }
 
-function* createUser({ user }: { user: UserRecord }) {
-	user.pass = randomstring.generate(10)
+function* createUser({ name }: { name: string }) {
+	const user = new UserRecord({ name, pass: randomString(10) })
 	const res = yield AsiatoroClient.postUser({
 		name: user.name,
 		pass: user.pass,
@@ -63,11 +63,14 @@ function* createUser({ user }: { user: UserRecord }) {
 }
 
 function* sagas() {
-	yield takeLatest(types.LOAD_ACCESS_POINTS, fetchAccessPoint)
-	yield takeLatest(types.UPDATE_USER, updateUser)
-	yield takeLatest(types.LOAD_USER, loadUser)
-	yield takeLatest(types.LOAD_FOLLOW_ACCESS_POINTS, fetchFollowAccessPoints)
-	yield takeLatest(types.CREATE_USER, createUser)
+	yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
+	yield takeLatest(ActionTypes.UPDATE_USER, updateUser)
+	yield takeLatest(ActionTypes.LOAD_USER, loadUser)
+	yield takeLatest(
+		ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,
+		fetchFollowAccessPoints
+	)
+	yield takeLatest(ActionTypes.CREATE_USER, createUser)
 }
 
 export default sagas

@@ -4,23 +4,26 @@ import React from "react"
 import { Form, Content, Input, Item, Button } from "native-base"
 import { Text } from "react-native"
 import { UserRecord } from "../types"
+import { ErrorType } from "../constants"
+// ErrorType.USER_NAME_DUPLICATE
 
 type Props = {
 	user: UserRecord,
-	setUser: Function
+	userRegisterError: string,
+	setUser: (user: UserRecord) => {},
+	createUser: (name: string) => {}
 }
 
 type State = {
-	id: number,
-	token: string
+	name: string
 }
 
 export default class AccessPointList extends React.Component {
 	props: Props
 	state: State = {
-		id: 0,
-		token: "",
+		name: "",
 	}
+
 	componentDidMount() {}
 
 	componentWillReceiveProps(props) {
@@ -28,22 +31,27 @@ export default class AccessPointList extends React.Component {
 		this.setState({ id, token })
 	}
 
-	render() {
+	renderRegistered() {
+		const { user } = this.props
+		if (!user.isRegistered()) {
+			return null
+		}
+		return <Text>Registered: {user.name}</Text>
+	}
+
+	renderRegisterForm() {
+		const { user } = this.props
+		if (user.isRegistered()) {
+			return null
+		}
 		return (
-			<Content>
+			<View>
 				<Form>
 					<Item>
 						<Input
-							placeholder="ID"
-							value={this.state.id.toString()}
-							onChangeText={id => this.setState({ id: parseInt(id) || 1 })}
-						/>
-					</Item>
-					<Item last>
-						<Input
-							placeholder="Token"
-							value={this.state.token}
-							onChangeText={token => this.setState({ token })}
+							placeholder="yourname"
+							value={this.state.name}
+							onChangeText={name => this.setState({ name })}
 						/>
 					</Item>
 				</Form>
@@ -51,17 +59,20 @@ export default class AccessPointList extends React.Component {
 					success
 					block
 					onPress={() => {
-						this.props.setUser(
-							new UserRecord({
-								id: this.state.id,
-								name: "elzup",
-								token: this.state.token,
-							})
-						)
+						this.props.createUser(this.state.name)
 					}}
 				>
 					<Text>設定</Text>
 				</Button>
+			</View>
+		)
+	}
+
+	render() {
+		return (
+			<Content>
+				{this.renderRegistered()}
+				{this.renderRegisterForm()}
 			</Content>
 		)
 	}

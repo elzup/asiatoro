@@ -1,64 +1,64 @@
 // @flow
 
-import types from "./constants"
+import { ActionTypes } from "./constants"
 import { AccessPointRecord, UserRecord } from "./types"
 
 export function setAccessPoints(accessPoints: AccessPointRecord) {
 	return {
-		type: types.SET_ACCESS_POINTS,
+		type: ActionTypes.SET_ACCESS_POINTS,
 		accessPoints,
 	}
 }
 
 export function loadFollowAccessPoints() {
 	return {
-		type: types.LOAD_FOLLOW_ACCESS_POINTS,
+		type: ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,
 	}
 }
 
 export function loadFollowAccessPointsEnd(followAccessPoints) {
 	return {
-		type: types.LOAD_FOLLOW_ACCESS_POINTS_END,
+		type: ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END,
 		followAccessPoints,
 	}
 }
 
 export function loadAccessPoints() {
 	return {
-		type: types.LOAD_ACCESS_POINTS,
+		type: ActionTypes.LOAD_ACCESS_POINTS,
 	}
 }
 
 export function updateUser(user: UserRecord) {
 	return {
-		type: types.SET_USER,
+		type: ActionTypes.SET_USER,
 		user,
 	}
 }
 
 export function setUser(user: UserRecord) {
 	return {
-		type: types.SET_USER,
+		type: ActionTypes.SET_USER,
 		user,
 	}
 }
 
 export function loadUser() {
 	return {
-		type: types.LOAD_USER,
+		type: ActionTypes.LOAD_USER,
 	}
 }
 
-export function createUser(user: UserRecord) {
+export function createUser(name: string) {
 	return {
-		type: types.CREATE_USER,
-		user,
+		type: ActionTypes.CREATE_USER,
+		name,
 	}
 }
 
-export function createUserEnd(error) {
+export function createUserEnd(error: string) {
 	return {
-		type: types.CREATE_USER_END,
+		type: ActionTypes.CREATE_USER_END,
 		error,
 	}
 }
