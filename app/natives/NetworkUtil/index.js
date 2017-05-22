@@ -9,9 +9,9 @@ export function* getAccessPoints(): Array<AccessPointRecord> {
 	if (__DEV__) {
 		return [
 			new AccessPointRecord({ ssid: "Hoge", bssid: "aa:bb:cc:d1" }),
-			new AccessPointRecord({ ssid: "Fuga", bssid: "aa:bb:cc:d2" }),
-			new AccessPointRecord({ ssid: "Piyo", bssid: "aa:bb:cc:d3" }),
 			new AccessPointRecord({ ssid: "1号館", bssid: "bssid1" }),
+			new AccessPointRecord({ ssid: "2号館", bssid: "bssid2" }),
+			new AccessPointRecord({ ssid: "3号館", bssid: "bssid3" }),
 		]
 	}
 	if (Platform.OS === "ios") {
