@@ -40,7 +40,7 @@ export class CheckinRecord extends Record({ user: null, created_at: "" }) {
 	}
 
 	justNow() {
-		return this.timestamp() < moment().add(-15, "m")
+		return this.timestamp() >= moment().add(-15, "m")
 	}
 }
 

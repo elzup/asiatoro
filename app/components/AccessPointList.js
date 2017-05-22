@@ -1,12 +1,15 @@
 // @flow
 
 import React from "react"
-import { Content, List, ListItem } from "native-base"
-import { View, Text } from "react-native"
+import { Content, Icon, Button, List, ListItem, Right, Text } from "native-base"
+import { View } from "react-native"
+import Spinner from "react-native-loading-spinner-overlay"
 import { AccessPointRecord } from "../types"
 
 type Props = {
-	accessPoints: any
+	accessPoints: Array<AccessPointRecord>,
+	postFollow: (ap: AccessPointRecord) => {},
+	loading: boolean
 }
 
 export default class AccessPointList extends React.Component {
@@ -17,11 +20,21 @@ export default class AccessPointList extends React.Component {
 	renderAccessPointList() {
 		const { accessPoints } = this.props
 
-		return accessPoints.toArray().map((item: AccessPointRecord, index) => (
-			<ListItem style={{ flex: 1 }} key={item.bssid}>
+		return accessPoints.toArray().map((ap: AccessPointRecord, index) => (
+			<ListItem style={{ flex: 1 }} key={ap.bssid}>
 				<Text style={{ alignSelf: "center" }}>
-					{item.ssid}({item.bssid})
+					{ap.ssid}({ap.bssid})
 				</Text>
+				<Right>
+					<Button
+						transparent
+						onPress={() => {
+							this.props.postFollow(ap, !ap.follow)
+						}}
+					>
+						<Icon active={ap.follow} name="star" color="yellow" />
+					</Button>
+				</Right>
 			</ListItem>
 		))
 	}
@@ -34,6 +47,11 @@ export default class AccessPointList extends React.Component {
 						{this.renderAccessPointList()}
 					</List>
 				</View>
+				<Spinner
+					visible={this.props.loading}
+					textContent={"Loading..."}
+					textStyle={{ color: "#FFF" }}
+				/>
 			</Content>
 		)
 	}

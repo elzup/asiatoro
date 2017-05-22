@@ -1,7 +1,7 @@
 // @flow
 
 import { create } from "apisauce"
-import { UserRecord } from "../types"
+import { UserRecord, AccessPointRecord } from "../types"
 
 class AsiatoroClient {
 	api: any
@@ -29,6 +29,24 @@ class AsiatoroClient {
 
 	async postUser(params: { name: string, pass: string }) {
 		const res = await this.api.post("/v1/users", params)
+		console.log("res", res)
+		return res
+	}
+
+	async postFollow({ ap }: { ap: AccessPointRecord }) {
+		const res = await this.api.post("/v1/follows", {
+			ssid: ap.ssid,
+			bssid: ap.bssid,
+		})
+		console.log("res", res)
+		return res
+	}
+
+	async deleteFollow({ ap }: { ap: AccessPointRecord }) {
+		const res = await this.api.delete("/v1/follows", {
+			ssid: ap.ssid,
+			bssid: ap.bssid,
+		})
 		console.log("res", res)
 		return res
 	}

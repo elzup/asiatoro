@@ -10,6 +10,8 @@ export const ActionTypes = {
 	LOAD_USER: "asiatoro/app/LOAD_USER",
 	CREATE_USER: "asiatoro/app/CREATE_USER",
 	SET_ERROR: "asiatoro/app/SET_ERROR",
+	POST_FOLLOW: "asiatoro/app/POST_FOLLOW",
+	TOGGLE_FOLLOW: "asiatoro/app/UPDATE_FOLLOW",
 }
 
 export const ErrorTypes = {
