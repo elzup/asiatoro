@@ -43,7 +43,10 @@ function* loadUser() {
 		yield put(setUser(new UserRecord()))
 		return
 	}
-	const user = new UserRecord({ id: parseInt(id), token, name })
+	let user = new UserRecord({ id: parseInt(id), token, name })
+	if (__DEV__) {
+		user = new UserRecord({ id: 1, token: "token", name })
+	}
 	yield put(setUser(user))
 	AsiatoroClient.setUser(user)
 	yield put(loadFollowAccessPoints(user))
