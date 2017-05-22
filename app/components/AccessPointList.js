@@ -1,8 +1,8 @@
 // @flow
 
 import React from "react"
-import { Content, Icon, List, ListItem } from "native-base"
-import { View, Text } from "react-native"
+import { Content, Icon, List, ListItem, Right, Text } from "native-base"
+import { View } from "react-native"
 import { AccessPointRecord } from "../types"
 
 type Props = {
@@ -22,7 +22,9 @@ export default class AccessPointList extends React.Component {
 				<Text style={{ alignSelf: "center" }}>
 					{ap.ssid}({ap.bssid})
 				</Text>
-				{ap.follow ? <Icon name="star" /> : null}
+				<Right>
+					<Icon active={ap.follow} name="star" color="yellow" />
+				</Right>
 			</ListItem>
 		))
 	}

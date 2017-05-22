@@ -1,7 +1,7 @@
 // @flow
 
 import React from "react"
-import { Content, Card, CardItem, Icon, Col, Grid } from "native-base"
+import { Content, Card, CardItem, Icon, Left } from "native-base"
 import { View, Text } from "react-native"
 import { AccessPointRecord, CheckinRecord, UserRecord } from "../types"
 
@@ -27,7 +27,11 @@ export default class FollowAccessPointList extends React.Component {
 					alignItems: "center",
 				}}
 			>
-				<Icon name="person" />
+				<Icon
+					active
+					name="person"
+					style={{ color: ci.justNow() ? "black" : "#ddd" }}
+				/>
 				<Text>{ci.user.name}</Text>
 				<Text style={{ fontSize: 10 }}>
 					{ci.timestamp().fromNow()}
@@ -41,7 +45,7 @@ export default class FollowAccessPointList extends React.Component {
 		return (
 			<Card key={ap.bssid}>
 				<CardItem header>
-					<Icon name="wifi" />
+					<Icon active name="wifi" />
 					<Text>{ap.ssid}({ap.bssid})</Text>
 				</CardItem>
 				<View
@@ -82,7 +86,10 @@ export default class FollowAccessPointList extends React.Component {
 
 	render() {
 		return (
-			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
+			<Content
+				style={{ padding: 5 }}
+				contentContainerStyle={{ justifyContent: "space-between" }}
+			>
 				{this.renderNavigateRegister()}
 				{this.renderNoFollow()}
 				{this.renderCards()}
