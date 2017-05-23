@@ -6,11 +6,12 @@ import AccessPointContainer from "./AccessPointContainer"
 import ProfileContainer from "./ProfileContainer"
 import FollowContainer from "./FollowContainer"
 import { connect } from "react-redux"
-import { loadUser, loadAccessPoints } from "../action"
+import { loadUser, loadAccessPoints, postCheckin } from "../action"
 
 type Props = {
 	loadUser: Function,
-	loadAccessPoints: Function
+	loadAccessPoints: Function,
+	postCheckin: Function
 }
 
 class AppContainer extends Component {
@@ -19,6 +20,7 @@ class AppContainer extends Component {
 	componentDidMount() {
 		this.props.loadUser()
 		this.props.loadAccessPoints()
+		this.props.postCheckin()
 	}
 
 	render() {
@@ -49,6 +51,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		loadUser: () => dispatch(loadUser()),
 		loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),
+		postCheckin: accessPoints => dispatch(postCheckin()),
 	}
 }
 
