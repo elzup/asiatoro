@@ -50,6 +50,14 @@ class AsiatoroClient {
 		console.log("res", res)
 		return res
 	}
+
+	async postCheckin({ ap }: { ap: AccessPointRecord }) {
+		const res = await this.api.post("/v1/checkins", {
+			ssid: ap.ssid,
+			bssid: ap.bssid,
+		})
+		return res
+	}
 }
 
 export default new AsiatoroClient()

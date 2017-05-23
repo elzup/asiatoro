@@ -33,6 +33,7 @@ function* fetchFollowAccessPoints() {
 		return new AccessPointRecord({ ...ap, checkins })
 	})
 	yield put(setFollowAccessPoints(followAccessPoints))
+	yield postCheckin()
 }
 
 function* loadUser() {
@@ -95,6 +96,13 @@ function* postCheckin() {
 		state.get("followAccessPoints")
 	)
 	const accessPoints = yield call(getAccessPoints)
+	const bssids = accessPoints.map(ap => ap.bssid)
+	followAccessPints.forEach(ap => {
+		if (!bssids.includes(ap.bssid)) {
+			return
+		}
+		AsiatoroClient.postCheckin({ ap })
+	})
 }
 
 function* sagas() {

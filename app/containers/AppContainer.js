@@ -2,10 +2,12 @@
 
 import React, { Component } from "react"
 import { Container, Header, Tab, Tabs } from "native-base"
+import { connect } from "react-redux"
+import BackgroundJob from "react-native-background-job"
+
 import AccessPointContainer from "./AccessPointContainer"
 import ProfileContainer from "./ProfileContainer"
 import FollowContainer from "./FollowContainer"
-import { connect } from "react-redux"
 import { loadUser, loadAccessPoints, postCheckin } from "../action"
 
 type Props = {
@@ -20,6 +22,21 @@ class AppContainer extends Component {
 	componentDidMount() {
 		this.props.loadUser()
 		this.props.loadAccessPoints()
+
+		BackgroundJob.register({
+			jobKey: "checkinJob",
+			job: this.checkinJob,
+		})
+		var backgroundSchedule = {
+			jobKey: "checkinJob",
+			timeout: 5000,
+			period: 20000,
+		}
+		BackgroundJob.schedule(backgroundSchedule)
+	}
+
+	checkinJob() {
+		console.log("a")
 		this.props.postCheckin()
 	}
 
