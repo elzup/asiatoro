@@ -1,6 +1,6 @@
 // @flow
 
-import { call, put, takeLatest } from "redux-saga/effects"
+import { call, put, takeLatest, select } from "redux-saga/effects"
 import { fromJS } from "immutable"
 import { AsyncStorage } from "react-native"
 import AsiatoroClient from "./networks/Client"
@@ -33,6 +33,7 @@ function* fetchFollowAccessPoints() {
 		return new AccessPointRecord({ ...ap, checkins })
 	})
 	yield put(setFollowAccessPoints(followAccessPoints))
+	yield postCheckin()
 }
 
 function* loadUser() {
@@ -89,6 +90,21 @@ function* postFollow({
 	yield fetchFollowAccessPoints()
 }
 
+function* postCheckin() {
+	const user = yield select(state => state.get("user"))
+	const followAccessPints = yield select(state =>
+		state.get("followAccessPoints")
+	)
+	const accessPoints = yield call(getAccessPoints)
+	const bssids = accessPoints.map(ap => ap.bssid)
+	followAccessPints.forEach(ap => {
+		if (!bssids.includes(ap.bssid)) {
+			return
+		}
+		AsiatoroClient.postCheckin({ ap })
+	})
+}
+
 function* sagas() {
 	yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
 	yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
@@ -99,6 +115,7 @@ function* sagas() {
 	)
 	yield takeLatest(ActionTypes.CREATE_USER, createUser)
 	yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
+	yield takeLatest(ActionTypes.POST_CHECKIN, postCheckin)
 }
 
 export default sagas

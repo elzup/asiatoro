@@ -77,3 +77,9 @@ export function toggleFollow(accessPoint: AccessPointRecord) {
 		accessPoint,
 	}
 }
+
+export function postCheckin() {
+	return {
+		type: ActionTypes.POST_CHECKIN,
+	}
+}
