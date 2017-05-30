@@ -7,6 +7,13 @@
     "jsx-a11y",
     "import"
   ],
+  "globals": {
+    "__DEV__": false,
+    "alert": false,
+    "it": false,
+    "expect": false,
+    "console": false
+  },
   "rules": {
     "comma-dangle": [
       2,

@@ -3,13 +3,15 @@
 import { create } from "apisauce"
 import { UserRecord, AccessPointRecord } from "../types"
 
+// const host = __DEV__ ? "http://localhost:3000" : "https://asiatoro.herokuapp.com"
+const host = "https://asiatoro.herokuapp.com"
+
 class AsiatoroClient {
 	api: any
-	host = __DEV__ ? "http://localhost:3000" : "https://asiatoro.heroku.com"
 
 	constructor() {
 		this.api = create({
-			baseURL: this.host,
+			baseURL: host,
 			timeout: 10000,
 		})
 	}
