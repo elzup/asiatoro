@@ -25,22 +25,28 @@ function* fetchAccessPoint() {
 }
 
 function* fetchFollowAccessPoints() {
-	const res = yield AsiatoroClient.getFollowAccessPoint()
-	const followAccessPoints = res.data.map(ap => {
-		const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
-			return new CheckinRecord({ ...ci, user: new UserRecord(ci.user) })
+	try {
+		const res = yield AsiatoroClient.getFollowAccessPoint()
+		const followAccessPoints = res.data.map(ap => {
+			const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
+				return new CheckinRecord({ ...ci, user: new UserRecord(ci.user) })
+			})
+			return new AccessPointRecord({ ...ap, checkins })
 		})
-		return new AccessPointRecord({ ...ap, checkins })
-	})
-	yield put(setFollowAccessPoints(followAccessPoints))
-	yield postCheckin()
+		yield put(setFollowAccessPoints(followAccessPoints))
+		yield postCheckin()
+	} catch (e) {
+		yield AsyncStorage.setItem("user_id", "0")
+		yield AsyncStorage.setItem("token", "")
+		yield loadUser()
+	}
 }
 
 function* loadUser() {
 	const id = yield AsyncStorage.getItem("user_id")
 	const token = yield AsyncStorage.getItem("user_token")
 	const name = yield AsyncStorage.getItem("user_name")
-	if (id === null || token === null) {
+	if (id === null || token === null || id === "0" || token === "") {
 		yield put(setUser(new UserRecord()))
 		return
 	}
