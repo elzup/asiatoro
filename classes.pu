@@ -1,0 +1,54 @@
+@startuml
+class Month {
+  + Date month
+  - Day[] days
+}
+
+class Day {
+  + DayType dayType
+  + Month month
+  + Date date
+}
+
+class DayType {
+  + string name
+  - Day[] days
+  - Condition[] conditions
+}
+
+class Condition {
+  + Role role
+  + needCount int
+  - DayType dayType
+}
+
+class Assign {
+  + Day day
+  + Role role
+  + Staff staff
+}
+
+class Staff {
+  + string name
+  - Role[] roles
+}
+
+class Role {
+  + string name
+  - Condition[] conditions
+}
+
+class StaffRole {
+  + Staff staff
+  + Role role
+}
+
+Month o-- Day
+DayType o-- Day
+DayType o-- Condition
+Day o-- Assign
+Staff o-- Assign
+Role o-- Assign
+StaffRole o-- Staff
+StaffRole o-- Role
+@enduml
