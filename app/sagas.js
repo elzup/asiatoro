@@ -1,22 +1,22 @@
 // @flow
 
-import { call, put, takeLatest, select } from "redux-saga/effects"
-import { AsyncStorage } from "react-native"
+import {call, put, takeLatest, select} from "redux-saga/effects"
+import {AsyncStorage} from "react-native"
 import AsiatoroClient from "./networks/Client"
-import { CheckinRecord } from "./types"
+import {CheckinRecord} from "./types"
 import randomString from "random-string"
 
-import { ActionTypes, ErrorTypes } from "./constants"
+import {ActionTypes, ErrorTypes} from "./constants"
 import {
-	setAccessPoints,
-	setUser,
-	setError,
-	toggleFollow,
-	updateUser,
-	setFollowAccessPoints,
+  setAccessPoints,
+  setUser,
+  setError,
+  toggleFollow,
+  updateUser,
+  setFollowAccessPoints,
 } from "./action"
-import { getAccessPoints } from "./natives/NetworkUtil"
-import { UserRecord, AccessPointRecord } from "./types"
+import {getAccessPoints} from "./natives/NetworkUtil"
+import {UserRecord, AccessPointRecord} from "./types"
 
 function* fetchAccessPoint() {
 	const accessPoints = yield call(getAccessPoints)
@@ -28,9 +28,9 @@ function* fetchFollowAccessPoints() {
 		const res = yield AsiatoroClient.getFollowAccessPoint()
 		const followAccessPoints = res.data.map(ap => {
 			const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
-				return new CheckinRecord({ ...ci, user: new UserRecord(ci.user) })
+				return new CheckinRecord({...ci, user: new UserRecord(ci.user)})
 			})
-			return new AccessPointRecord({ ...ap, checkins })
+			return new AccessPointRecord({...ap, checkins})
 		})
 		yield put(setFollowAccessPoints(followAccessPoints))
 		yield postCheckin()
@@ -49,13 +49,13 @@ function* loadUser() {
 		yield put(setUser(new UserRecord()))
 		return
 	}
-	const user = new UserRecord({ id: parseInt(id), token, name })
+	const user = new UserRecord({id: parseInt(id), token, name})
 	yield put(setUser(user))
 	AsiatoroClient.setUser(user)
 	yield fetchFollowAccessPoints()
 }
 
-function* registerUser({ user }) {
+function* registerUser({user}) {
 	yield AsyncStorage.setItem("user_id", user.id.toString())
 	yield AsyncStorage.setItem("user_token", user.token)
 	yield AsyncStorage.setItem("user_pass", user.pass)
@@ -65,9 +65,9 @@ function* registerUser({ user }) {
 	yield fetchFollowAccessPoints()
 }
 
-function* createUser({ name }: { name: string }) {
+function* createUser({name}: {name: string}) {
 	const pass = randomString(10)
-	const res = yield AsiatoroClient.postUser({ name, pass })
+	const res = yield AsiatoroClient.postUser({name, pass})
 	if (res.status === 400) {
 		yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
 		return
@@ -79,21 +79,21 @@ function* createUser({ name }: { name: string }) {
 	const id = res.data.id
 	const token = res.data.token
 
-	const user = new UserRecord({ name, pass, id, token })
+	const user = new UserRecord({name, pass, id, token})
 	yield put(updateUser(user))
 }
 
 function* postFollow({
-	accessPoint,
-	follow,
+  accessPoint,
+  follow,
 }: {
-	accessPoint: AccessPointRecord,
-	follow: boolean
+  accessPoint: AccessPointRecord,
+  follow: boolean
 }) {
 	if (follow) {
-		yield AsiatoroClient.postFollow({ ap: accessPoint })
+		yield AsiatoroClient.postFollow({ap: accessPoint})
 	} else {
-		yield AsiatoroClient.deleteFollow({ ap: accessPoint })
+		yield AsiatoroClient.deleteFollow({ap: accessPoint})
 	}
 	yield put(toggleFollow(accessPoint))
 	yield fetchFollowAccessPoints()
@@ -102,16 +102,15 @@ function* postFollow({
 function* postCheckin() {
 	const user = yield select(state => state.get("user"))
 	const followAccessPints = yield select(state =>
-		state.get("followAccessPoints")
-	)
+    state.get("followAccessPoints")
+  )
 	const accessPoints = yield call(getAccessPoints)
 	const ssids = accessPoints.map(ap => ap.ssid)
 	followAccessPints.forEach(ap => {
-		if (!ssids.includes(ap.bssid)) {
+		if (!ssids.includes(ap.ssid)) {
 			return
 		}
-		debugger
-		AsiatoroClient.postCheckin({ ap })
+		AsiatoroClient.postCheckin({ap})
 	})
 }
 
@@ -120,9 +119,9 @@ function* sagas() {
 	yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
 	yield takeLatest(ActionTypes.LOAD_USER, loadUser)
 	yield takeLatest(
-		ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,
-		fetchFollowAccessPoints
-	)
+    ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,
+    fetchFollowAccessPoints
+  )
 	yield takeLatest(ActionTypes.CREATE_USER, createUser)
 	yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
 	yield takeLatest(ActionTypes.POST_CHECKIN, postCheckin)
