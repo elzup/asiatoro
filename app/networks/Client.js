@@ -38,7 +38,6 @@ class AsiatoroClient {
 	async postFollow({ ap }: { ap: AccessPointRecord }) {
 		const res = await this.api.post("/v1/follows", {
 			ssid: ap.ssid,
-			bssid: ap.bssid,
 		})
 		console.log("res", res)
 		return res
@@ -47,7 +46,6 @@ class AsiatoroClient {
 	async deleteFollow({ ap }: { ap: AccessPointRecord }) {
 		const res = await this.api.delete("/v1/follows", {
 			ssid: ap.ssid,
-			bssid: ap.bssid,
 		})
 		console.log("res", res)
 		return res
@@ -56,7 +54,6 @@ class AsiatoroClient {
 	async postCheckin({ ap }: { ap: AccessPointRecord }) {
 		const res = await this.api.post("/v1/checkins", {
 			ssid: ap.ssid,
-			bssid: ap.bssid,
 		})
 		return res
 	}

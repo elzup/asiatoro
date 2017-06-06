@@ -15,17 +15,17 @@ const initialState = fromJS({
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case ActionTypes.SET_ACCESS_POINTS:
-			let followBssids = state.get("followAccessPoints").map(v => v.bssid)
+			let followSSIDs = state.get("followAccessPoints").map(v => v.ssid)
 			let aps = action.accessPoints.map(ap =>
-				ap.set("follow", followBssids.includes(ap.bssid))
+				ap.set("follow", followSSIDs.includes(ap.ssid))
 			)
 			return state.set("accessPoints", aps)
 
 		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END:
-			followBssids = action.followAccessPoints.map(v => v.bssid)
+			followSSIDs = action.followAccessPoints.map(v => v.ssid)
 			aps = state
 				.get("accessPoints")
-				.map(ap => ap.set("follow", followBssids.includes(ap.bssid)))
+				.map(ap => ap.set("follow", followSSIDs.includes(ap.ssid)))
 			return state
 				.set("followAccessPoints", action.followAccessPoints)
 				.set("accessPoints", aps)
