@@ -57,7 +57,7 @@ public class NativeUtilModule extends ReactContextBaseJavaModule {
         List<ScanResult> apList = manager.getScanResults();
         ArrayList<String> aps = new ArrayList<>();
         if (apList.size() == 0) {
-            promise.resolve("AP not found");
+            promise.resolve("");
             return;
         }
         for (ScanResult ap: apList) {
