@@ -1,8 +1,8 @@
 // @flow
 
-import { fromJS, List } from "immutable"
-import { ActionTypes } from "./constants"
-import { UserRecord, AccessPointRecord } from "./types"
+import {fromJS, List} from "immutable"
+import {ActionTypes} from "./constants"
+import {UserRecord, AccessPointRecord} from "./types"
 
 const initialState = fromJS({
 	accessPoints: [],
@@ -14,40 +14,36 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
 	const fetchFollow = (v, ids) => v.set("follow", ids.includes(v.ssid))
-	const powerScore = (v: AccessPointRecord) => v.follow * 1000 + v.power
+	const powerScore = (v: AccessPointRecord) => -(v.follow * 1000 + v.power)
 
 	switch (action.type) {
 		case ActionTypes.SET_ACCESS_POINTS:
 			let followSSIDs = state.get("followAccessPoints").map(v => v.ssid)
-			let aps = _.uniqBy(
-				_.sortBy(
-					_.map(action.accessPoints, v => fetchFollow(v, followSSIDs)),
-					powerScore
-				),
-				"ssid"
-			)
-			return state.set("accessPoints", List(aps))
+			const apfollowOpted = _.map(action.accessPoints, v =>
+        fetchFollow(v, followSSIDs)
+      )
+			const apSorted = _.sortBy(apfollowOpted, powerScore)
+			const apUniq = _.uniqBy(apSorted, "ssid")
+			return state.set("accessPoints", List(apUniq))
 
 		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END:
 			followSSIDs = action.followAccessPoints.map(v => v.ssid)
-			aps = state
-				.get("accessPoints")
-				.map(ap => ap.set("follow", followSSIDs.includes(ap.ssid)))
+			const aps = _.map(action.accessPoints, v => fetchFollow(v, followSSIDs))
 			return state
-				.set("followAccessPoints", action.followAccessPoints)
-				.set("accessPoints", aps)
+        .set("followAccessPoints", action.followAccessPoints)
+        .set("accessPoints", aps)
 
 		case ActionTypes.POST_FOLLOW:
 			return state.set("loadingFollow", true)
 		case ActionTypes.TOGGLE_FOLLOW:
-			const { accessPoint } = action
-			aps = state.get("accessPoints").map(ap => {
+			const {accessPoint} = action
+			const aps2 = state.get("accessPoints").map(ap => {
 				if (ap === accessPoint) {
 					return accessPoint.set("follow", !accessPoint.follow)
 				}
 				return ap
 			})
-			return state.set("loadingFollow", false).set("accessPoints", aps)
+			return state.set("loadingFollow", false).set("accessPoints", aps2)
 
 		case ActionTypes.SET_USER:
 			return state.set("user", action.user)

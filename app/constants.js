@@ -17,4 +17,5 @@ export const ActionTypes = {
 
 export const ErrorTypes = {
 	USER_NAME_DUPLICATE: "asiatoro/app/USER_NAME_DUPLICATE",
+	REQUEST_TIMEOUT: "asiatoro/app/REQUEST_TIMEOUT",
 }
