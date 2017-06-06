@@ -64,7 +64,7 @@ export default class FollowAccessPointList extends React.Component {
 	renderNoFollow() {
 		if (
       !this.props.user.isRegistered() ||
-      this.props.followAccessPoints.size > 0
+      this.props.followAccessPoints.length > 0
     ) {
 			return null
 		}
