@@ -45,9 +45,16 @@ export class CheckinRecord extends Record({ user: null, created_at: "" }) {
 }
 
 export class AccessPointRecord
-	extends Record({ ssid: "", bssid: "", follow: false, checkins: [] }) {
+	extends Record({
+		ssid: "",
+		bssid: "",
+		power: 0,
+		follow: false,
+		checkins: [],
+	}) {
 	ssid: string
 	bssid: string
+	power: number
 	follow: boolean
 	checkins: Array<CheckinRecord>
 }

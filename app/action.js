@@ -2,6 +2,7 @@
 
 import { ActionTypes } from "./constants"
 import { AccessPointRecord, UserRecord } from "./types"
+import _ from "lodash"
 
 export function loadAccessPoints() {
 	return {
@@ -10,9 +11,11 @@ export function loadAccessPoints() {
 }
 
 export function setAccessPoints(accessPoints: AccessPointRecord) {
+	// unique about ssid, and sort by power
+	const accessPointsNew = _.uniq(_.sortBy(accessPoints, "power"), "ssid")
 	return {
 		type: ActionTypes.SET_ACCESS_POINTS,
-		accessPoints,
+		accessPoints: accessPointsNew,
 	}
 }
 
