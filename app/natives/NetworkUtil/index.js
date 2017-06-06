@@ -25,7 +25,7 @@ export function* getAccessPoints(): Array<AccessPointRecord> {
 		console.log(res)
 		return res.split("##").map(v => {
 			const [ssid, bssid, power] = v.split("#")
-			return new AccessPointRecord({ ssid, bssid, power })
+			return new AccessPointRecord({ ssid, bssid, power: parseInt(power) })
 		})
 	}
 }
