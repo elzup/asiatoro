@@ -1,56 +1,70 @@
 // @flow
 
-import {fromJS, List} from "immutable"
 import {ActionTypes} from "./constants"
 import {UserRecord, AccessPointRecord} from "./types"
 
-const initialState = fromJS({
+const initialState = {
 	accessPoints: [],
 	followAccessPoints: [],
 	user: new UserRecord(),
 	userRegisterError: false,
 	loadingFollow: false,
-})
+}
 
 export default function(state = initialState, action) {
-	const fetchFollow = (v, ids) => v.set("follow", ids.includes(v.ssid))
+	const fetchFollow = (v: AccessPointRecord, ids) =>
+    v.setFollow(ids.includes(v.ssid))
 	const powerScore = (v: AccessPointRecord) => -(v.follow * 1000 + v.power)
+	const sortByScore = (aps: Array<AccessPointRecord>) =>
+    _.sortBy(aps, powerScore)
+	const uniqBySSID = (aps: Array<AccessPointRecord>) => _.uniqBy(aps, "ssid")
+	const sortWithUniq = (aps: Array<AccessPointRecord>) =>
+    uniqBySSID(sortByScore(aps))
 
 	switch (action.type) {
 		case ActionTypes.SET_ACCESS_POINTS:
-			let followSSIDs = state.get("followAccessPoints").map(v => v.ssid)
+			let fssids = state.followAccessPoints.map(v => v.ssid)
 			const apfollowOpted = _.map(action.accessPoints, v =>
-        fetchFollow(v, followSSIDs)
+        fetchFollow(v, fssids)
       )
-			const apSorted = _.sortBy(apfollowOpted, powerScore)
-			const apUniq = _.uniqBy(apSorted, "ssid")
-			return state.set("accessPoints", List(apUniq))
-
+			return {...state, accessPoints: sortWithUniq(apfollowOpted)}
 		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END:
-			followSSIDs = action.followAccessPoints.map(v => v.ssid)
-			const aps = _.map(action.accessPoints, v => fetchFollow(v, followSSIDs))
-			return state
-        .set("followAccessPoints", action.followAccessPoints)
-        .set("accessPoints", aps)
+			const fssids2 = action.followAccessPoints.map(v => v.ssid)
+			const aps = _.map(state.accessPoints, v => fetchFollow(v, fssids2))
+			return {
+				...state,
+				followAccessPoints: action.followAccessPoints,
+				accessPoints: sortWithUniq(aps),
+			}
 
 		case ActionTypes.POST_FOLLOW:
-			return state.set("loadingFollow", true)
+			return {
+				...state,
+				loadingFollow: true,
+			}
 		case ActionTypes.TOGGLE_FOLLOW:
 			const {accessPoint} = action
-			const aps2 = state.get("accessPoints").map(ap => {
+			const aps2 = state.accessPoints.map(ap => {
 				if (ap === accessPoint) {
-					return accessPoint.set("follow", !accessPoint.follow)
+					return {
+						...accessPoint,
+						follow: !accessPoint.follow,
+					}
 				}
 				return ap
 			})
-			return state.set("loadingFollow", false).set("accessPoints", aps2)
+			return {
+				...state,
+				loadingFollow: false,
+				accessPoints: aps2,
+			}
 
 		case ActionTypes.SET_USER:
-			return state.set("user", action.user)
+			return {...state, user: action.user}
 		case ActionTypes.CREATE_USER:
-			return state.set("userRegisterError", false)
+			return {...state, userRegisterError: false}
 		case ActionTypes.SET_ERROR:
-			return state.set("userRegisterError", action.error)
+			return {...state, userRegisterError: action.error}
 		default:
 	}
 	return state

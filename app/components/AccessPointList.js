@@ -20,7 +20,7 @@ export default class AccessPointList extends React.Component {
 	renderAccessPointList() {
 		const {accessPoints} = this.props
 
-		return accessPoints.toArray().map((ap: AccessPointRecord, index) =>
+		return accessPoints.map((ap: AccessPointRecord, index) =>
 			<ListItem style={{flex: 1}} key={ap.ssid}>
 				<Text style={{alignSelf: "center"}}>
 					{ap.ssid}({ap.bssid})

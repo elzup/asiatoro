@@ -1,14 +1,14 @@
 // @flow
 
-import { connect } from "react-redux"
+import {connect} from "react-redux"
 import AccessPointList from "../../components/AccessPointList"
-import { postFollow } from "../../action"
+import {postFollow} from "../../action"
 
 function mapStateToProps(state) {
 	return {
-		followAccessPoints: state.get("followAccessPoints"),
-		accessPoints: state.get("accessPoints"),
-		loading: state.get("loadingFollow"),
+		followAccessPoints: state.followAccessPoints,
+		accessPoints: state.accessPoints,
+		loading: state.loadingFollow,
 	}
 }
 function mapDispatchToProps(dispatch) {
