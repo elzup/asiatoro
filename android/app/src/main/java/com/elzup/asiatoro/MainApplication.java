@@ -1,8 +1,8 @@
-package com.asiatoro;
+package com.elzup.asiatoro;
 
 import android.app.Application;
 
-import com.asiatoro.nativeutil.NativeUtilPackage;
+import com.elzup.asiatoro.nativeutil.NativeUtilPackage;
 import com.facebook.react.ReactApplication;
 import com.pilloxa.backgroundjob.BackgroundJobPackage;
 import com.facebook.react.ReactNativeHost;

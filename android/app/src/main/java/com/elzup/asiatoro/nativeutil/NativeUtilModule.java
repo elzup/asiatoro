@@ -1,8 +1,7 @@
-package com.asiatoro.nativeutil;
+package com.elzup.asiatoro.nativeutil;
 
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.facebook.react.bridge.Promise;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import static android.content.Context.WIFI_SERVICE;
 
@@ -59,7 +57,7 @@ public class NativeUtilModule extends ReactContextBaseJavaModule {
         List<ScanResult> apList = manager.getScanResults();
         ArrayList<String> aps = new ArrayList<>();
         if (apList.size() == 0) {
-            promise.resolve("AP not found");
+            promise.resolve("");
             return;
         }
         for (ScanResult ap: apList) {

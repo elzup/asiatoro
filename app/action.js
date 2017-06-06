@@ -10,6 +10,7 @@ export function loadAccessPoints() {
 }
 
 export function setAccessPoints(accessPoints: AccessPointRecord) {
+	// unique about ssid, and sort by power
 	return {
 		type: ActionTypes.SET_ACCESS_POINTS,
 		accessPoints,

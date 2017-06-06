@@ -1,8 +1,8 @@
 // @flow
 
-import { fromJS } from "immutable"
+import { fromJS, List } from "immutable"
 import { ActionTypes } from "./constants"
-import { UserRecord } from "./types"
+import { UserRecord, AccessPointRecord } from "./types"
 
 const initialState = fromJS({
 	accessPoints: [],
@@ -13,19 +13,26 @@ const initialState = fromJS({
 })
 
 export default function(state = initialState, action) {
+	const fetchFollow = (v, ids) => v.set("follow", ids.includes(v.ssid))
+	const powerScore = (v: AccessPointRecord) => v.follow * 1000 + v.power
+
 	switch (action.type) {
 		case ActionTypes.SET_ACCESS_POINTS:
-			let followBssids = state.get("followAccessPoints").map(v => v.bssid)
-			let aps = action.accessPoints.map(ap =>
-				ap.set("follow", followBssids.includes(ap.bssid))
+			let followSSIDs = state.get("followAccessPoints").map(v => v.ssid)
+			let aps = _.uniqBy(
+				_.sortBy(
+					_.map(action.accessPoints, v => fetchFollow(v, followSSIDs)),
+					powerScore
+				),
+				"ssid"
 			)
-			return state.set("accessPoints", aps)
+			return state.set("accessPoints", List(aps))
 
 		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END:
-			followBssids = action.followAccessPoints.map(v => v.bssid)
+			followSSIDs = action.followAccessPoints.map(v => v.ssid)
 			aps = state
 				.get("accessPoints")
-				.map(ap => ap.set("follow", followBssids.includes(ap.bssid)))
+				.map(ap => ap.set("follow", followSSIDs.includes(ap.ssid)))
 			return state
 				.set("followAccessPoints", action.followAccessPoints)
 				.set("accessPoints", aps)

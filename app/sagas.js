@@ -1,7 +1,6 @@
 // @flow
 
 import { call, put, takeLatest, select } from "redux-saga/effects"
-import { fromJS } from "immutable"
 import { AsyncStorage } from "react-native"
 import AsiatoroClient from "./networks/Client"
 import { CheckinRecord } from "./types"
@@ -21,7 +20,7 @@ import { UserRecord, AccessPointRecord } from "./types"
 
 function* fetchAccessPoint() {
 	const accessPoints = yield call(getAccessPoints)
-	yield put(setAccessPoints(fromJS(accessPoints)))
+	yield put(setAccessPoints(accessPoints))
 }
 
 function* fetchFollowAccessPoints() {

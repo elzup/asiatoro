@@ -43,10 +43,10 @@ export default class FollowAccessPointList extends React.Component {
 	renderAccessPointCard(ap: AccessPointRecord) {
 		console.log(ap.checkins)
 		return (
-			<Card key={ap.bssid}>
+			<Card key={ap.ssid}>
 				<CardItem header>
 					<Icon active name="wifi" />
-					<Text>{ap.ssid}({ap.bssid})</Text>
+					<Text>{ap.ssid}</Text>
 				</CardItem>
 				<View
 					style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}

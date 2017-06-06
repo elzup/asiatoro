@@ -1,4 +1,4 @@
-package com.asiatoro;
+package com.elzup.asiatoro;
 
 import com.facebook.react.ReactActivity;
 

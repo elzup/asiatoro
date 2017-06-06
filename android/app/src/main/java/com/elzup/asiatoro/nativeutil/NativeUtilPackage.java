@@ -1,4 +1,4 @@
-package com.asiatoro.nativeutil;
+package com.elzup.asiatoro.nativeutil;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

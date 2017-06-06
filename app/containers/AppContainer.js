@@ -35,8 +35,8 @@ class AppContainer extends Component {
 		BackgroundJob.schedule(backgroundSchedule)
 	}
 
-	checkinJob() {
-		console.log("a")
+	async checkinJob() {
+		console.log("checkin log.")
 		this.props.postCheckin()
 	}
 
