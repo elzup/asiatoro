@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "apisauce": "^0.13.0",
-    "immutable": "^3.8.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "native-base": "^2.1.3",

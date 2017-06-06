@@ -1,6 +1,5 @@
 // @flow
 
-import { Record } from "immutable"
 import moment from "moment"
 
 moment.locale("ja", {
@@ -19,21 +18,28 @@ moment.locale("ja", {
 	},
 })
 
-export class UserRecord
-	extends Record({ id: 0, name: "", pass: "", token: "" }) {
+export class UserRecord {
 	id: number
 	name: string
 	pass: string
 	token: boolean
 
+	constructor(params) {
+		Object.assign(this, params)
+	}
+
 	isRegistered(): boolean {
-		return this.id !== 0
+		return !!this.id
 	}
 }
 
-export class CheckinRecord extends Record({ user: null, created_at: "" }) {
+export class CheckinRecord {
 	user: UserRecord
 	created_at: string
+
+	constructor(params) {
+		Object.assign(this, params)
+	}
 
 	timestamp() {
 		return moment(this.created_at)
@@ -44,14 +50,16 @@ export class CheckinRecord extends Record({ user: null, created_at: "" }) {
 	}
 }
 
-export class AccessPointRecord
-	extends Record({
-		ssid: "",
-		bssid: "",
-		power: 0,
-		follow: false,
-		checkins: [],
-	}) {
+export class AccessPointRecord {
+	constructor(params) {
+		Object.assign(this, params)
+	}
+
+	setFollow(follow) {
+		this.follow = follow
+		return this
+	}
+
 	ssid: string
 	bssid: string
 	power: number

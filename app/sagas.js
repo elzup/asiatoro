@@ -100,10 +100,7 @@ function* postFollow({
 }
 
 function* postCheckin() {
-	const user = yield select(state => state.get("user"))
-	const followAccessPints = yield select(state =>
-    state.get("followAccessPoints")
-  )
+	const followAccessPints = yield select(state => state.followAccessPoints)
 	const accessPoints = yield call(getAccessPoints)
 	const ssids = accessPoints.map(ap => ap.ssid)
 	followAccessPints.forEach(ap => {
