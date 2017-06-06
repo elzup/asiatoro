@@ -58,6 +58,7 @@ class AsiatoroClient {
 		const res = await this.api.post("/v1/checkins", {
 			ssid: ap.ssid,
 		})
+		console.log("res", res)
 		return res
 	}
 }

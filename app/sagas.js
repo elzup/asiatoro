@@ -105,11 +105,12 @@ function* postCheckin() {
 		state.get("followAccessPoints")
 	)
 	const accessPoints = yield call(getAccessPoints)
-	const bssids = accessPoints.map(ap => ap.bssid)
+	const ssids = accessPoints.map(ap => ap.ssid)
 	followAccessPints.forEach(ap => {
-		if (!bssids.includes(ap.bssid)) {
+		if (!ssids.includes(ap.bssid)) {
 			return
 		}
+		debugger
 		AsiatoroClient.postCheckin({ ap })
 	})
 }

@@ -20,8 +20,10 @@ type Props = {
 var backgroundSchedule = {
 	jobKey: "checkinJob",
 	timeout: 5000,
-	period: 5000,
+	period: 10000,
 }
+BackgroundJob.setGlobalWarnings(false)
+BackgroundJob.cancelAll()
 
 type AppEventState = "change" | "background"
 
@@ -37,13 +39,15 @@ class AppContainer extends Component {
 			job: this.checkinJob,
 		})
 		AppState.addEventListener("change", (state: AppEventState) => {
-			if (state === "background") {
-				BackgroundJob.schedule(backgroundSchedule)
-			} else {
-				BackgroundJob.cancelAll()
-			}
 			console.log("state")
 			console.log(state)
+			if (state === "background") {
+				console.log("scheduled")
+				BackgroundJob.schedule(backgroundSchedule)
+			} else {
+				console.log("canceled")
+				BackgroundJob.cancelAll()
+			}
 		})
 	}
 
