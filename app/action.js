@@ -1,9 +1,7 @@
 // @flow
 
-import { List } from "immutable"
 import { ActionTypes } from "./constants"
 import { AccessPointRecord, UserRecord } from "./types"
-import _ from "lodash"
 
 export function loadAccessPoints() {
 	return {
@@ -13,13 +11,9 @@ export function loadAccessPoints() {
 
 export function setAccessPoints(accessPoints: AccessPointRecord) {
 	// unique about ssid, and sort by power
-	const accessPointsNew = List(
-		_.uniqBy(_.sortBy(accessPoints, ["power"]), "ssid")
-	)
-	console.log(accessPointsNew)
 	return {
 		type: ActionTypes.SET_ACCESS_POINTS,
-		accessPoints: accessPointsNew,
+		accessPoints,
 	}
 }
 
