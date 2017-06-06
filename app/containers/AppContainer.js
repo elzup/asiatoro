@@ -86,7 +86,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		loadUser: () => dispatch(loadUser()),
 		loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),
-		postCheckin: accessPoints => dispatch(postCheckin()),
+		postCheckin: () => dispatch(postCheckin()),
 	}
 }
 

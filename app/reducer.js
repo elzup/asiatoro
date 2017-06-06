@@ -2,6 +2,8 @@
 
 import {ActionTypes} from "./constants"
 import {UserRecord, AccessPointRecord} from "./types"
+import _ from "lodash"
+import {sortWithUniq} from "./utils/index"
 
 const initialState = {
 	accessPoints: [],
@@ -14,12 +16,6 @@ const initialState = {
 export default function(state = initialState, action) {
 	const fetchFollow = (v: AccessPointRecord, ids) =>
     v.setFollow(ids.includes(v.ssid))
-	const powerScore = (v: AccessPointRecord) => -(v.follow * 1000 + v.power)
-	const sortByScore = (aps: Array<AccessPointRecord>) =>
-    _.sortBy(aps, powerScore)
-	const uniqBySSID = (aps: Array<AccessPointRecord>) => _.uniqBy(aps, "ssid")
-	const sortWithUniq = (aps: Array<AccessPointRecord>) =>
-    uniqBySSID(sortByScore(aps))
 
 	switch (action.type) {
 		case ActionTypes.SET_ACCESS_POINTS:
