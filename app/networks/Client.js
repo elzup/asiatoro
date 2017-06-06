@@ -29,8 +29,11 @@ class AsiatoroClient {
 		return res
 	}
 
-	async postUser(params: { name: string, pass: string }) {
-		const res = await this.api.post("/v1/users", params)
+	async postUser({ name, pass }: { name: string, pass: string }) {
+		const res = await this.api.post("/v1/users", {
+			name,
+			pass,
+		})
 		console.log("res", res)
 		return res
 	}

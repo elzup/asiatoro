@@ -72,6 +72,10 @@ function* createUser({ name }: { name: string }) {
 		yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
 		return
 	}
+	if (res.problem === "TIMEOUT_ERROR") {
+		yield put(setError(ErrorTypes.REQUEST_TIMEOUT))
+		return
+	}
 	const id = res.data.id
 	const token = res.data.token
 

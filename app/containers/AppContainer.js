@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from "react"
+import { AppState } from "react-native"
 import { Container, Header, Tab, Tabs } from "native-base"
 import { connect } from "react-redux"
 import BackgroundJob from "react-native-background-job"
@@ -16,6 +17,14 @@ type Props = {
 	postCheckin: Function
 }
 
+var backgroundSchedule = {
+	jobKey: "checkinJob",
+	timeout: 5000,
+	period: 5000,
+}
+
+type AppEventState = "change" | "background"
+
 class AppContainer extends Component {
 	props: Props
 
@@ -27,13 +36,18 @@ class AppContainer extends Component {
 			jobKey: "checkinJob",
 			job: this.checkinJob,
 		})
-		var backgroundSchedule = {
-			jobKey: "checkinJob",
-			timeout: 5000,
-			period: 20000,
-		}
-		BackgroundJob.schedule(backgroundSchedule)
+		AppState.addEventListener("change", (state: AppEventState) => {
+			if (state === "background") {
+				BackgroundJob.schedule(backgroundSchedule)
+			} else {
+				BackgroundJob.cancelAll()
+			}
+			console.log("state")
+			console.log(state)
+		})
 	}
+
+	componentWillUnmount() {}
 
 	async checkinJob() {
 		console.log("checkin log.")
