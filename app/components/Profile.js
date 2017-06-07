@@ -63,6 +63,7 @@ export default class AccessPointList extends React.Component {
 						<Input
 							error
 							placeholder="yourname"
+							placeholderTextColor="#ccc"
 							value={this.state.name}
 							onChangeText={name => {
 								this.setState({name: name.toLowerCase()})
@@ -71,9 +72,11 @@ export default class AccessPointList extends React.Component {
 								}
 							}}
             />
-						<Text>{duplicateNameError && "ユーザ名が使われています。"}</Text>
 						<Icon name="close-circle" />
 					</Item>
+					<Text style={{padding: 5}}>
+						{duplicateNameError && "ユーザ名が使われています。"}
+					</Text>
 				</Form>
 				<Button
 					block
