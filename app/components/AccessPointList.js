@@ -1,7 +1,17 @@
 // @flow
 
 import React from "react"
-import {Content, Icon, Button, List, ListItem, Right, Text} from "native-base"
+// NOTE: why import not working in webstorm
+const {
+  Content,
+  Icon,
+  Button,
+  List,
+  ListItem,
+  Right,
+  Text,
+} = require("native-base")
+
 import {View} from "react-native"
 import Spinner from "react-native-loading-spinner-overlay"
 import {AccessPointRecord} from "../types"

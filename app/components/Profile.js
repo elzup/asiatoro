@@ -1,30 +1,30 @@
 // @flow
 
 import React from "react"
-import {
-	Form,
-	Content,
-	Input,
-	Button,
-	Label,
-	Text,
-	Item,
-	Icon,
-} from "native-base"
-import { View } from "react-native"
-import { UserRecord } from "../types"
-import { ErrorTypes } from "../constants"
+const {
+  Form,
+  Content,
+  Input,
+  Button,
+  Label,
+  Text,
+  Item,
+  Icon,
+} = require("native-base")
+import {View} from "react-native"
+import {UserRecord} from "../types"
+import {ErrorTypes} from "../constants"
 
 type Props = {
-	user: UserRecord,
-	error: string,
-	setUser: (user: UserRecord) => {},
-	setError: (error: string) => {},
-	createUser: (name: string) => {}
+  user: UserRecord,
+  error: string,
+  setUser: (user: UserRecord) => {},
+  setError: (error: string) => {},
+  createUser: (name: string) => {}
 }
 
 type State = {
-	name: string
+  name: string
 }
 
 export default class AccessPointList extends React.Component {
@@ -36,12 +36,12 @@ export default class AccessPointList extends React.Component {
 	componentDidMount() {}
 
 	componentWillReceiveProps(props) {
-		const { name } = props.user
-		this.setState({ name })
+		const {name} = props.user
+		this.setState({name})
 	}
 
 	renderRegistered() {
-		const { user } = this.props
+		const {user} = this.props
 		if (!user.isRegistered()) {
 			return null
 		}
@@ -49,28 +49,28 @@ export default class AccessPointList extends React.Component {
 	}
 
 	renderRegisterForm() {
-		const { user } = this.props
+		const {user} = this.props
 		if (user.isRegistered()) {
 			return null
 		}
 		const duplicateNameError =
-			this.props.error === ErrorTypes.USER_NAME_DUPLICATE
+      this.props.error === ErrorTypes.USER_NAME_DUPLICATE
 		return (
 			<View>
 				<Form>
-					<Item style={{ marginBottom: 10 }} error={duplicateNameError}>
+					<Item style={{marginBottom: 10}} error={duplicateNameError}>
 						<Label>ユーザ名</Label>
 						<Input
 							error
 							placeholder="yourname"
 							value={this.state.name}
 							onChangeText={name => {
-								this.setState({ name: name.toLowerCase() })
+								this.setState({name: name.toLowerCase()})
 								if (this.props.error === ErrorTypes.USER_NAME_DUPLICATE) {
 									this.props.setError(false)
 								}
 							}}
-						/>
+            />
 						<Text>{duplicateNameError && "ユーザ名が使われています。"}</Text>
 						<Icon name="close-circle" />
 					</Item>
@@ -81,7 +81,7 @@ export default class AccessPointList extends React.Component {
 					onPress={() => {
 						this.props.createUser(this.state.name)
 					}}
-				>
+        >
 					<Text>設定</Text>
 				</Button>
 			</View>
@@ -90,7 +90,7 @@ export default class AccessPointList extends React.Component {
 
 	render() {
 		return (
-			<Content style={{ padding: 5 }}>
+			<Content style={{padding: 5}}>
 				{this.renderRegistered()}
 				{this.renderRegisterForm()}
 			</Content>

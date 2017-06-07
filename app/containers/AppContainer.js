@@ -2,7 +2,7 @@
 
 import React, {Component} from "react"
 import {AppState} from "react-native"
-import {Container, Header, Tab, Tabs} from "native-base"
+const {Container, Header, Tab, Tabs} = require("native-base")
 import {connect} from "react-redux"
 import BackgroundJob from "react-native-background-job"
 
