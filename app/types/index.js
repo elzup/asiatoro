@@ -1,6 +1,7 @@
 // @flow
 
 import moment from "moment"
+import {IconType} from "../themes/icon"
 
 moment.locale("ja", {
 	weekdays: ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"],
@@ -58,6 +59,16 @@ export class AccessPointRecord {
 	setFollow(follow) {
 		this.follow = follow
 		return this
+	}
+
+	powerIconType() {
+		if (this.power <= -75) {
+			return IconType.face.bad
+		} else if (this.power <= -60) {
+			return IconType.face.normal
+		} else {
+			return IconType.face.good
+		}
 	}
 
 	ssid: string

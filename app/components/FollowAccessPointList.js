@@ -1,9 +1,9 @@
 // @flow
 
 import React from "react"
-import {Content, Card, CardItem, Icon, Left} from "native-base"
-import {View, Text} from "react-native"
+import {Text, View} from "react-native"
 import {AccessPointRecord, CheckinRecord, UserRecord} from "../types"
+const {Content, Card, CardItem, Icon} = require("native-base")
 
 type Props = {
   followAccessPoints: Array<AccessPointRecord>,
