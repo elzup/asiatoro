@@ -60,7 +60,6 @@ class AppContainer extends Component {
 			console.log("checkin log.")
 			this.props.postCheckin()
 		} catch (e) {
-			debugger
 			console.log(e)
 		}
 	}
