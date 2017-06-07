@@ -18,18 +18,27 @@ import {View} from "react-native"
 import Spinner from "react-native-loading-spinner-overlay"
 import {AccessPointRecord} from "../types"
 
-type Props = {
-  accessPoints: Array<AccessPointRecord>,
-  postFollow: (ap: AccessPointRecord) => {},
-  loading: boolean
-}
-
 export default class AccessPointList extends React.Component {
-	props: Props
+	props: {
+    accessPoints: Array<AccessPointRecord>,
+    postFollow: (ap: AccessPointRecord) => {},
+    loading: boolean,
+    user: UserRecord
+  }
 
 	componentDidMount() {}
 
+	renderNavigateRegister() {
+		if (this.props.user.isRegistered()) {
+			return null
+		}
+		return <Text style={{margin: 10}}>Profile タブでユーザ登録しよう！</Text>
+	}
+
 	renderAccessPointList() {
+		if (!this.props.user.isRegistered()) {
+			return null
+		}
 		const {accessPoints} = this.props
 
 		return accessPoints.map((ap: AccessPointRecord, index) =>
@@ -73,6 +82,7 @@ export default class AccessPointList extends React.Component {
 	render() {
 		return (
 			<Content contentContainerStyle={{justifyContent: "space-between"}}>
+				{this.renderNavigateRegister()}
 				<View>
 					<List>
 						{this.renderAccessPointList()}

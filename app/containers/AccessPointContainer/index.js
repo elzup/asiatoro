@@ -9,6 +9,7 @@ function mapStateToProps(state) {
 		followAccessPoints: state.followAccessPoints,
 		accessPoints: state.accessPoints,
 		loading: state.loadingFollow,
+		user: state.user,
 	}
 }
 function mapDispatchToProps(dispatch) {
