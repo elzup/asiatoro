@@ -36,9 +36,7 @@ function* fetchFollowAccessPoints() {
 		yield put(setFollowAccessPoints(followAccessPoints))
 		yield postCheckin()
 	} catch (e) {
-		yield AsyncStorage.setItem("user_id", "0")
-		yield AsyncStorage.setItem("token", "")
-		yield loadUser()
+		console.log(e)
 	}
 }
 
