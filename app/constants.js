@@ -9,10 +9,11 @@ export const ActionTypes = {
 	UPDATE_USER: "asiatoro/app/UPDATE_USER",
 	LOAD_USER: "asiatoro/app/LOAD_USER",
 	CREATE_USER: "asiatoro/app/CREATE_USER",
-	SET_ERROR: "asiatoro/app/SET_ERROR",
 	POST_FOLLOW: "asiatoro/app/POST_FOLLOW",
 	TOGGLE_FOLLOW: "asiatoro/app/TOGGLE_FOLLOW",
 	POST_CHECKIN: "asiatoro/app/POST_CHECKIN",
+	SET_ERROR: "asiatoro/app/SET_ERROR",
+	SET_NETWORK_ERROR: "asiatoro/app/SET_NETWORK_ERROR",
 }
 
 export const ErrorTypes = {

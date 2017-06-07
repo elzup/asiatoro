@@ -22,6 +22,13 @@ export function loadFollowAccessPoints() {
 	}
 }
 
+export function setNetworkError(error) {
+	return {
+		type: ActionTypes.SET_NETWORK_ERROR,
+		error,
+	}
+}
+
 export function setFollowAccessPoints(followAccessPoints) {
 	return {
 		type: ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END,
