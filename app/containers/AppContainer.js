@@ -49,15 +49,20 @@ class AppContainer extends Component {
 			BackgroundJob.schedule({
 				jobKey: "checkinJob",
 				timeout: 5000,
-				period: 10000,
+				period: 1000 * 60 * 5,
 				alwaysRunning: true,
 			})
 		}
 	}
 
 	checkinJob() {
-		console.log("checkin log.")
-		this.props.postCheckin()
+		try {
+			console.log("checkin log.")
+			this.props.postCheckin()
+		} catch (e) {
+			debugger
+			console.log(e)
+		}
 	}
 
 	render() {
