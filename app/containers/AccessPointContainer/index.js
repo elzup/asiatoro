@@ -3,11 +3,14 @@
 import {connect} from "react-redux"
 import AccessPointList from "../../components/AccessPointList"
 import {postFollow} from "../../action"
+import {AccessPointRecord} from "../../types"
 
 function mapStateToProps(state) {
 	return {
-		followAccessPoints: state.followAccessPoints,
-		accessPoints: state.accessPoints,
+		followAccessPoints: state.followAccessPoints.map(
+      ap => new AccessPointRecord(ap)
+    ),
+		accessPoints: state.accessPoints.map(ap => new AccessPointRecord(ap)),
 		loading: state.loadingFollow,
 		user: state.user,
 	}
