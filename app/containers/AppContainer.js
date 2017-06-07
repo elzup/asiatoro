@@ -29,7 +29,8 @@ class AppContainer extends Component {
 		this.props.loadAccessPoints()
 		BackgroundJob.register({
 			jobKey: "checkinJob",
-			job: this.checkinJob,
+			job: this.checkinJob.bind(this),
+			networkType: BackgroundJob.NETWORK_TYPE_ANY,
 		})
 		AppState.addEventListener("change", this._handleAppStateChange)
 	}
@@ -48,14 +49,20 @@ class AppContainer extends Component {
 			BackgroundJob.schedule({
 				jobKey: "checkinJob",
 				timeout: 5000,
-				period: 10000,
+				period: 1000 * 60 * 5,
+				alwaysRunning: true,
 			})
 		}
 	}
 
-	async checkinJob() {
-		console.log("checkin log.")
-		this.props.postCheckin()
+	checkinJob() {
+		try {
+			console.log("checkin log.")
+			this.props.postCheckin()
+		} catch (e) {
+			debugger
+			console.log(e)
+		}
 	}
 
 	render() {
@@ -86,7 +93,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		loadUser: () => dispatch(loadUser()),
 		loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),
-		postCheckin: accessPoints => dispatch(postCheckin()),
+		postCheckin: () => dispatch(postCheckin()),
 	}
 }
 

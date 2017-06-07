@@ -16,7 +16,9 @@ export function* getAccessPoints(): Array<AccessPointRecord> {
 	}
 	if (Platform.OS === "ios") {
 		const res = yield ReadAccessPoint.getAccessPoints()
-		return JSON.parse(res).map(v => new AccessPointRecord(v))
+		return JSON.parse(res)
+      .map(v => new AccessPointRecord(v))
+      .map(v => new AccessPointRecord(v))
 	} else {
 		const res = yield NativeUtilModuleAndroid.getAccessPoints()
 		if (res === null) {

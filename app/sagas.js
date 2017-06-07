@@ -5,6 +5,7 @@ import {AsyncStorage} from "react-native"
 import AsiatoroClient from "./networks/Client"
 import {CheckinRecord} from "./types"
 import randomString from "random-string"
+import {uniqBySSID} from "./utils"
 
 import {ActionTypes, ErrorTypes} from "./constants"
 import {
@@ -100,13 +101,16 @@ function* postFollow({
 }
 
 function* postCheckin() {
+	console.log("postCheckin?")
 	const followAccessPints = yield select(state => state.followAccessPoints)
 	const accessPoints = yield call(getAccessPoints)
 	const ssids = accessPoints.map(ap => ap.ssid)
-	followAccessPints.forEach(ap => {
-		if (!ssids.includes(ap.ssid)) {
-			return
-		}
+	console.log(ssids)
+	const shouldCheckins = uniqBySSID(
+    followAccessPints.filter(ap => ssids.includes(ap.ssid))
+  )
+	console.log(shouldCheckins)
+	shouldCheckins.forEach(ap => {
 		AsiatoroClient.postCheckin({ap})
 	})
 }
