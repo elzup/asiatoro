@@ -105,6 +105,7 @@ function* postCheckin() {
 	const followAccessPints = yield select(state => state.followAccessPoints)
 	const accessPoints = yield call(getAccessPoints)
 	const ssids = accessPoints.map(ap => ap.ssid)
+	console.log(ssids)
 	const shouldCheckins = uniqBySSID(
     followAccessPints.filter(ap => ssids.includes(ap.ssid))
   )

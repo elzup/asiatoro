@@ -14,19 +14,18 @@ const initialState = {
 }
 
 export default function(state = initialState, action) {
-	const fetchFollow = (v: AccessPointRecord, ids) =>
-    v.setFollow(ids.includes(v.ssid))
-
 	switch (action.type) {
 		case ActionTypes.SET_ACCESS_POINTS:
 			let fssids = state.followAccessPoints.map(v => v.ssid)
 			const apfollowOpted = _.map(action.accessPoints, v =>
-        fetchFollow(v, fssids)
+        v.setFollow(fssids.includes(v.ssid))
       )
 			return {...state, accessPoints: sortWithUniq(apfollowOpted)}
 		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END:
 			const fssids2 = action.followAccessPoints.map(v => v.ssid)
-			const aps = _.map(state.accessPoints, v => fetchFollow(v, fssids2))
+			const aps = _.map(state.accessPoints, v =>
+        v.setFollow(fssids2.includes(v.ssid))
+      )
 			return {
 				...state,
 				followAccessPoints: action.followAccessPoints,
