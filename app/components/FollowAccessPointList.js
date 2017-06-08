@@ -50,7 +50,7 @@ export default class FollowAccessPointList extends React.Component {
 					<Text>{ap.ssid}</Text>
 				</CardItem>
 				<View style={{display: "flex", flexDirection: "row", flexWrap: "wrap"}}>
-					{_.sortBy(ap.checkins, (c: CheckinRecord) => c.timestamp()).map(ci =>
+					{_.sortBy(ap.checkins, (c: CheckinRecord) => -c.timestamp()).map(ci =>
             this.renderCheckinCardItem(ci)
           )}
 				</View>
