@@ -11,17 +11,24 @@ const initialState = {
 	user: new UserRecord(),
 	userRegisterError: false,
 	loadingFollow: false,
+	loadingAccessPoints: false,
 	loadingUser: false,
 }
 
 export default function(state = initialState, action) {
 	switch (action.type) {
+		case ActionTypes.LOAD_ACCESS_POINTS:
+			return {...state, loadingAccessPoints: true}
 		case ActionTypes.SET_ACCESS_POINTS:
 			let fssids = state.followAccessPoints.map(v => v.ssid)
 			const apfollowOpted = _.map(action.accessPoints, v =>
         v.setFollow(fssids.includes(v.ssid))
       )
-			return {...state, accessPoints: sortWithUniq(apfollowOpted)}
+			return {
+				...state,
+				accessPoints: sortWithUniq(apfollowOpted),
+				loadingAccessPoints: false,
+			}
 		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END:
 			const fssids2 = action.followAccessPoints.map(v => v.ssid)
 			const aps = _.map(state.accessPoints, v =>

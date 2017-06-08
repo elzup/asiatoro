@@ -1,9 +1,11 @@
 // @flow
 
 import React from "react"
-import {Text, View} from "react-native"
+import {View} from "react-native"
 import {AccessPointRecord, CheckinRecord, UserRecord} from "../types"
-const {Content, Card, CardItem, Icon} = require("native-base")
+import FAIcon from "react-native-vector-icons/FontAwesome"
+
+const {Content, Text, Card, CardItem, Icon} = require("native-base")
 
 type Props = {
   followAccessPoints: Array<AccessPointRecord>,
@@ -58,7 +60,14 @@ export default class FollowAccessPointList extends React.Component {
 		if (this.props.user.isRegistered()) {
 			return null
 		}
-		return <Text style={{margin: 10}}>Profile タブでユーザ登録しよう！</Text>
+		return (
+			<View style={{margin: 10}}>
+				<Text>
+					<FAIcon name="exclamation-circle" color="orange" size={20} />
+          Networks タブでネットワークをフォローしよう！
+        </Text>
+			</View>
+		)
 	}
 
 	renderNoFollow() {
@@ -68,7 +77,14 @@ export default class FollowAccessPointList extends React.Component {
     ) {
 			return null
 		}
-		return <Text style={{margin: 10}}>Networks タブでネットワークをフォローしよう！</Text>
+		return (
+			<View style={{margin: 10}}>
+				<Text>
+					<FAIcon name="exclamation-circle" color="orange" size={20} />
+          Networks タブでネットワークをフォローしよう！
+        </Text>
+			</View>
+		)
 	}
 
 	renderCards() {
@@ -83,10 +99,7 @@ export default class FollowAccessPointList extends React.Component {
 
 	render() {
 		return (
-			<Content
-				style={{padding: 5}}
-				contentContainerStyle={{justifyContent: "space-between"}}
-      >
+			<Content style={{padding: 5}}>
 				{this.renderNavigateRegister()}
 				{this.renderNoFollow()}
 				{this.renderCards()}
