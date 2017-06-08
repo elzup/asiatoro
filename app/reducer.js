@@ -11,6 +11,7 @@ const initialState = {
 	user: new UserRecord(),
 	userRegisterError: false,
 	loadingFollow: false,
+	loadingUser: false,
 }
 
 export default function(state = initialState, action) {
@@ -53,13 +54,12 @@ export default function(state = initialState, action) {
 				loadingFollow: false,
 				accessPoints: aps2,
 			}
-
 		case ActionTypes.SET_USER:
-			return {...state, user: action.user}
+			return {...state, user: action.user, loadingUser: false}
 		case ActionTypes.CREATE_USER:
-			return {...state, userRegisterError: false}
+			return {...state, userRegisterError: false, loadingUser: true}
 		case ActionTypes.SET_ERROR:
-			return {...state, userRegisterError: action.error}
+			return {...state, userRegisterError: action.error, loadingUser: false}
 		default:
 	}
 	return state

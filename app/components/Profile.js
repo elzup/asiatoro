@@ -12,23 +12,24 @@ const {
   Icon,
 } = require("native-base")
 import {View} from "react-native"
+import Spinner from "react-native-loading-spinner-overlay"
+
 import {UserRecord} from "../types"
 import {ErrorTypes} from "../constants"
-
-type Props = {
-  user: UserRecord,
-  error: string,
-  setUser: (user: UserRecord) => {},
-  setError: (error: string) => {},
-  createUser: (name: string) => {}
-}
 
 type State = {
   name: string
 }
 
 export default class AccessPointList extends React.Component {
-	props: Props
+	props: {
+    user: UserRecord,
+    error: string,
+    loadingUser: boolean,
+    setUser: (user: UserRecord) => {},
+    setError: (error: string) => {},
+    createUser: (name: string) => {}
+  }
 	state: State = {
 		name: "",
 	}
@@ -96,6 +97,11 @@ export default class AccessPointList extends React.Component {
 			<Content style={{padding: 5}}>
 				{this.renderRegistered()}
 				{this.renderRegisterForm()}
+				<Spinner
+					visible={this.props.loadingUser}
+					textContent={"Loading..."}
+					textStyle={{color: "#FFF"}}
+        />
 			</Content>
 		)
 	}
