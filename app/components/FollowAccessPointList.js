@@ -50,41 +50,38 @@ export default class FollowAccessPointList extends React.Component {
 					<Text>{ap.ssid}</Text>
 				</CardItem>
 				<View style={{display: "flex", flexDirection: "row", flexWrap: "wrap"}}>
-					{ap.checkins.map(ci => this.renderCheckinCardItem(ci))}
+					{_.sortBy(ap.checkins, (c: CheckinRecord) => c.timestamp()).map(ci =>
+            this.renderCheckinCardItem(ci)
+          )}
 				</View>
 			</Card>
 		)
 	}
 
-	renderNavigateRegister() {
-		if (this.props.user.isRegistered()) {
-			return null
+	renderNavigateTexts() {
+		if (!this.props.user.isRegistered()) {
+			return (
+				<View style={{margin: 10}}>
+					<Text>
+						<FAIcon name="exclamation-circle" color="orange" size={20} />
+            Profile タブでユーザ登録しよう！
+          </Text>
+				</View>
+			)
 		}
-		return (
-			<View style={{margin: 10}}>
-				<Text>
-					<FAIcon name="exclamation-circle" color="orange" size={20} />
-          Networks タブでネットワークをフォローしよう！
-        </Text>
-			</View>
-		)
-	}
-
-	renderNoFollow() {
 		if (
-      !this.props.user.isRegistered() ||
-      this.props.followAccessPoints.length > 0
+      this.props.user.isRegistered() &&
+      this.props.followAccessPoints.length === 0
     ) {
-			return null
+			return (
+				<View style={{margin: 10}}>
+					<Text>
+						<FAIcon name="exclamation-circle" color="orange" size={20} />
+            Networks タブでネットワークをフォローしよう！
+          </Text>
+				</View>
+			)
 		}
-		return (
-			<View style={{margin: 10}}>
-				<Text>
-					<FAIcon name="exclamation-circle" color="orange" size={20} />
-          Networks タブでネットワークをフォローしよう！
-        </Text>
-			</View>
-		)
 	}
 
 	renderCards() {
@@ -100,8 +97,7 @@ export default class FollowAccessPointList extends React.Component {
 	render() {
 		return (
 			<Content style={{padding: 5}}>
-				{this.renderNavigateRegister()}
-				{this.renderNoFollow()}
+				{this.renderNavigateTexts()}
 				{this.renderCards()}
 			</Content>
 		)
