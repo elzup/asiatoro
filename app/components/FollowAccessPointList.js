@@ -77,7 +77,7 @@ export default class FollowAccessPointList extends React.Component {
 				<View style={{margin: 10}}>
 					<Text>
 						<FAIcon name="exclamation-circle" color="orange" size={20} />
-            Networks タブでネットワークをフォローしよう！
+            Networks タブでアクセスポイントをお気に入りしよう！
           </Text>
 				</View>
 			)
