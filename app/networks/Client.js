@@ -23,9 +23,6 @@ class AsiatoroClient {
 	async getFollowAccessPoint() {
 		const res = await this.api.get("/v1/access_points")
 		console.log("res", res)
-		if (!res.ok) {
-			throw new Error("can't request")
-		}
 		return res
 	}
 

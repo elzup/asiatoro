@@ -25,21 +25,19 @@ function* fetchAccessPoint() {
 }
 
 function* fetchFollowAccessPoints() {
-	try {
-		const res = yield AsiatoroClient.getFollowAccessPoint()
-		const followAccessPoints = res.data.map(ap => {
-			const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
-				return new CheckinRecord({...ci, user: new UserRecord(ci.user)})
-			})
-			return new AccessPointRecord({...ap, checkins})
-		})
-		yield put(setFollowAccessPoints(followAccessPoints))
-		yield postCheckin()
-	} catch (e) {
-		if (e.status === 404 || e.status === 401) {
-			yield logout()
-		}
+	const res = yield AsiatoroClient.getFollowAccessPoint()
+	if (res.status === 404 || res.status === 401) {
+		yield logout()
+		return
 	}
+	const followAccessPoints = res.data.map(ap => {
+		const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
+			return new CheckinRecord({...ci, user: new UserRecord(ci.user)})
+		})
+		return new AccessPointRecord({...ap, checkins})
+	})
+	yield put(setFollowAccessPoints(followAccessPoints))
+	yield postCheckin()
 }
 
 function* loadUser() {
@@ -116,10 +114,10 @@ function* postCheckin() {
 }
 
 function* logout() {
-	yield AsyncStorage.setItem("user_id", null)
-	yield AsyncStorage.setItem("user_token", null)
-	yield AsyncStorage.setItem("user_pass", null)
-	yield AsyncStorage.setItem("user_name", null)
+	yield AsyncStorage.setItem("user_id", "")
+	yield AsyncStorage.setItem("user_token", "")
+	yield AsyncStorage.setItem("user_pass", "")
+	yield AsyncStorage.setItem("user_name", "")
 	yield loadUser()
 }
 
