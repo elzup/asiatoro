@@ -8,6 +8,7 @@ function mapStateToProps(state) {
 	return {
 		user: state.user,
 		error: state.userRegisterError,
+		loadingUser: state.loadingUser,
 	}
 }
 

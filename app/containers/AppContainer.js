@@ -52,6 +52,8 @@ class AppContainer extends Component {
 				period: 1000 * 60 * 5,
 				alwaysRunning: true,
 			})
+		} else {
+			this.props.loadAccessPoints()
 		}
 	}
 

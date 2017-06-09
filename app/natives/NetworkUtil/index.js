@@ -24,9 +24,13 @@ export function* getAccessPoints(): Array<AccessPointRecord> {
 		if (res === null) {
 			return []
 		}
-		return res.split("##").map(v => {
-			const [ssid, bssid, power] = v.split("#")
-			return new AccessPointRecord({ssid, bssid, power: parseInt(power)})
-		})
+    // 空文字 SSID を除去
+		return res
+      .split("##")
+      .map(v => {
+	const [ssid, bssid, power] = v.split("#")
+	return new AccessPointRecord({ssid, bssid, power: parseInt(power)})
+})
+      .filter(ap => ap.ssid)
 	}
 }

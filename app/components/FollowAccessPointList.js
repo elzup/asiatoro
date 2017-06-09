@@ -1,9 +1,11 @@
 // @flow
 
 import React from "react"
-import {Text, View} from "react-native"
+import {View} from "react-native"
 import {AccessPointRecord, CheckinRecord, UserRecord} from "../types"
-const {Content, Card, CardItem, Icon} = require("native-base")
+import FAIcon from "react-native-vector-icons/FontAwesome"
+
+const {Content, Text, Card, CardItem, Icon} = require("native-base")
 
 type Props = {
   followAccessPoints: Array<AccessPointRecord>,
@@ -48,27 +50,38 @@ export default class FollowAccessPointList extends React.Component {
 					<Text>{ap.ssid}</Text>
 				</CardItem>
 				<View style={{display: "flex", flexDirection: "row", flexWrap: "wrap"}}>
-					{ap.checkins.map(ci => this.renderCheckinCardItem(ci))}
+					{_.sortBy(ap.checkins, (c: CheckinRecord) => -c.timestamp()).map(ci =>
+            this.renderCheckinCardItem(ci)
+          )}
 				</View>
 			</Card>
 		)
 	}
 
-	renderNavigateRegister() {
-		if (this.props.user.isRegistered()) {
-			return null
+	renderNavigateTexts() {
+		if (!this.props.user.isRegistered()) {
+			return (
+				<View style={{margin: 10}}>
+					<Text>
+						<FAIcon name="exclamation-circle" color="orange" size={20} />
+            Profile タブでユーザ登録しよう！
+          </Text>
+				</View>
+			)
 		}
-		return <Text style={{margin: 10}}>Profile タブでユーザ登録しよう！</Text>
-	}
-
-	renderNoFollow() {
 		if (
-      !this.props.user.isRegistered() ||
-      this.props.followAccessPoints.length > 0
+      this.props.user.isRegistered() &&
+      this.props.followAccessPoints.length === 0
     ) {
-			return null
+			return (
+				<View style={{margin: 10}}>
+					<Text>
+						<FAIcon name="exclamation-circle" color="orange" size={20} />
+            Networks タブでネットワークをフォローしよう！
+          </Text>
+				</View>
+			)
 		}
-		return <Text style={{margin: 10}}>Networks タブでネットワークをフォローしよう！</Text>
 	}
 
 	renderCards() {
@@ -83,12 +96,8 @@ export default class FollowAccessPointList extends React.Component {
 
 	render() {
 		return (
-			<Content
-				style={{padding: 5}}
-				contentContainerStyle={{justifyContent: "space-between"}}
-      >
-				{this.renderNavigateRegister()}
-				{this.renderNoFollow()}
+			<Content style={{padding: 5}}>
+				{this.renderNavigateTexts()}
 				{this.renderCards()}
 			</Content>
 		)

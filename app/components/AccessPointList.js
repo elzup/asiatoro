@@ -2,12 +2,14 @@
 
 import React from "react"
 // NOTE: why import not working in webstorm
+
 const {
   Content,
   Icon,
   Button,
   List,
   ListItem,
+  Spinner,
   Right,
   Left,
   Text,
@@ -15,24 +17,50 @@ const {
 import FAIcon from "react-native-vector-icons/FontAwesome"
 
 import {View} from "react-native"
-import Spinner from "react-native-loading-spinner-overlay"
-import {AccessPointRecord} from "../types"
+import OverlaySpinner from "react-native-loading-spinner-overlay"
+import {UserRecord, AccessPointRecord} from "../types"
 
 export default class AccessPointList extends React.Component {
 	props: {
     accessPoints: Array<AccessPointRecord>,
     postFollow: (ap: AccessPointRecord) => {},
-    loading: boolean,
+    loadingFollow: boolean,
+    loadingAccessPoints: boolean,
     user: UserRecord
   }
 
 	componentDidMount() {}
 
-	renderNavigateRegister() {
-		if (this.props.user.isRegistered()) {
-			return null
+	renderNavigateTexts() {
+		const {user, accessPoints, loadingAccessPoints} = this.props
+		if (!user.isRegistered()) {
+			return (
+				<View style={{margin: 10}}>
+					<Text>
+						<FAIcon name="exclamation-circle" color="orange" size={20} />Profile
+            タブでユーザ登録しよう！
+          </Text>
+				</View>
+			)
 		}
-		return <Text style={{margin: 10}}>Profile タブでユーザ登録しよう！</Text>
+		if (!accessPoints || accessPoints.length === 0) {
+			return (
+				<View style={{margin: 10}}>
+					<Text>
+						<FAIcon
+							name="exclamation-circle"
+							color="orange"
+							size={20}
+            />アクセスポイントが見つかりません。電波状態、または Wi-Fi の設定が OFF になっていないか確認してください。
+          </Text>
+				</View>
+			)
+		}
+		return (
+			<View style={{margin: 10}}>
+				{loadingAccessPoints && <Spinner color="blue" />}
+			</View>
+		)
 	}
 
 	renderAccessPointList() {
@@ -82,14 +110,14 @@ export default class AccessPointList extends React.Component {
 	render() {
 		return (
 			<Content contentContainerStyle={{justifyContent: "space-between"}}>
-				{this.renderNavigateRegister()}
+				{this.renderNavigateTexts()}
 				<View>
 					<List>
 						{this.renderAccessPointList()}
 					</List>
 				</View>
-				<Spinner
-					visible={this.props.loading}
+				<OverlaySpinner
+					visible={this.props.loadingFollow}
 					textContent={"Loading..."}
 					textStyle={{color: "#FFF"}}
         />
