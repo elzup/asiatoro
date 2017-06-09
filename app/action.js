@@ -91,3 +91,9 @@ export function postCheckin() {
 		type: ActionTypes.POST_CHECKIN,
 	}
 }
+
+export function logout() {
+	return {
+		type: ActionTypes.USER_LOGOUT,
+	}
+}

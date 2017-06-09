@@ -36,7 +36,9 @@ function* fetchFollowAccessPoints() {
 		yield put(setFollowAccessPoints(followAccessPoints))
 		yield postCheckin()
 	} catch (e) {
-		console.log(e)
+		if (e.status === 404 || e.status === 401) {
+			yield logout()
+		}
 	}
 }
 
@@ -113,6 +115,14 @@ function* postCheckin() {
 	})
 }
 
+function* logout() {
+	yield AsyncStorage.setItem("user_id", null)
+	yield AsyncStorage.setItem("user_token", null)
+	yield AsyncStorage.setItem("user_pass", null)
+	yield AsyncStorage.setItem("user_name", null)
+	yield loadUser()
+}
+
 function* sagas() {
 	yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
 	yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
@@ -124,6 +134,7 @@ function* sagas() {
 	yield takeLatest(ActionTypes.CREATE_USER, createUser)
 	yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
 	yield takeLatest(ActionTypes.POST_CHECKIN, postCheckin)
+	yield takeLatest(ActionTypes.USER_LOGOUT, logout)
 }
 
 export default sagas

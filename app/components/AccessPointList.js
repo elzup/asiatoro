@@ -26,6 +26,7 @@ export default class AccessPointList extends React.Component {
     postFollow: (ap: AccessPointRecord) => {},
     loadingFollow: boolean,
     loadingAccessPoints: boolean,
+    logout: Function,
     user: UserRecord
   }
 
