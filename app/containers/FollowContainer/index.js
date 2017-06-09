@@ -3,6 +3,7 @@
 import {connect} from "react-redux"
 import FollowAccessPointList from "../../components/FollowAccessPointList"
 import {AccessPointRecord} from "../../types"
+import {loadUser} from "../../action"
 
 function mapStateToProps(state) {
 	return {
@@ -10,12 +11,13 @@ function mapStateToProps(state) {
       ap => new AccessPointRecord(ap)
     ),
 		user: state.user,
+		loadingCheckins: state.loadingCheckins,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		post: user => dispatch(setUser(user)),
+		loadUser: () => dispatch(loadUser()),
 	}
 }
 

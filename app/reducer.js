@@ -13,6 +13,7 @@ const initialState = {
 	loadingFollow: false,
 	loadingAccessPoints: false,
 	loadingUser: false,
+	loadingCheckins: false,
 }
 
 export default function(state = initialState, action) {
@@ -36,6 +37,7 @@ export default function(state = initialState, action) {
       )
 			return {
 				...state,
+				loadingCheckins: false,
 				followAccessPoints: action.followAccessPoints,
 				accessPoints: sortWithUniq(aps),
 			}
@@ -61,12 +63,19 @@ export default function(state = initialState, action) {
 				loadingFollow: false,
 				accessPoints: aps2,
 			}
+		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS:
+			return {...state, followAccessPoints: [], loadingCheckins: true}
 		case ActionTypes.SET_USER:
 			return {...state, user: action.user, loadingUser: false}
 		case ActionTypes.CREATE_USER:
 			return {...state, userRegisterError: false, loadingUser: true}
 		case ActionTypes.SET_ERROR:
-			return {...state, userRegisterError: action.error, loadingUser: false}
+			return {
+				...state,
+				userRegisterError: action.error,
+				loadingUser: false,
+				loadingCheckins: false,
+			}
 		default:
 	}
 	return state

@@ -1,19 +1,19 @@
 // @flow
 
 import React from "react"
-import {View} from "react-native"
+import {View, RefreshControl} from "react-native"
 import {AccessPointRecord, CheckinRecord, UserRecord} from "../types"
 import FAIcon from "react-native-vector-icons/FontAwesome"
 
 const {Content, Text, Card, CardItem, Icon} = require("native-base")
 
-type Props = {
-  followAccessPoints: Array<AccessPointRecord>,
-  user: UserRecord
-}
-
 export default class FollowAccessPointList extends React.Component {
-	props: Props
+	props: {
+    loadUser: Function,
+    loadingCheckins: boolean,
+    followAccessPoints: Array<AccessPointRecord>,
+    user: UserRecord
+  }
 
 	componentDidMount() {}
 
@@ -96,7 +96,17 @@ export default class FollowAccessPointList extends React.Component {
 
 	render() {
 		return (
-			<Content style={{padding: 5}}>
+			<Content
+				style={{padding: 5}}
+				refreshControl={
+					<RefreshControl
+						refreshing={this.props.loadingCheckins}
+						onRefresh={() => {
+							this.props.loadUser()
+						}}
+          />
+        }
+      >
 				{this.renderNavigateTexts()}
 				{this.renderCards()}
 			</Content>
