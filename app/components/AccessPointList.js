@@ -26,6 +26,7 @@ export default class AccessPointList extends React.Component {
     postFollow: (ap: AccessPointRecord) => {},
     loadingFollow: boolean,
     loadingAccessPoints: boolean,
+    logout: Function,
     user: UserRecord
   }
 
@@ -72,17 +73,15 @@ export default class AccessPointList extends React.Component {
 		return accessPoints.map((ap: AccessPointRecord, index) =>
 			<ListItem key={ap.ssid}>
 				<Left>
-					<View style={{display: "flex", flexDirection: "column"}}>
+					<View>
 						<Text
 							style={{
-								alignSelf: "center",
 								overflow: "hidden",
-								textAlign: "left",
 							}}
             >
 							{ap.ssid}
 						</Text>
-						<Text style={{fontSize: 10, overflow: "hidden", textAlign: "left"}}>
+						<Text style={{fontSize: 10}}>
               ({ap.bssid})
             </Text>
 					</View>

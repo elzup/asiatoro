@@ -14,6 +14,8 @@ export const ActionTypes = {
 	POST_CHECKIN: "asiatoro/app/POST_CHECKIN",
 	SET_ERROR: "asiatoro/app/SET_ERROR",
 	SET_NETWORK_ERROR: "asiatoro/app/SET_NETWORK_ERROR",
+
+	USER_LOGOUT: "asiatoro/app/USER_LOGOUT",
 }
 
 export const ErrorTypes = {

@@ -25,19 +25,19 @@ function* fetchAccessPoint() {
 }
 
 function* fetchFollowAccessPoints() {
-	try {
-		const res = yield AsiatoroClient.getFollowAccessPoint()
-		const followAccessPoints = res.data.map(ap => {
-			const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
-				return new CheckinRecord({...ci, user: new UserRecord(ci.user)})
-			})
-			return new AccessPointRecord({...ap, checkins})
-		})
-		yield put(setFollowAccessPoints(followAccessPoints))
-		yield postCheckin()
-	} catch (e) {
-		console.log(e)
+	const res = yield AsiatoroClient.getFollowAccessPoint()
+	if (res.status === 404 || res.status === 401) {
+		yield logout()
+		return
 	}
+	const followAccessPoints = res.data.map(ap => {
+		const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
+			return new CheckinRecord({...ci, user: new UserRecord(ci.user)})
+		})
+		return new AccessPointRecord({...ap, checkins})
+	})
+	yield put(setFollowAccessPoints(followAccessPoints))
+	yield postCheckin()
 }
 
 function* loadUser() {
@@ -113,6 +113,14 @@ function* postCheckin() {
 	})
 }
 
+function* logout() {
+	yield AsyncStorage.setItem("user_id", "")
+	yield AsyncStorage.setItem("user_token", "")
+	yield AsyncStorage.setItem("user_pass", "")
+	yield AsyncStorage.setItem("user_name", "")
+	yield loadUser()
+}
+
 function* sagas() {
 	yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
 	yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
@@ -124,6 +132,7 @@ function* sagas() {
 	yield takeLatest(ActionTypes.CREATE_USER, createUser)
 	yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
 	yield takeLatest(ActionTypes.POST_CHECKIN, postCheckin)
+	yield takeLatest(ActionTypes.USER_LOGOUT, logout)
 }
 
 export default sagas

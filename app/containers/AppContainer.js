@@ -2,7 +2,7 @@
 
 import React, {Component} from "react"
 import {AppState} from "react-native"
-const {Container, Header, Tab, Tabs} = require("native-base")
+const {Container, Header, Tab, Tabs, Title, Body} = require("native-base")
 import {connect} from "react-redux"
 import BackgroundJob from "react-native-background-job"
 
@@ -10,19 +10,19 @@ import AccessPointContainer from "./AccessPointContainer"
 import ProfileContainer from "./ProfileContainer"
 import FollowContainer from "./FollowContainer"
 import {loadUser, loadAccessPoints, postCheckin} from "../action"
-
-type Props = {
-  loadUser: Function,
-  loadAccessPoints: Function,
-  postCheckin: Function
-}
+import {UserRecord} from "../types/index"
 
 BackgroundJob.setGlobalWarnings(false)
 
 type AppEventState = "change" | "background"
 
 class AppContainer extends Component {
-	props: Props
+	props: {
+    user: UserRecord,
+    loadUser: Function,
+    loadAccessPoints: Function,
+    postCheckin: Function
+  }
 
 	componentDidMount() {
 		this.props.loadUser()
@@ -53,6 +53,7 @@ class AppContainer extends Component {
 				alwaysRunning: true,
 			})
 		} else {
+			this.props.loadUser()
 			this.props.loadAccessPoints()
 		}
 	}
@@ -69,7 +70,11 @@ class AppContainer extends Component {
 	render() {
 		return (
 			<Container>
-				<Header hasTabs />
+				<Header hasTabs>
+					<Body style={{flex: 1}}>
+						<Title>Asiatoro</Title>
+					</Body>
+				</Header>
 				<Tabs>
 					<Tab heading="Home">
 						<FollowContainer />
@@ -86,8 +91,10 @@ class AppContainer extends Component {
 	}
 }
 
-function mapStateToProps() {
-	return {}
+function mapStateToProps(state) {
+	return {
+		user: state.user,
+	}
 }
 
 function mapDispatchToProps(dispatch) {
