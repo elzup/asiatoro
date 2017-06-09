@@ -82,11 +82,12 @@ export default class AccessPointList extends React.Component {
 				<Button
 					block
 					primary
+					disabled={this.state.name === ""}
 					onPress={() => {
 						this.props.createUser(this.state.name)
 					}}
         >
-					<Text>設定</Text>
+					<Text>確定</Text>
 				</Button>
 			</View>
 		)
