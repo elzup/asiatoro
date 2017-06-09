@@ -10,19 +10,19 @@ import AccessPointContainer from "./AccessPointContainer"
 import ProfileContainer from "./ProfileContainer"
 import FollowContainer from "./FollowContainer"
 import {loadUser, loadAccessPoints, postCheckin} from "../action"
-
-type Props = {
-  loadUser: Function,
-  loadAccessPoints: Function,
-  postCheckin: Function
-}
+import {UserRecord} from "../types/index"
 
 BackgroundJob.setGlobalWarnings(false)
 
 type AppEventState = "change" | "background"
 
 class AppContainer extends Component {
-	props: Props
+	props: {
+    user: UserRecord,
+    loadUser: Function,
+    loadAccessPoints: Function,
+    postCheckin: Function
+  }
 
 	componentDidMount() {
 		this.props.loadUser()
@@ -91,8 +91,10 @@ class AppContainer extends Component {
 	}
 }
 
-function mapStateToProps() {
-	return {}
+function mapStateToProps(state) {
+	return {
+		user: state.user,
+	}
 }
 
 function mapDispatchToProps(dispatch) {
