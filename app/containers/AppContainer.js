@@ -36,6 +36,8 @@ class AppContainer extends Component {
 	}
 
 	componentWillUnmount() {
+		console.log("WillMount remove jobs")
+		BackgroundJob.cancelAll()
 		AppState.removeEventListener("change", this._handleAppStateChange)
 	}
 
@@ -53,6 +55,7 @@ class AppContainer extends Component {
 				alwaysRunning: true,
 			})
 		} else {
+			console.log("reload app")
 			this.props.loadUser()
 			this.props.loadAccessPoints()
 		}
