@@ -4,12 +4,15 @@ import React, {Component} from "react"
 import {AppState} from "react-native"
 const {Container, Header, Tab, Tabs, Title, Body} = require("native-base")
 import {connect} from "react-redux"
+import BackgroundJob from "react-native-background-job"
 
 import AccessPointContainer from "./AccessPointContainer"
 import ProfileContainer from "./ProfileContainer"
 import FollowContainer from "./FollowContainer"
 import {loadUser, loadAccessPoints, postCheckin} from "../action"
 import {UserRecord} from "../types/index"
+
+BackgroundJob.setGlobalWarnings(false)
 
 type AppEventState = "change" | "background"
 
@@ -24,6 +27,11 @@ class AppContainer extends Component {
 	componentDidMount() {
 		this.props.loadUser()
 		this.props.loadAccessPoints()
+		BackgroundJob.register({
+			jobKey: "checkinJob",
+			job: this.checkinJob.bind(this),
+			networkType: BackgroundJob.NETWORK_TYPE_ANY,
+		})
 		AppState.addEventListener("change", this._handleAppStateChange)
 	}
 
@@ -34,9 +42,16 @@ class AppContainer extends Component {
 	_handleAppStateChange = (nextAppState: AppEventState) => {
 		console.log("state")
 		console.log(nextAppState)
+		BackgroundJob.cancelAll()
 
 		if (nextAppState === "background") {
 			console.log("scheduled")
+			BackgroundJob.schedule({
+				jobKey: "checkinJob",
+				timeout: 5000,
+				period: 1000 * 60 * 5,
+				alwaysRunning: true,
+			})
 		} else {
 			this.props.loadUser()
 			this.props.loadAccessPoints()
