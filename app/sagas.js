@@ -1,6 +1,6 @@
 // @flow
 
-import {call, put, takeLatest, select} from "redux-saga/effects"
+import {call, put, takeLatest, takeEvery, select} from "redux-saga/effects"
 import {AsyncStorage} from "react-native"
 import AsiatoroClient from "./networks/Client"
 import {CheckinRecord} from "./types"
@@ -131,7 +131,7 @@ function* sagas() {
   )
 	yield takeLatest(ActionTypes.CREATE_USER, createUser)
 	yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
-	yield takeLatest(ActionTypes.POST_CHECKIN, postCheckin)
+	yield takeEvery(ActionTypes.POST_CHECKIN, postCheckin)
 	yield takeLatest(ActionTypes.USER_LOGOUT, logout)
 }
 
