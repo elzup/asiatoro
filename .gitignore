@@ -53,3 +53,5 @@ fastlane/screenshots
 
 android/app/src/main/assets/fonts/
 flow-typed/npm/
+
+*.apk
