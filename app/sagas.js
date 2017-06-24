@@ -1,8 +1,15 @@
 // @flow
 
-import {call, put, takeLatest, takeEvery, select} from "redux-saga/effects"
+import {
+  call,
+  put,
+  fork,
+  takeLatest,
+  takeEvery,
+  select,
+} from "redux-saga/effects"
 import {AsyncStorage} from "react-native"
-import AsiatoroClient from "./networks/Client"
+import {ac} from "./networks/Client"
 import {CheckinRecord} from "./types"
 import randomString from "random-string"
 import {uniqBySSID} from "./utils"
@@ -25,9 +32,9 @@ function* fetchAccessPoint() {
 }
 
 function* fetchFollowAccessPoints() {
-	const res = yield AsiatoroClient.getFollowAccessPoint()
+	const res = yield call(ac.getFollowAccessPoint.bind(ac))
 	if (res.status === 404 || res.status === 401) {
-		yield logout()
+		yield fork(logout)
 		return
 	}
 	const followAccessPoints = res.data.map(ap => {
@@ -41,32 +48,32 @@ function* fetchFollowAccessPoints() {
 }
 
 function* loadUser() {
-	const id = yield AsyncStorage.getItem("user_id")
-	const token = yield AsyncStorage.getItem("user_token")
-	const name = yield AsyncStorage.getItem("user_name")
+	const id = yield call(AsyncStorage.getItem, "user_id")
+	const token = yield call(AsyncStorage.getItem, "user_token")
+	const name = yield call(AsyncStorage.getItem, "user_name")
 	if (id === null || token === null || id === "0" || token === "") {
 		yield put(setUser(new UserRecord()))
 		return
 	}
 	const user = new UserRecord({id: parseInt(id), token, name})
 	yield put(setUser(user))
-	AsiatoroClient.setUser(user)
-	yield fetchFollowAccessPoints()
+	ac.setUser(user)
+	yield fork(fetchFollowAccessPoints)
 }
 
 function* registerUser({user}) {
-	yield AsyncStorage.setItem("user_id", user.id.toString())
-	yield AsyncStorage.setItem("user_token", user.token)
-	yield AsyncStorage.setItem("user_pass", user.pass)
-	yield AsyncStorage.setItem("user_name", user.name)
+	yield call(AsyncStorage.setItem, "user_id", user.id.toString())
+	yield call(AsyncStorage.setItem, "user_token", user.token)
+	yield call(AsyncStorage.setItem, "user_pass", user.pass)
+	yield call(AsyncStorage.setItem, "user_name", user.name)
 	yield put(setUser(user))
-	AsiatoroClient.setUser(user)
-	yield fetchFollowAccessPoints()
+	yield call(ac.setUser.bind(ac), user)
+	yield fork(fetchFollowAccessPoints)
 }
 
 function* createUser({name}: {name: string}) {
 	const pass = randomString(10)
-	const res = yield AsiatoroClient.postUser({name, pass})
+	const res = yield call(ac.postUser.bind(ac), {name, pass})
 	if (res.status === 400) {
 		yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
 		return
@@ -90,12 +97,12 @@ function* postFollow({
   follow: boolean
 }) {
 	if (follow) {
-		yield AsiatoroClient.postFollow({ap: accessPoint})
+		yield call(ac.postFollow.bind(ac), {ap: accessPoint})
 	} else {
-		yield AsiatoroClient.deleteFollow({ap: accessPoint})
+		yield call(ac.deleteFollow.bind(ac), {ap: accessPoint})
 	}
 	yield put(toggleFollow(accessPoint))
-	yield fetchFollowAccessPoints()
+	yield fork(fetchFollowAccessPoints)
 }
 
 function* postCheckin() {
@@ -109,16 +116,19 @@ function* postCheckin() {
   )
 	console.log(shouldCheckins)
 	shouldCheckins.forEach(ap => {
-		AsiatoroClient.postCheckin({ap})
+		const res = call(ac.postCheckin.bind(ac), {ap})
+		if (res.problem) {
+			return false
+		}
 	})
 }
 
 function* logout() {
-	yield AsyncStorage.setItem("user_id", "")
-	yield AsyncStorage.setItem("user_token", "")
-	yield AsyncStorage.setItem("user_pass", "")
-	yield AsyncStorage.setItem("user_name", "")
-	yield loadUser()
+	yield call(AsyncStorage.setItem, "user_id", "")
+	yield call(AsyncStorage.setItem, "user_token", "")
+	yield call(AsyncStorage.setItem, "user_pass", "")
+	yield call(AsyncStorage.setItem, "user_name", "")
+	yield fork(loadUser)
 }
 
 function* sagas() {

@@ -21,6 +21,7 @@ class AsiatoroClient {
 	}
 
 	async getFollowAccessPoint() {
+		console.log()
 		const res = await this.api.get("/v1/access_points")
 		console.log("res", res)
 		return res
@@ -60,4 +61,4 @@ class AsiatoroClient {
 	}
 }
 
-export default new AsiatoroClient()
+export const ac = new AsiatoroClient()

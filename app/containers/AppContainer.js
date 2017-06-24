@@ -37,7 +37,6 @@ class AppContainer extends Component {
 
 	componentWillUnmount() {
 		console.log("WillMount remove jobs")
-		BackgroundJob.cancelAll()
 		AppState.removeEventListener("change", this._handleAppStateChange)
 	}
 
@@ -51,7 +50,7 @@ class AppContainer extends Component {
 			BackgroundJob.schedule({
 				jobKey: "checkinJob",
 				timeout: 5000,
-				period: 1000 * 60 * 5,
+				period: 1000 * 5,
 				alwaysRunning: true,
 			})
 		} else {
