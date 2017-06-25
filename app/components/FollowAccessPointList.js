@@ -1,11 +1,21 @@
 // @flow
 
 import React from "react"
-import { View, RefreshControl } from "react-native"
+import { RefreshControl } from "react-native"
 import { AccessPointRecord, CheckinRecord, UserRecord } from "../types"
 import FAIcon from "react-native-vector-icons/FontAwesome"
-
-const { Content, Text, Card, CardItem, Icon } = require("native-base")
+import {
+	Body,
+	View,
+	Content,
+	Text,
+	Card,
+	CardItem,
+	Icon,
+	Container,
+	Header,
+	Title,
+} from "native-base"
 
 export default class FollowAccessPointList extends React.Component {
 	props: {
@@ -49,13 +59,22 @@ export default class FollowAccessPointList extends React.Component {
 					<Icon active name="wifi" />
 					<Text>{ap.ssid}</Text>
 				</CardItem>
-				<View
-					style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-				>
-					{_.sortBy(ap.checkins, (c: CheckinRecord) => -c.timestamp()).map(ci =>
-						this.renderCheckinCardItem(ci)
-					)}
-				</View>
+				<CardItem>
+					<Body>
+						<View
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								flexWrap: "wrap",
+							}}
+						>
+							{_.sortBy(
+								ap.checkins,
+								(c: CheckinRecord) => -c.timestamp()
+							).map(ci => this.renderCheckinCardItem(ci))}
+						</View>
+					</Body>
+				</CardItem>
 			</Card>
 		)
 	}
@@ -88,30 +107,32 @@ export default class FollowAccessPointList extends React.Component {
 
 	renderCards() {
 		return (
-			<View>
+			<Content>
 				{this.props.followAccessPoints.map(ap =>
 					this.renderAccessPointCard(ap)
 				)}
-			</View>
+			</Content>
 		)
 	}
 
 	render() {
 		return (
-			<Content
-				style={{ padding: 5 }}
-				refreshControl={
-					<RefreshControl
-						refreshing={this.props.loadingCheckins}
-						onRefresh={() => {
-							this.props.loadUser()
-						}}
-					/>
-				}
-			>
-				{this.renderNavigateTexts()}
-				{this.renderCards()}
-			</Content>
+			<Container>
+				<Content
+					style={{ padding: 5 }}
+					refreshControl={
+						<RefreshControl
+							refreshing={this.props.loadingCheckins}
+							onRefresh={() => {
+								this.props.loadUser()
+							}}
+						/>
+					}
+				>
+					{this.renderNavigateTexts()}
+					{this.renderCards()}
+				</Content>
+			</Container>
 		)
 	}
 }
