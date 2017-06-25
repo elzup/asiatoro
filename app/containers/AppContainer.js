@@ -1,20 +1,42 @@
 // @flow
 
 import React, { Component } from "react"
-import { AppState } from "react-native"
-const { Container, Header, Tab, Tabs, Title, Body } = require("native-base")
+import { AppState, Platform } from "react-native"
+import { TabNavigator } from "react-navigation"
 import { connect } from "react-redux"
 import BackgroundJob from "react-native-background-job"
 
-import AccessPointContainer from "./AccessPointContainer"
-import ProfileContainer from "./ProfileContainer"
-import FollowContainer from "./FollowContainer"
-import { loadUser, loadAccessPoints, postCheckin } from "../action"
+import { NetworksScreen } from "./Networks"
+import { ProfileScreen } from "./Profile"
+import { HomeScreen } from "./Home"
+import { loadAccessPoints, loadUser, postCheckin } from "../action"
 import { UserRecord } from "../types/index"
 
 BackgroundJob.setGlobalWarnings(false)
 
 type AppEventState = "change" | "background"
+
+const Tabs = TabNavigator(
+	{
+		Home: {
+			screen: HomeScreen,
+			path: "",
+		},
+		Networks: {
+			screen: NetworksScreen,
+			path: "networks",
+		},
+		Profile: {
+			screen: ProfileScreen,
+			path: "profile",
+		},
+	},
+	{
+		tabBarOptions: {
+			activeTintColor: Platform.OS === "ios" ? "#e91e63" : "#fff",
+		},
+	}
+)
 
 class AppContainer extends Component {
 	props: {
@@ -75,26 +97,7 @@ class AppContainer extends Component {
 	}
 
 	render() {
-		return (
-			<Container>
-				<Header hasTabs>
-					<Body style={{ flex: 1 }}>
-						<Title>Asiatoro</Title>
-					</Body>
-				</Header>
-				<Tabs>
-					<Tab heading="Home">
-						<FollowContainer />
-					</Tab>
-					<Tab heading="Networks">
-						<AccessPointContainer />
-					</Tab>
-					<Tab heading="Profile">
-						<ProfileContainer />
-					</Tab>
-				</Tabs>
-			</Container>
-		)
+		return <Tabs />
 	}
 }
 
