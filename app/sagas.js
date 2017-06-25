@@ -115,8 +115,8 @@ function* postCheckin() {
     followAccessPints.filter(ap => ssids.includes(ap.ssid))
   )
 	console.log(shouldCheckins)
-	shouldCheckins.forEach(ap => {
-		const res = call(ac.postCheckin.bind(ac), {ap})
+	shouldCheckins.forEach(async ap => {
+		const res = await ac.postCheckin({ap})
 		if (res.problem) {
 			return false
 		}
