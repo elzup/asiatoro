@@ -50,7 +50,7 @@ class AppContainer extends Component {
 			BackgroundJob.schedule({
 				jobKey: "checkinJob",
 				timeout: 5000,
-				period: 1000 * 60, // 1 min
+				period: __DEV__ ? 1000 * 5 : 1000 * 60, // 5 sec if debug OR 1 min
 				// period: 1000 * 60 * 5, // 5 min
 				alwaysRunning: true, // TODO: remove waiting solve lib issue
 			})
@@ -62,6 +62,10 @@ class AppContainer extends Component {
 	}
 
 	checkinJob() {
+		if (!this.props.user.isRegistered()) {
+			console.log("don't registered yat")
+			return
+		}
 		try {
 			console.log("checkin log.")
 			this.props.postCheckin()

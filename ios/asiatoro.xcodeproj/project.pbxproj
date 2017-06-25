@@ -73,6 +73,7 @@
 		E94EB499CF80497AB45CADB0 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2BCE4EC55EDF4857A9304B27 /* Rubik-Bold.ttf */; };
 		F388809562AA4414896EF717 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C17FED2F3E1145D59B709DC1 /* MaterialIcons.ttf */; };
 		FB4A8937B79B441A95CF7113 /* SanFranciscoThin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E9FEF66FC96D4651BF064180 /* SanFranciscoThin.ttf */; };
+		8D92FCBF10FC4903AF1ADB91 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = C692F86D5764428689A6612F /* OFL.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -339,6 +340,7 @@
 		F1513F8B2196463BBA9A52DD /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
 		F5A6E1BD78B343509129B84B /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		FD110F8635424A4FBE6C962B /* Microsoft Sans Serif.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Microsoft Sans Serif.ttf"; path = "../node_modules/native-base/Fonts/Microsoft Sans Serif.ttf"; sourceTree = "<group>"; };
+		C692F86D5764428689A6612F /* OFL.txt */ = {isa = PBXFileReference; name = "OFL.txt"; path = "../node_modules/native-base/Fonts/OFL.txt"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -619,6 +621,7 @@
 				7C7EC9AE6D62485DAB70BDD2 /* Skia.ttf */,
 				0E2A0EBC94784F75B04D04A2 /* Times New Roman.ttf */,
 				3C57162E2B4C4B7183232992 /* Zocial.ttf */,
+				C692F86D5764428689A6612F /* OFL.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1033,6 +1036,7 @@
 				4D567F3354644886863058D6 /* Skia.ttf in Resources */,
 				81B8EB2F099B41C2958EE7BA /* Times New Roman.ttf in Resources */,
 				02BBE24A137F40D1B95725D5 /* Zocial.ttf in Resources */,
+				8D92FCBF10FC4903AF1ADB91 /* OFL.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
