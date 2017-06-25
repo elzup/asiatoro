@@ -28,8 +28,8 @@ android {
         resValue "string", "build_config_package", "com.elzup.asiatoro"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 5
-        versionName "1.0.1"
+        versionCode 6
+        versionName "1.0.2"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
