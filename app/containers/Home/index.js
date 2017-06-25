@@ -21,6 +21,6 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export const HomeScreen = connect(mapStateToProps, mapDispatchToProps)(
 	FollowAccessPointList
 )

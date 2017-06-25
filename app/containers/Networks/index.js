@@ -24,4 +24,6 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccessPointList)
+export const NetworksScreen = connect(mapStateToProps, mapDispatchToProps)(
+	AccessPointList
+)

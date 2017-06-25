@@ -20,4 +20,6 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export const ProfileScreen = connect(mapStateToProps, mapDispatchToProps)(
+	Profile
+)
