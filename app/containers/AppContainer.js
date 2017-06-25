@@ -1,16 +1,16 @@
 // @flow
 
-import React, {Component} from "react"
-import {AppState} from "react-native"
-const {Container, Header, Tab, Tabs, Title, Body} = require("native-base")
-import {connect} from "react-redux"
+import React, { Component } from "react"
+import { AppState } from "react-native"
+const { Container, Header, Tab, Tabs, Title, Body } = require("native-base")
+import { connect } from "react-redux"
 import BackgroundJob from "react-native-background-job"
 
 import AccessPointContainer from "./AccessPointContainer"
 import ProfileContainer from "./ProfileContainer"
 import FollowContainer from "./FollowContainer"
-import {loadUser, loadAccessPoints, postCheckin} from "../action"
-import {UserRecord} from "../types/index"
+import { loadUser, loadAccessPoints, postCheckin } from "../action"
+import { UserRecord } from "../types/index"
 
 BackgroundJob.setGlobalWarnings(false)
 
@@ -18,11 +18,11 @@ type AppEventState = "change" | "background"
 
 class AppContainer extends Component {
 	props: {
-    user: UserRecord,
-    loadUser: Function,
-    loadAccessPoints: Function,
-    postCheckin: Function
-  }
+		user: UserRecord,
+		loadUser: Function,
+		loadAccessPoints: Function,
+		postCheckin: Function
+	}
 
 	componentDidMount() {
 		this.props.loadUser()
@@ -51,7 +51,7 @@ class AppContainer extends Component {
 				jobKey: "checkinJob",
 				timeout: 5000,
 				period: 1000 * 60, // 1 min
-        // period: 1000 * 60 * 5, // 5 min
+				// period: 1000 * 60 * 5, // 5 min
 				alwaysRunning: true, // TODO: remove waiting solve lib issue
 			})
 		} else {
@@ -74,7 +74,7 @@ class AppContainer extends Component {
 		return (
 			<Container>
 				<Header hasTabs>
-					<Body style={{flex: 1}}>
+					<Body style={{ flex: 1 }}>
 						<Title>Asiatoro</Title>
 					</Body>
 				</Header>

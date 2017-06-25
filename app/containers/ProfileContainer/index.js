@@ -1,7 +1,7 @@
 // @flow
 
-import {connect} from "react-redux"
-import {setUser, createUser, setError} from "../../action"
+import { connect } from "react-redux"
+import { setUser, createUser, setError } from "../../action"
 import Profile from "../../components/Profile"
 
 function mapStateToProps(state) {
