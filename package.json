@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "release:android": "cd android && ./gradlew assembleRelease",
+    "install:android": "adb install android/app/build/outputs/apk/app-release.apk",
     "precommit": "lint-staged",
     "storybook": "storybook start -p 7007"
   },
