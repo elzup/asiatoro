@@ -1,7 +1,7 @@
 // @flow
 
-import {create} from "apisauce"
-import {UserRecord, AccessPointRecord} from "../types"
+import { create } from "apisauce"
+import { UserRecord, AccessPointRecord } from "../types"
 
 // const host = __DEV__ ? "http://localhost:3000" : "https://asiatoro.herokuapp.com"
 const host = "https://asiatoro.herokuapp.com"
@@ -27,7 +27,7 @@ class AsiatoroClient {
 		return res
 	}
 
-	async postUser({name, pass}: {name: string, pass: string}) {
+	async postUser({ name, pass }: { name: string, pass: string }) {
 		const res = await this.api.post("/v1/users", {
 			name,
 			pass,
@@ -36,7 +36,7 @@ class AsiatoroClient {
 		return res
 	}
 
-	async postFollow({ap}: {ap: AccessPointRecord}) {
+	async postFollow({ ap }: { ap: AccessPointRecord }) {
 		const res = await this.api.post("/v1/follows", {
 			ssid: ap.ssid,
 		})
@@ -44,7 +44,7 @@ class AsiatoroClient {
 		return res
 	}
 
-	async deleteFollow({ap}: {ap: AccessPointRecord}) {
+	async deleteFollow({ ap }: { ap: AccessPointRecord }) {
 		const res = await this.api.delete("/v1/follows", {
 			ssid: ap.ssid,
 		})
@@ -52,7 +52,7 @@ class AsiatoroClient {
 		return res
 	}
 
-	async postCheckin({ap}: {ap: AccessPointRecord}) {
+	async postCheckin({ ap }: { ap: AccessPointRecord }) {
 		const res = await this.api.post("/v1/checkins", {
 			ssid: ap.ssid,
 		})

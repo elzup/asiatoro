@@ -1,9 +1,9 @@
 // @flow
 
-import {ActionTypes} from "./constants"
-import {UserRecord, AccessPointRecord} from "./types"
+import { ActionTypes } from "./constants"
+import { UserRecord, AccessPointRecord } from "./types"
 import _ from "lodash"
-import {sortWithUniq} from "./utils/index"
+import { sortWithUniq } from "./utils/index"
 
 const initialState = {
 	accessPoints: [],
@@ -19,12 +19,12 @@ const initialState = {
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case ActionTypes.LOAD_ACCESS_POINTS:
-			return {...state, loadingAccessPoints: true}
+			return { ...state, loadingAccessPoints: true }
 		case ActionTypes.SET_ACCESS_POINTS:
 			let fssids = state.followAccessPoints.map(v => v.ssid)
 			const apfollowOpted = _.map(action.accessPoints, v =>
-        v.setFollow(fssids.includes(v.ssid))
-      )
+				v.setFollow(fssids.includes(v.ssid))
+			)
 			return {
 				...state,
 				accessPoints: sortWithUniq(apfollowOpted),
@@ -33,8 +33,8 @@ export default function(state = initialState, action) {
 		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END:
 			const fssids2 = action.followAccessPoints.map(v => v.ssid)
 			const aps = _.map(state.accessPoints, v =>
-        v.setFollow(fssids2.includes(v.ssid))
-      )
+				v.setFollow(fssids2.includes(v.ssid))
+			)
 			return {
 				...state,
 				loadingCheckins: false,
@@ -48,7 +48,7 @@ export default function(state = initialState, action) {
 				loadingFollow: true,
 			}
 		case ActionTypes.TOGGLE_FOLLOW:
-			const {accessPoint} = action
+			const { accessPoint } = action
 			const aps2 = state.accessPoints.map(ap => {
 				if (ap === accessPoint) {
 					return {
@@ -64,11 +64,11 @@ export default function(state = initialState, action) {
 				accessPoints: aps2,
 			}
 		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS:
-			return {...state, followAccessPoints: [], loadingCheckins: true}
+			return { ...state, followAccessPoints: [], loadingCheckins: true }
 		case ActionTypes.SET_USER:
-			return {...state, user: action.user, loadingUser: false}
+			return { ...state, user: action.user, loadingUser: false }
 		case ActionTypes.CREATE_USER:
-			return {...state, userRegisterError: false, loadingUser: true}
+			return { ...state, userRegisterError: false, loadingUser: true }
 		case ActionTypes.SET_ERROR:
 			return {
 				...state,

@@ -4,61 +4,61 @@ import React from "react"
 // NOTE: why import not working in webstorm
 
 const {
-  Content,
-  Icon,
-  Button,
-  List,
-  ListItem,
-  Spinner,
-  Right,
-  Left,
-  Text,
+	Content,
+	Icon,
+	Button,
+	List,
+	ListItem,
+	Spinner,
+	Right,
+	Left,
+	Text,
 } = require("native-base")
 import FAIcon from "react-native-vector-icons/FontAwesome"
 
-import {View} from "react-native"
+import { View } from "react-native"
 import OverlaySpinner from "react-native-loading-spinner-overlay"
-import {UserRecord, AccessPointRecord} from "../types"
+import { UserRecord, AccessPointRecord } from "../types"
 
 export default class AccessPointList extends React.Component {
 	props: {
-    accessPoints: Array<AccessPointRecord>,
-    postFollow: (ap: AccessPointRecord) => {},
-    loadingFollow: boolean,
-    loadingAccessPoints: boolean,
-    logout: Function,
-    user: UserRecord
-  }
+		accessPoints: Array<AccessPointRecord>,
+		postFollow: (ap: AccessPointRecord) => {},
+		loadingFollow: boolean,
+		loadingAccessPoints: boolean,
+		logout: Function,
+		user: UserRecord
+	}
 
 	componentDidMount() {}
 
 	renderNavigateTexts() {
-		const {user, accessPoints, loadingAccessPoints} = this.props
+		const { user, accessPoints, loadingAccessPoints } = this.props
 		if (!user.isRegistered()) {
 			return (
-				<View style={{margin: 10}}>
+				<View style={{ margin: 10 }}>
 					<Text>
 						<FAIcon name="exclamation-circle" color="orange" size={20} />Profile
-            タブでユーザ登録しよう！
-          </Text>
+						タブでユーザ登録しよう！
+					</Text>
 				</View>
 			)
 		}
 		if (!accessPoints || accessPoints.length === 0) {
 			return (
-				<View style={{margin: 10}}>
+				<View style={{ margin: 10 }}>
 					<Text>
 						<FAIcon
 							name="exclamation-circle"
 							color="orange"
 							size={20}
-            />アクセスポイントが見つかりません。電波状態、または Wi-Fi の設定が OFF になっていないか確認してください。
-          </Text>
+						/>アクセスポイントが見つかりません。電波状態、または Wi-Fi の設定が OFF になっていないか確認してください。
+					</Text>
 				</View>
 			)
 		}
 		return (
-			<View style={{margin: 10}}>
+			<View style={{ margin: 10 }}>
 				{loadingAccessPoints && <Spinner color="blue" />}
 			</View>
 		)
@@ -68,7 +68,7 @@ export default class AccessPointList extends React.Component {
 		if (!this.props.user.isRegistered()) {
 			return null
 		}
-		const {accessPoints} = this.props
+		const { accessPoints } = this.props
 
 		return accessPoints.map((ap: AccessPointRecord, index) =>
 			<ListItem key={ap.ssid}>
@@ -78,12 +78,12 @@ export default class AccessPointList extends React.Component {
 							style={{
 								overflow: "hidden",
 							}}
-            >
+						>
 							{ap.ssid}
 						</Text>
-						<Text style={{fontSize: 10}}>
-              ({ap.bssid})
-            </Text>
+						<Text style={{ fontSize: 10 }}>
+							({ap.bssid})
+						</Text>
 					</View>
 				</Left>
 				<Right>
@@ -97,18 +97,18 @@ export default class AccessPointList extends React.Component {
 						onPress={() => {
 							this.props.postFollow(ap, !ap.follow)
 						}}
-          >
+					>
 						<FAIcon active name={ap.powerIconType()} size={20} color="black" />
 						<Icon active={ap.follow} name="star" />
 					</Button>
 				</Right>
 			</ListItem>
-    )
+		)
 	}
 
 	render() {
 		return (
-			<Content contentContainerStyle={{justifyContent: "space-between"}}>
+			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
 				{this.renderNavigateTexts()}
 				<View>
 					<List>
@@ -118,8 +118,8 @@ export default class AccessPointList extends React.Component {
 				<OverlaySpinner
 					visible={this.props.loadingFollow}
 					textContent={"Loading..."}
-					textStyle={{color: "#FFF"}}
-        />
+					textStyle={{ color: "#FFF" }}
+				/>
 			</Content>
 		)
 	}

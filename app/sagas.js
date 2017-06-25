@@ -1,30 +1,30 @@
 // @flow
 
 import {
-  call,
-  put,
-  fork,
-  takeLatest,
-  takeEvery,
-  select,
+	call,
+	put,
+	fork,
+	takeLatest,
+	takeEvery,
+	select,
 } from "redux-saga/effects"
-import {AsyncStorage} from "react-native"
-import {ac} from "./networks/Client"
-import {CheckinRecord} from "./types"
+import { AsyncStorage } from "react-native"
+import { ac } from "./networks/Client"
+import { CheckinRecord } from "./types"
 import randomString from "random-string"
-import {uniqBySSID} from "./utils"
+import { uniqBySSID } from "./utils"
 
-import {ActionTypes, ErrorTypes} from "./constants"
+import { ActionTypes, ErrorTypes } from "./constants"
 import {
-  setAccessPoints,
-  setUser,
-  setError,
-  toggleFollow,
-  updateUser,
-  setFollowAccessPoints,
+	setAccessPoints,
+	setUser,
+	setError,
+	toggleFollow,
+	updateUser,
+	setFollowAccessPoints,
 } from "./action"
-import {getAccessPoints} from "./natives/NetworkUtil"
-import {UserRecord, AccessPointRecord} from "./types"
+import { getAccessPoints } from "./natives/NetworkUtil"
+import { UserRecord, AccessPointRecord } from "./types"
 
 function* fetchAccessPoint() {
 	const accessPoints = yield call(getAccessPoints)
@@ -39,12 +39,12 @@ function* fetchFollowAccessPoints() {
 	}
 	const followAccessPoints = res.data.map(ap => {
 		const checkins = ap.last_checkins.filter(v => !!v).map(ci => {
-			return new CheckinRecord({...ci, user: new UserRecord(ci.user)})
+			return new CheckinRecord({ ...ci, user: new UserRecord(ci.user) })
 		})
-		return new AccessPointRecord({...ap, checkins})
+		return new AccessPointRecord({ ...ap, checkins })
 	})
 	yield put(setFollowAccessPoints(followAccessPoints))
-	yield postCheckin()
+	yield fork(postCheckin)
 }
 
 function* loadUser() {
@@ -55,13 +55,13 @@ function* loadUser() {
 		yield put(setUser(new UserRecord()))
 		return
 	}
-	const user = new UserRecord({id: parseInt(id), token, name})
+	const user = new UserRecord({ id: parseInt(id), token, name })
 	yield put(setUser(user))
 	ac.setUser(user)
 	yield fork(fetchFollowAccessPoints)
 }
 
-function* registerUser({user}) {
+function* registerUser({ user }) {
 	yield call(AsyncStorage.setItem, "user_id", user.id.toString())
 	yield call(AsyncStorage.setItem, "user_token", user.token)
 	yield call(AsyncStorage.setItem, "user_pass", user.pass)
@@ -71,9 +71,9 @@ function* registerUser({user}) {
 	yield fork(fetchFollowAccessPoints)
 }
 
-function* createUser({name}: {name: string}) {
+function* createUser({ name }: { name: string }) {
 	const pass = randomString(10)
-	const res = yield call(ac.postUser.bind(ac), {name, pass})
+	const res = yield call(ac.postUser.bind(ac), { name, pass })
 	if (res.status === 400) {
 		yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
 		return
@@ -85,21 +85,21 @@ function* createUser({name}: {name: string}) {
 	const id = res.data.id
 	const token = res.data.token
 
-	const user = new UserRecord({name, pass, id, token})
+	const user = new UserRecord({ name, pass, id, token })
 	yield put(updateUser(user))
 }
 
 function* postFollow({
-  accessPoint,
-  follow,
-}: {
-  accessPoint: AccessPointRecord,
-  follow: boolean
+	accessPoint,
+	follow,
+	}: {
+	accessPoint: AccessPointRecord,
+	follow: boolean
 }) {
 	if (follow) {
-		yield call(ac.postFollow.bind(ac), {ap: accessPoint})
+		yield call(ac.postFollow.bind(ac), { ap: accessPoint })
 	} else {
-		yield call(ac.deleteFollow.bind(ac), {ap: accessPoint})
+		yield call(ac.deleteFollow.bind(ac), { ap: accessPoint })
 	}
 	yield put(toggleFollow(accessPoint))
 	yield fork(fetchFollowAccessPoints)
@@ -112,11 +112,11 @@ function* postCheckin() {
 	const ssids = accessPoints.map(ap => ap.ssid)
 	console.log(ssids)
 	const shouldCheckins = uniqBySSID(
-    followAccessPints.filter(ap => ssids.includes(ap.ssid))
-  )
+		followAccessPints.filter(ap => ssids.includes(ap.ssid))
+	)
 	console.log(shouldCheckins)
-	shouldCheckins.forEach(ap => {
-		const res = call(ac.postCheckin.bind(ac), {ap})
+	shouldCheckins.forEach(async ap => {
+		const res = await ac.postCheckin({ ap })
 		if (res.problem) {
 			return false
 		}
@@ -136,9 +136,9 @@ function* sagas() {
 	yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
 	yield takeLatest(ActionTypes.LOAD_USER, loadUser)
 	yield takeLatest(
-    ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,
-    fetchFollowAccessPoints
-  )
+		ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,
+		fetchFollowAccessPoints
+	)
 	yield takeLatest(ActionTypes.CREATE_USER, createUser)
 	yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
 	yield takeEvery(ActionTypes.POST_CHECKIN, postCheckin)
