@@ -50,8 +50,9 @@ class AppContainer extends Component {
 			BackgroundJob.schedule({
 				jobKey: "checkinJob",
 				timeout: 5000,
-				period: 1000 * 5,
-				alwaysRunning: true,
+				period: 1000 * 60, // 1 min
+        // period: 1000 * 60 * 5, // 5 min
+				alwaysRunning: true, // TODO: remove waiting solve lib issue
 			})
 		} else {
 			console.log("reload app")
