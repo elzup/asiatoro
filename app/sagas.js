@@ -44,7 +44,7 @@ function* fetchFollowAccessPoints() {
 		return new AccessPointRecord({...ap, checkins})
 	})
 	yield put(setFollowAccessPoints(followAccessPoints))
-	yield postCheckin()
+	yield fork(postCheckin)
 }
 
 function* loadUser() {

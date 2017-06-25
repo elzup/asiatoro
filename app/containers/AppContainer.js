@@ -51,7 +51,7 @@ class AppContainer extends Component {
 				jobKey: "checkinJob",
 				timeout: 5000,
 				period: 1000 * 5,
-				alwaysRunning: true,
+        // alwaysRunning: true,
 			})
 		} else {
 			console.log("reload app")
