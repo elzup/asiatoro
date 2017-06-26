@@ -13,8 +13,7 @@ import {
 	CardItem,
 	Icon,
 	Container,
-	Header,
-	Title,
+	Fab,
 } from "native-base"
 
 export default class FollowAccessPointList extends React.Component {
@@ -132,6 +131,17 @@ export default class FollowAccessPointList extends React.Component {
 					{this.renderNavigateTexts()}
 					{this.renderCards()}
 				</Content>
+				<Fab
+					direction="up"
+					containerStyle={{}}
+					style={{ backgroundColor: "#5067FF" }}
+					position="bottomRight"
+					onPress={() => {
+						this.setState({ active: !this.state.active })
+					}}
+				>
+					<Icon name="sync" />
+				</Fab>
 			</Container>
 		)
 	}
