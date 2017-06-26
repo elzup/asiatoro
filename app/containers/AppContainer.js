@@ -2,12 +2,13 @@
 
 import React, { Component } from "react"
 import { AppState, Platform } from "react-native"
-import { TabNavigator } from "react-navigation"
+import { StackNavigator, TabNavigator } from "react-navigation"
 import { connect } from "react-redux"
 import BackgroundJob from "react-native-background-job"
 
 import { NetworksScreen } from "./Networks"
 import { ProfileScreen } from "./Profile"
+import { LoginScreen } from "./Login"
 import { HomeScreen } from "./Home"
 import { loadAccessPoints, loadUser, postCheckin } from "../action"
 import { UserRecord } from "../types/index"
@@ -39,6 +40,15 @@ const Tabs = TabNavigator(
 		},
 	}
 )
+
+const RootStack = StackNavigator({
+	Home: {
+		screen: Tabs,
+	},
+	LoginNavigator: {
+		screen: LoginScreen,
+	},
+})
 
 class AppContainer extends Component {
 	props: {

@@ -21,7 +21,7 @@ type State = {
 	name: string
 }
 
-export class Profile extends React.Component {
+export class Login extends React.Component {
 	props: {
 		user: UserRecord,
 		error: string,
