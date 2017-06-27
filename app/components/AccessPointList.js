@@ -3,7 +3,7 @@
 import React from "react"
 // NOTE: why import not working in webstorm
 
-const {
+import {
 	Content,
 	Icon,
 	Button,
@@ -13,7 +13,7 @@ const {
 	Right,
 	Left,
 	Text,
-} = require("native-base")
+} from "native-base"
 import FAIcon from "react-native-vector-icons/FontAwesome"
 
 import { View } from "react-native"

@@ -1,21 +1,10 @@
 // @flow
 
 import React from "react"
-const {
-	Form,
-	Content,
-	Input,
-	Button,
-	Label,
-	Text,
-	Item,
-	Icon,
-} = require("native-base")
-import { View } from "react-native"
 import Spinner from "react-native-loading-spinner-overlay"
 
 import { UserRecord } from "../types"
-import { ErrorTypes } from "../constants"
+import { Content, Text } from "native-base"
 
 type State = {
 	name: string
@@ -48,7 +37,7 @@ export class Profile extends React.Component {
 	render() {
 		return (
 			<Content style={{ padding: 5 }}>
-				<Text>Registered: {user.name}</Text>
+				<Text>Registered: {this.props.user.name}</Text>
 				<Spinner
 					visible={this.props.loadingUser}
 					textContent={"Loading..."}

@@ -6,16 +6,16 @@ import Spinner from "react-native-loading-spinner-overlay"
 
 import { UserRecord } from "../types"
 import { ErrorTypes } from "../constants"
-const {
-	Form,
-	Content,
-	Input,
+import {
 	Button,
+	Content,
+	Form,
+	Icon,
+	Input,
+	Item,
 	Label,
 	Text,
-	Item,
-	Icon,
-} = require("native-base")
+} from "native-base"
 
 type State = {
 	name: string
