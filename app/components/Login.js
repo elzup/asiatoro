@@ -62,6 +62,7 @@ export class Login extends React.Component {
 		return (
 			<View>
 				<Form>
+					<Text>ユーザ登録</Text>
 					<Item style={{ marginBottom: 10 }} error={duplicateNameError}>
 						<Label>ユーザ名</Label>
 						<Input
