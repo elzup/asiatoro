@@ -2,8 +2,8 @@
 
 export const IconType = {
 	face: {
-		good: "thermometer-full",
-		normal: "thermometer-half",
-		bad: "thermometer-empty",
+		good: "progress-full",
+		normal: "progress-two",
+		bad: "progress-one",
 	},
 }

@@ -12,6 +12,7 @@ function mapStateToProps(state) {
 		),
 		user: state.user,
 		loadingCheckins: state.loadingCheckins,
+		loadingUser: state.loadingUser,
 	}
 }
 

@@ -1,11 +1,20 @@
 // @flow
 
 import React from "react"
-import { View, RefreshControl } from "react-native"
 import { AccessPointRecord, CheckinRecord, UserRecord } from "../types"
 import FAIcon from "react-native-vector-icons/FontAwesome"
-
-const { Content, Text, Card, CardItem, Icon } = require("native-base")
+import {
+	Body,
+	Card,
+	CardItem,
+	Container,
+	Content,
+	Fab,
+	Icon,
+	Spinner,
+	Text,
+	View,
+} from "native-base"
 
 export default class FollowAccessPointList extends React.Component {
 	props: {
@@ -14,8 +23,6 @@ export default class FollowAccessPointList extends React.Component {
 		followAccessPoints: Array<AccessPointRecord>,
 		user: UserRecord
 	}
-
-	componentDidMount() {}
 
 	renderCheckinCardItem(ci: CheckinRecord) {
 		return (
@@ -49,32 +56,28 @@ export default class FollowAccessPointList extends React.Component {
 					<Icon active name="wifi" />
 					<Text>{ap.ssid}</Text>
 				</CardItem>
-				<View
-					style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-				>
-					{_.sortBy(ap.checkins, (c: CheckinRecord) => -c.timestamp()).map(ci =>
-						this.renderCheckinCardItem(ci)
-					)}
-				</View>
+				<CardItem>
+					<Body>
+						<View
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								flexWrap: "wrap",
+							}}
+						>
+							{_.sortBy(
+								ap.checkins,
+								(c: CheckinRecord) => -c.timestamp()
+							).map(ci => this.renderCheckinCardItem(ci))}
+						</View>
+					</Body>
+				</CardItem>
 			</Card>
 		)
 	}
 
 	renderNavigateTexts() {
-		if (!this.props.user.isRegistered()) {
-			return (
-				<View style={{ margin: 10 }}>
-					<Text>
-						<FAIcon name="exclamation-circle" color="orange" size={20} />
-						Profile タブでユーザ登録しよう！
-					</Text>
-				</View>
-			)
-		}
-		if (
-			this.props.user.isRegistered() &&
-			this.props.followAccessPoints.length === 0
-		) {
+		if (this.props.followAccessPoints.length === 0) {
 			return (
 				<View style={{ margin: 10 }}>
 					<Text>
@@ -88,7 +91,7 @@ export default class FollowAccessPointList extends React.Component {
 
 	renderCards() {
 		return (
-			<View>
+			<View style={{ flex: 1, justifyContent: "center" }}>
 				{this.props.followAccessPoints.map(ap =>
 					this.renderAccessPointCard(ap)
 				)}
@@ -97,21 +100,27 @@ export default class FollowAccessPointList extends React.Component {
 	}
 
 	render() {
+		if (this.props.loadingCheckins) {
+			return <Spinner color="blue" />
+		}
 		return (
-			<Content
-				style={{ padding: 5 }}
-				refreshControl={
-					<RefreshControl
-						refreshing={this.props.loadingCheckins}
-						onRefresh={() => {
-							this.props.loadUser()
-						}}
-					/>
-				}
-			>
-				{this.renderNavigateTexts()}
-				{this.renderCards()}
-			</Content>
+			<Container>
+				<Content>
+					{this.renderNavigateTexts()}
+					{this.renderCards()}
+				</Content>
+				<Fab
+					direction="up"
+					containerStyle={{}}
+					style={{ backgroundColor: "#5067FF" }}
+					position="bottomRight"
+					onPress={() => {
+						this.props.loadUser()
+					}}
+				>
+					<Icon name="sync" />
+				</Fab>
+			</Container>
 		)
 	}
 }

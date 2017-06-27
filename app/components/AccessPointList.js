@@ -3,7 +3,7 @@
 import React from "react"
 // NOTE: why import not working in webstorm
 
-const {
+import {
 	Content,
 	Icon,
 	Button,
@@ -13,19 +13,22 @@ const {
 	Right,
 	Left,
 	Text,
-} = require("native-base")
+	Container,
+	Fab,
+} from "native-base"
 import FAIcon from "react-native-vector-icons/FontAwesome"
+import EnIcon from "react-native-vector-icons/Entypo"
 
 import { View } from "react-native"
-import OverlaySpinner from "react-native-loading-spinner-overlay"
 import { UserRecord, AccessPointRecord } from "../types"
 
 export default class AccessPointList extends React.Component {
 	props: {
 		accessPoints: Array<AccessPointRecord>,
 		postFollow: (ap: AccessPointRecord) => {},
-		loadingFollow: boolean,
+		loadingCheckins: boolean,
 		loadingAccessPoints: boolean,
+		loadAccessPoints: Function,
 		logout: Function,
 		user: UserRecord
 	}
@@ -33,17 +36,7 @@ export default class AccessPointList extends React.Component {
 	componentDidMount() {}
 
 	renderNavigateTexts() {
-		const { user, accessPoints, loadingAccessPoints } = this.props
-		if (!user.isRegistered()) {
-			return (
-				<View style={{ margin: 10 }}>
-					<Text>
-						<FAIcon name="exclamation-circle" color="orange" size={20} />Profile
-						タブでユーザ登録しよう！
-					</Text>
-				</View>
-			)
-		}
+		const { accessPoints } = this.props
 		if (!accessPoints || accessPoints.length === 0) {
 			return (
 				<View style={{ margin: 10 }}>
@@ -57,11 +50,7 @@ export default class AccessPointList extends React.Component {
 				</View>
 			)
 		}
-		return (
-			<View style={{ margin: 10 }}>
-				{loadingAccessPoints && <Spinner color="blue" />}
-			</View>
-		)
+		return null
 	}
 
 	renderAccessPointList() {
@@ -98,7 +87,7 @@ export default class AccessPointList extends React.Component {
 							this.props.postFollow(ap, !ap.follow)
 						}}
 					>
-						<FAIcon active name={ap.powerIconType()} size={20} color="black" />
+						<EnIcon active name={ap.powerIconType()} size={20} color="black" />
 						<Icon active={ap.follow} name="star" />
 					</Button>
 				</Right>
@@ -107,20 +96,32 @@ export default class AccessPointList extends React.Component {
 	}
 
 	render() {
+		const { loadAccessPoints } = this.props
+		if (this.props.loadingAccessPoints || this.props.loadingCheckins) {
+			return <Spinner color="blue" />
+		}
 		return (
-			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
-				{this.renderNavigateTexts()}
-				<View>
-					<List>
-						{this.renderAccessPointList()}
-					</List>
-				</View>
-				<OverlaySpinner
-					visible={this.props.loadingFollow}
-					textContent={"Loading..."}
-					textStyle={{ color: "#FFF" }}
-				/>
-			</Content>
+			<Container>
+				<Content contentContainerStyle={{ justifyContent: "space-between" }}>
+					{this.renderNavigateTexts()}
+					<View>
+						<List>
+							{this.renderAccessPointList()}
+						</List>
+					</View>
+				</Content>
+				<Fab
+					direction="up"
+					containerStyle={{}}
+					style={{ backgroundColor: "#5067FF" }}
+					position="bottomRight"
+					onPress={() => {
+						loadAccessPoints()
+					}}
+				>
+					<Icon name="sync" />
+				</Fab>
+			</Container>
 		)
 	}
 }

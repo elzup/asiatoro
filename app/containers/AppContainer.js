@@ -2,12 +2,13 @@
 
 import React, { Component } from "react"
 import { AppState, Platform } from "react-native"
-import { TabNavigator } from "react-navigation"
+import { StackNavigator, TabNavigator } from "react-navigation"
 import { connect } from "react-redux"
 import BackgroundJob from "react-native-background-job"
 
 import { NetworksScreen } from "./Networks"
 import { ProfileScreen } from "./Profile"
+import { LoginScreen } from "./Login"
 import { HomeScreen } from "./Home"
 import { loadAccessPoints, loadUser, postCheckin } from "../action"
 import { UserRecord } from "../types/index"
@@ -33,8 +34,25 @@ const Tabs = TabNavigator(
 	},
 	{
 		tabBarOptions: {
-			activeTintColor: Platform.OS === "ios" ? "#e91e63" : "#fff",
+			style: {
+				backgroundColor: "#0000BE",
+			},
 		},
+	}
+)
+
+const RootStack = StackNavigator(
+	{
+		Home: {
+			screen: Tabs,
+		},
+		LoginModal: {
+			screen: LoginScreen,
+			model: "modal",
+		},
+	},
+	{
+		headerMode: "none",
 	}
 )
 
@@ -97,7 +115,7 @@ class AppContainer extends Component {
 	}
 
 	render() {
-		return <Tabs />
+		return <RootStack />
 	}
 }
 

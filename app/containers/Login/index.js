@@ -2,7 +2,7 @@
 
 import { connect } from "react-redux"
 import { setUser, createUser, setError } from "../../action"
-import { Profile } from "../../components/Profile"
+import { Login } from "../../components/Login"
 
 function mapStateToProps(state) {
 	return {
@@ -20,6 +20,4 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export const ProfileScreen = connect(mapStateToProps, mapDispatchToProps)(
-	Profile
-)
+export const LoginScreen = connect(mapStateToProps, mapDispatchToProps)(Login)

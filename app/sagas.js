@@ -1,5 +1,6 @@
 // @flow
 
+import { delay } from "redux-saga"
 import {
 	call,
 	put,
@@ -19,7 +20,7 @@ import {
 	setAccessPoints,
 	setUser,
 	setError,
-	toggleFollow,
+	loadFollowAccessPoints,
 	updateUser,
 	setFollowAccessPoints,
 } from "./action"
@@ -27,13 +28,15 @@ import { getAccessPoints } from "./natives/NetworkUtil"
 import { UserRecord, AccessPointRecord } from "./types"
 
 function* fetchAccessPoint() {
-	const accessPoints = yield call(getAccessPoints)
+	const dummyDelay = 300 // ms
+	const accessPoints = yield call(getAccessPoints),
+		_ = yield call(delay, dummyDelay)
 	yield put(setAccessPoints(accessPoints))
 }
 
 function* fetchFollowAccessPoints() {
 	const res = yield call(ac.getFollowAccessPoint.bind(ac))
-	if (res.status === 404 || res.status === 401) {
+	if (res.status != 200) {
 		yield fork(logout)
 		return
 	}
@@ -58,7 +61,7 @@ function* loadUser() {
 	const user = new UserRecord({ id: parseInt(id), token, name })
 	yield put(setUser(user))
 	ac.setUser(user)
-	yield fork(fetchFollowAccessPoints)
+	yield put(loadFollowAccessPoints())
 }
 
 function* registerUser({ user }) {
@@ -68,7 +71,7 @@ function* registerUser({ user }) {
 	yield call(AsyncStorage.setItem, "user_name", user.name)
 	yield put(setUser(user))
 	yield call(ac.setUser.bind(ac), user)
-	yield fork(fetchFollowAccessPoints)
+	yield put(loadFollowAccessPoints())
 }
 
 function* createUser({ name }: { name: string }) {
@@ -101,8 +104,7 @@ function* postFollow({
 	} else {
 		yield call(ac.deleteFollow.bind(ac), { ap: accessPoint })
 	}
-	yield put(toggleFollow(accessPoint))
-	yield fork(fetchFollowAccessPoints)
+	yield put(loadFollowAccessPoints())
 }
 
 function* postCheckin() {

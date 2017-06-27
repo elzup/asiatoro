@@ -1,27 +1,15 @@
 // @flow
 
 import React from "react"
-const {
-	Form,
-	Content,
-	Input,
-	Button,
-	Label,
-	Text,
-	Item,
-	Icon,
-} = require("native-base")
-import { View } from "react-native"
-import Spinner from "react-native-loading-spinner-overlay"
 
 import { UserRecord } from "../types"
-import { ErrorTypes } from "../constants"
+import { Content, Text, Spinner } from "native-base"
 
 type State = {
 	name: string
 }
 
-export default class AccessPointList extends React.Component {
+export class Profile extends React.Component {
 	props: {
 		user: UserRecord,
 		error: string,
@@ -39,70 +27,19 @@ export default class AccessPointList extends React.Component {
 	componentWillReceiveProps(props) {
 		const { name } = props.user
 		this.setState({ name })
-	}
-
-	renderRegistered() {
-		const { user } = this.props
-		if (!user.isRegistered()) {
-			return null
+		if (!props.loadingUser && !props.user.isRegistered()) {
+			// no Login
+			this.props.navigation.navigate("LoginModal")
 		}
-		return <Text>Registered: {user.name}</Text>
-	}
-
-	renderRegisterForm() {
-		const { user } = this.props
-		if (user.isRegistered()) {
-			return null
-		}
-		const duplicateNameError =
-			this.props.error === ErrorTypes.USER_NAME_DUPLICATE
-		return (
-			<View>
-				<Form>
-					<Item style={{ marginBottom: 10 }} error={duplicateNameError}>
-						<Label>ユーザ名</Label>
-						<Input
-							error
-							placeholder="yourname"
-							placeholderTextColor="#ccc"
-							value={this.state.name}
-							onChangeText={name => {
-								this.setState({ name: name.toLowerCase() })
-								if (this.props.error === ErrorTypes.USER_NAME_DUPLICATE) {
-									this.props.setError(false)
-								}
-							}}
-						/>
-						<Icon name="close-circle" />
-					</Item>
-					<Text style={{ padding: 5 }}>
-						{duplicateNameError && "ユーザ名が使われています。"}
-					</Text>
-				</Form>
-				<Button
-					block
-					primary
-					disabled={this.state.name === ""}
-					onPress={() => {
-						this.props.createUser(this.state.name)
-					}}
-				>
-					<Text>確定</Text>
-				</Button>
-			</View>
-		)
 	}
 
 	render() {
+		if (this.props.loadingUser) {
+			return <Spinner color="blue" />
+		}
 		return (
 			<Content style={{ padding: 5 }}>
-				{this.renderRegistered()}
-				{this.renderRegisterForm()}
-				<Spinner
-					visible={this.props.loadingUser}
-					textContent={"Loading..."}
-					textStyle={{ color: "#FFF" }}
-				/>
+				<Text>Registered: {this.props.user.name}</Text>
 			</Content>
 		)
 	}
