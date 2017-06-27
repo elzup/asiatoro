@@ -33,17 +33,7 @@ export default class AccessPointList extends React.Component {
 	componentDidMount() {}
 
 	renderNavigateTexts() {
-		const { user, accessPoints, loadingAccessPoints } = this.props
-		if (!user.isRegistered()) {
-			return (
-				<View style={{ margin: 10 }}>
-					<Text>
-						<FAIcon name="exclamation-circle" color="orange" size={20} />Profile
-						タブでユーザ登録しよう！
-					</Text>
-				</View>
-			)
-		}
+		const { accessPoints, loadingAccessPoints } = this.props
 		if (!accessPoints || accessPoints.length === 0) {
 			return (
 				<View style={{ margin: 10 }}>

@@ -79,20 +79,7 @@ export default class FollowAccessPointList extends React.Component {
 	}
 
 	renderNavigateTexts() {
-		if (!this.props.user.isRegistered()) {
-			return (
-				<View style={{ margin: 10 }}>
-					<Text>
-						<FAIcon name="exclamation-circle" color="orange" size={20} />
-						Profile タブでユーザ登録しよう！
-					</Text>
-				</View>
-			)
-		}
-		if (
-			this.props.user.isRegistered() &&
-			this.props.followAccessPoints.length === 0
-		) {
+		if (this.props.followAccessPoints.length === 0) {
 			return (
 				<View style={{ margin: 10 }}>
 					<Text>
@@ -106,11 +93,11 @@ export default class FollowAccessPointList extends React.Component {
 
 	renderCards() {
 		return (
-			<Content>
+			<View style={{ flex: 1, justifyContent: "center" }}>
 				{this.props.followAccessPoints.map(ap =>
 					this.renderAccessPointCard(ap)
 				)}
-			</Content>
+			</View>
 		)
 	}
 
@@ -118,7 +105,6 @@ export default class FollowAccessPointList extends React.Component {
 		return (
 			<Container>
 				<Content
-					style={{ padding: 5 }}
 					refreshControl={
 						<RefreshControl
 							refreshing={this.props.loadingCheckins}
