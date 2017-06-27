@@ -17,6 +17,7 @@ import {
 	Fab,
 } from "native-base"
 import FAIcon from "react-native-vector-icons/FontAwesome"
+import EnIcon from "react-native-vector-icons/Entypo"
 
 import { View } from "react-native"
 import { UserRecord, AccessPointRecord } from "../types"
@@ -86,7 +87,7 @@ export default class AccessPointList extends React.Component {
 							this.props.postFollow(ap, !ap.follow)
 						}}
 					>
-						<FAIcon active name={ap.powerIconType()} size={20} color="black" />
+						<EnIcon active name={ap.powerIconType()} size={20} color="black" />
 						<Icon active={ap.follow} name="star" />
 					</Button>
 				</Right>
