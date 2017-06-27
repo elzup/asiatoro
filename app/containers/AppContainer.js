@@ -41,15 +41,20 @@ const Tabs = TabNavigator(
 	}
 )
 
-const RootStack = StackNavigator({
-	Home: {
-		screen: Tabs,
+const RootStack = StackNavigator(
+	{
+		Home: {
+			screen: Tabs,
+		},
+		LoginModal: {
+			screen: LoginScreen,
+			model: "modal",
+		},
 	},
-	LoginModal: {
-		screen: LoginScreen,
-		model: "modal",
-	},
-})
+	{
+		headerMode: "none",
+	}
+)
 
 class AppContainer extends Component {
 	props: {
