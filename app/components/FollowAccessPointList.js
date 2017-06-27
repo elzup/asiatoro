@@ -115,7 +115,7 @@ export default class FollowAccessPointList extends React.Component {
 					style={{ backgroundColor: "#5067FF" }}
 					position="bottomRight"
 					onPress={() => {
-						this.setState({ active: !this.state.active })
+						this.props.loadUser()
 					}}
 				>
 					<Icon name="sync" />
