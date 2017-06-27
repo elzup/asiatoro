@@ -1,7 +1,6 @@
 // @flow
 
 import React from "react"
-import { RefreshControl } from "react-native"
 import { AccessPointRecord, CheckinRecord, UserRecord } from "../types"
 import FAIcon from "react-native-vector-icons/FontAwesome"
 import {
@@ -14,6 +13,7 @@ import {
 	Icon,
 	Container,
 	Fab,
+	Spinner,
 } from "native-base"
 
 export default class FollowAccessPointList extends React.Component {
@@ -23,8 +23,6 @@ export default class FollowAccessPointList extends React.Component {
 		followAccessPoints: Array<AccessPointRecord>,
 		user: UserRecord
 	}
-
-	componentDidMount() {}
 
 	renderCheckinCardItem(ci: CheckinRecord) {
 		return (
@@ -102,18 +100,12 @@ export default class FollowAccessPointList extends React.Component {
 	}
 
 	render() {
+		if (this.props.loadingCheckins) {
+			return <Spinner color="blue" />
+		}
 		return (
 			<Container>
-				<Content
-					refreshControl={
-						<RefreshControl
-							refreshing={this.props.loadingCheckins}
-							onRefresh={() => {
-								this.props.loadUser()
-							}}
-						/>
-					}
-				>
+				<Content>
 					{this.renderNavigateTexts()}
 					{this.renderCards()}
 				</Content>

@@ -23,15 +23,15 @@ export class Profile extends React.Component {
 		name: "",
 	}
 
-	componentDidMount() {
-		if (!this.props.user.isRegistered()) {
-			this.props.navigation.navigate("LoginModal")
-		}
-	}
+	componentDidMount() {}
 
 	componentWillReceiveProps(props) {
 		const { name } = props.user
 		this.setState({ name })
+		if (!this.props.loadingUser && !this.props.user.isRegistered()) {
+			// no Login
+			this.props.navigation.navigate("LoginModal")
+		}
 	}
 
 	render() {

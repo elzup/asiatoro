@@ -12,8 +12,8 @@ const initialState = {
 	userRegisterError: false,
 	loadingFollow: false,
 	loadingAccessPoints: false,
-	loadingUser: false,
-	loadingCheckins: false,
+	loadingUser: true,
+	loadingCheckins: true,
 }
 
 export default function(state = initialState, action) {
