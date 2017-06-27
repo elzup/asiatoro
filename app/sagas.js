@@ -1,5 +1,6 @@
 // @flow
 
+import { delay } from "redux-saga"
 import {
 	call,
 	put,
@@ -27,7 +28,9 @@ import { getAccessPoints } from "./natives/NetworkUtil"
 import { UserRecord, AccessPointRecord } from "./types"
 
 function* fetchAccessPoint() {
-	const accessPoints = yield call(getAccessPoints)
+	const dummyDelay = 300 // ms
+	const accessPoints = yield call(getAccessPoints),
+		_ = yield call(delay, dummyDelay)
 	yield put(setAccessPoints(accessPoints))
 }
 

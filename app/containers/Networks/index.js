@@ -2,7 +2,7 @@
 
 import { connect } from "react-redux"
 import AccessPointList from "../../components/AccessPointList"
-import { postFollow, logout } from "../../action"
+import { postFollow, logout, loadAccessPoints } from "../../action"
 import { AccessPointRecord } from "../../types"
 
 function mapStateToProps(state) {
@@ -21,6 +21,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		postFollow: (ap, follow) => dispatch(postFollow(ap, follow)),
 		logout: () => dispatch(logout()),
+		loadAccessPoints: () => dispatch(loadAccessPoints()),
 	}
 }
 

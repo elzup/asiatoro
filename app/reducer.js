@@ -10,7 +10,7 @@ const initialState = {
 	followAccessPoints: [],
 	user: new UserRecord(),
 	userRegisterError: false,
-	loadingAccessPoints: false,
+	loadingAccessPoints: true,
 	loadingUser: true,
 	loadingCheckins: true,
 }

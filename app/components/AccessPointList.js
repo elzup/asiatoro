@@ -13,6 +13,8 @@ import {
 	Right,
 	Left,
 	Text,
+	Container,
+	Fab,
 } from "native-base"
 import FAIcon from "react-native-vector-icons/FontAwesome"
 
@@ -25,6 +27,7 @@ export default class AccessPointList extends React.Component {
 		postFollow: (ap: AccessPointRecord) => {},
 		loadingCheckins: boolean,
 		loadingAccessPoints: boolean,
+		loadAccessPoints: Function,
 		logout: Function,
 		user: UserRecord
 	}
@@ -92,18 +95,32 @@ export default class AccessPointList extends React.Component {
 	}
 
 	render() {
+		const { loadAccessPoints } = this.props
 		if (this.props.loadingAccessPoints || this.props.loadingCheckins) {
 			return <Spinner color="blue" />
 		}
 		return (
-			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
-				{this.renderNavigateTexts()}
-				<View>
-					<List>
-						{this.renderAccessPointList()}
-					</List>
-				</View>
-			</Content>
+			<Container>
+				<Content contentContainerStyle={{ justifyContent: "space-between" }}>
+					{this.renderNavigateTexts()}
+					<View>
+						<List>
+							{this.renderAccessPointList()}
+						</List>
+					</View>
+				</Content>
+				<Fab
+					direction="up"
+					containerStyle={{}}
+					style={{ backgroundColor: "#5067FF" }}
+					position="bottomRight"
+					onPress={() => {
+						loadAccessPoints()
+					}}
+				>
+					<Icon name="sync" />
+				</Fab>
+			</Container>
 		)
 	}
 }
