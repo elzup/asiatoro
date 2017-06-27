@@ -45,8 +45,9 @@ const RootStack = StackNavigator({
 	Home: {
 		screen: Tabs,
 	},
-	LoginNavigator: {
+	LoginModal: {
 		screen: LoginScreen,
+		model: "modal",
 	},
 })
 
@@ -109,7 +110,7 @@ class AppContainer extends Component {
 	}
 
 	render() {
-		return <Tabs />
+		return <RootStack />
 	}
 }
 

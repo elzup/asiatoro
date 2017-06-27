@@ -11,7 +11,7 @@ const {
 	Item,
 	Icon,
 } = require("native-base")
-import { View } from "react-native"
+import { View, BackHandler } from "react-native"
 import Spinner from "react-native-loading-spinner-overlay"
 
 import { UserRecord } from "../types"
@@ -34,11 +34,23 @@ export class Login extends React.Component {
 		name: "",
 	}
 
-	componentDidMount() {}
+	static navigationOptions = {
+		title: "ユーザー登録",
+		headerLeft: null,
+	}
+
+	handleBackPress = () => {
+		console.log("back press")
+	}
+
+	componentDidMount() {
+		BackHandler.addEventListener("hardwareBackPress", this.handleBackPress)
+	}
 
 	componentWillReceiveProps(props) {
 		const { name } = props.user
 		this.setState({ name })
+		BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress)
 	}
 
 	renderRegistered() {

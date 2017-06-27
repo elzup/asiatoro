@@ -34,7 +34,12 @@ export class Profile extends React.Component {
 		name: "",
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		this.props.navigation.navigate("LoginModal")
+		if (!this.props.user.isRegistered()) {
+			this.props.navigation.navigate("LoginModal")
+		}
+	}
 
 	componentWillReceiveProps(props) {
 		const { name } = props.user
