@@ -1,6 +1,11 @@
 // @flow
 
 import React from "react"
+import { BackHandler, View } from "react-native"
+import Spinner from "react-native-loading-spinner-overlay"
+
+import { UserRecord } from "../types"
+import { ErrorTypes } from "../constants"
 const {
 	Form,
 	Content,
@@ -11,11 +16,6 @@ const {
 	Item,
 	Icon,
 } = require("native-base")
-import { View, BackHandler } from "react-native"
-import Spinner from "react-native-loading-spinner-overlay"
-
-import { UserRecord } from "../types"
-import { ErrorTypes } from "../constants"
 
 type State = {
 	name: string
@@ -49,23 +49,14 @@ export class Login extends React.Component {
 
 	componentWillReceiveProps(props) {
 		const { name } = props.user
+		if (props.user.isRegistered()) {
+			this.props.navigation.goBack()
+		}
 		this.setState({ name })
 		BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress)
 	}
 
-	renderRegistered() {
-		const { user } = this.props
-		if (!user.isRegistered()) {
-			return null
-		}
-		return <Text>Registered: {user.name}</Text>
-	}
-
 	renderRegisterForm() {
-		const { user } = this.props
-		if (user.isRegistered()) {
-			return null
-		}
 		const duplicateNameError =
 			this.props.error === ErrorTypes.USER_NAME_DUPLICATE
 		return (
@@ -108,7 +99,6 @@ export class Login extends React.Component {
 	render() {
 		return (
 			<Content style={{ padding: 5 }}>
-				{this.renderRegistered()}
 				{this.renderRegisterForm()}
 				<Spinner
 					visible={this.props.loadingUser}
