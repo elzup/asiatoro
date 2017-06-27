@@ -1,10 +1,9 @@
 // @flow
 
 import React from "react"
-import Spinner from "react-native-loading-spinner-overlay"
 
 import { UserRecord } from "../types"
-import { Content, Text } from "native-base"
+import { Content, Text, Spinner } from "native-base"
 
 type State = {
 	name: string
@@ -35,14 +34,12 @@ export class Profile extends React.Component {
 	}
 
 	render() {
+		if (this.props.loadingUser) {
+			return <Spinner color="blue" />
+		}
 		return (
 			<Content style={{ padding: 5 }}>
 				<Text>Registered: {this.props.user.name}</Text>
-				<Spinner
-					visible={this.props.loadingUser}
-					textContent={"Loading..."}
-					textStyle={{ color: "#FFF" }}
-				/>
 			</Content>
 		)
 	}

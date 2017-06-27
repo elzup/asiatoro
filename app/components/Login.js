@@ -2,7 +2,6 @@
 
 import React from "react"
 import { BackHandler, View } from "react-native"
-import Spinner from "react-native-loading-spinner-overlay"
 
 import { UserRecord } from "../types"
 import { ErrorTypes } from "../constants"
@@ -14,6 +13,7 @@ import {
 	Input,
 	Item,
 	Label,
+	Spinner,
 	Text,
 } from "native-base"
 
@@ -97,14 +97,12 @@ export class Login extends React.Component {
 	}
 
 	render() {
+		if (this.props.loadingUser) {
+			return <Spinner color="blue" />
+		}
 		return (
 			<Content style={{ padding: 5 }}>
 				{this.renderRegisterForm()}
-				<Spinner
-					visible={this.props.loadingUser}
-					textContent={"Loading..."}
-					textStyle={{ color: "#FFF" }}
-				/>
 			</Content>
 		)
 	}

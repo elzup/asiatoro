@@ -17,7 +17,6 @@ import {
 import FAIcon from "react-native-vector-icons/FontAwesome"
 
 import { View } from "react-native"
-import OverlaySpinner from "react-native-loading-spinner-overlay"
 import { UserRecord, AccessPointRecord } from "../types"
 
 export default class AccessPointList extends React.Component {
@@ -33,7 +32,7 @@ export default class AccessPointList extends React.Component {
 	componentDidMount() {}
 
 	renderNavigateTexts() {
-		const { accessPoints, loadingAccessPoints } = this.props
+		const { accessPoints } = this.props
 		if (!accessPoints || accessPoints.length === 0) {
 			return (
 				<View style={{ margin: 10 }}>
@@ -47,11 +46,7 @@ export default class AccessPointList extends React.Component {
 				</View>
 			)
 		}
-		return (
-			<View style={{ margin: 10 }}>
-				{loadingAccessPoints && <Spinner color="blue" />}
-			</View>
-		)
+		return null
 	}
 
 	renderAccessPointList() {
@@ -97,6 +92,9 @@ export default class AccessPointList extends React.Component {
 	}
 
 	render() {
+		if (this.props.loadingAccessPoints || this.props.loadingFollow) {
+			return <Spinner color="blue" />
+		}
 		return (
 			<Content contentContainerStyle={{ justifyContent: "space-between" }}>
 				{this.renderNavigateTexts()}
@@ -105,11 +103,6 @@ export default class AccessPointList extends React.Component {
 						{this.renderAccessPointList()}
 					</List>
 				</View>
-				<OverlaySpinner
-					visible={this.props.loadingFollow}
-					textContent={"Loading..."}
-					textStyle={{ color: "#FFF" }}
-				/>
 			</Content>
 		)
 	}
