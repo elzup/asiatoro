@@ -36,7 +36,7 @@ function* fetchAccessPoint() {
 
 function* fetchFollowAccessPoints() {
 	const res = yield call(ac.getFollowAccessPoint.bind(ac))
-	if (res.status === 404 || res.status === 401) {
+	if (res.status != 200) {
 		yield fork(logout)
 		return
 	}

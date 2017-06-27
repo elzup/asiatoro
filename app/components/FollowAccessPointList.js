@@ -5,15 +5,15 @@ import { AccessPointRecord, CheckinRecord, UserRecord } from "../types"
 import FAIcon from "react-native-vector-icons/FontAwesome"
 import {
 	Body,
-	View,
-	Content,
-	Text,
 	Card,
 	CardItem,
-	Icon,
 	Container,
+	Content,
 	Fab,
+	Icon,
 	Spinner,
+	Text,
+	View,
 } from "native-base"
 
 export default class FollowAccessPointList extends React.Component {
