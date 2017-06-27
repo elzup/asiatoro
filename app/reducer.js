@@ -10,7 +10,6 @@ const initialState = {
 	followAccessPoints: [],
 	user: new UserRecord(),
 	userRegisterError: false,
-	loadingFollow: false,
 	loadingAccessPoints: false,
 	loadingUser: true,
 	loadingCheckins: true,
@@ -45,23 +44,7 @@ export default function(state = initialState, action) {
 		case ActionTypes.POST_FOLLOW:
 			return {
 				...state,
-				loadingFollow: true,
-			}
-		case ActionTypes.TOGGLE_FOLLOW:
-			const { accessPoint } = action
-			const aps2 = state.accessPoints.map(ap => {
-				if (ap === accessPoint) {
-					return {
-						...accessPoint,
-						follow: !accessPoint.follow,
-					}
-				}
-				return ap
-			})
-			return {
-				...state,
-				loadingFollow: false,
-				accessPoints: aps2,
+				loadingCheckins: true,
 			}
 		case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS:
 			return { ...state, followAccessPoints: [], loadingCheckins: true }

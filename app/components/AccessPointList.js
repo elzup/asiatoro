@@ -23,7 +23,7 @@ export default class AccessPointList extends React.Component {
 	props: {
 		accessPoints: Array<AccessPointRecord>,
 		postFollow: (ap: AccessPointRecord) => {},
-		loadingFollow: boolean,
+		loadingCheckins: boolean,
 		loadingAccessPoints: boolean,
 		logout: Function,
 		user: UserRecord
@@ -92,7 +92,7 @@ export default class AccessPointList extends React.Component {
 	}
 
 	render() {
-		if (this.props.loadingAccessPoints || this.props.loadingFollow) {
+		if (this.props.loadingAccessPoints || this.props.loadingCheckins) {
 			return <Spinner color="blue" />
 		}
 		return (

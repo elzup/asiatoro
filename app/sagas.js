@@ -19,7 +19,7 @@ import {
 	setAccessPoints,
 	setUser,
 	setError,
-	toggleFollow,
+	loadFollowAccessPoints,
 	updateUser,
 	setFollowAccessPoints,
 } from "./action"
@@ -58,7 +58,7 @@ function* loadUser() {
 	const user = new UserRecord({ id: parseInt(id), token, name })
 	yield put(setUser(user))
 	ac.setUser(user)
-	yield fork(fetchFollowAccessPoints)
+	yield put(loadFollowAccessPoints())
 }
 
 function* registerUser({ user }) {
@@ -68,7 +68,7 @@ function* registerUser({ user }) {
 	yield call(AsyncStorage.setItem, "user_name", user.name)
 	yield put(setUser(user))
 	yield call(ac.setUser.bind(ac), user)
-	yield fork(fetchFollowAccessPoints)
+	yield put(loadFollowAccessPoints())
 }
 
 function* createUser({ name }: { name: string }) {
@@ -101,8 +101,7 @@ function* postFollow({
 	} else {
 		yield call(ac.deleteFollow.bind(ac), { ap: accessPoint })
 	}
-	yield put(toggleFollow(accessPoint))
-	yield fork(fetchFollowAccessPoints)
+	yield put(loadFollowAccessPoints())
 }
 
 function* postCheckin() {

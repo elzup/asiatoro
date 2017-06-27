@@ -11,8 +11,8 @@ function mapStateToProps(state) {
 			ap => new AccessPointRecord(ap)
 		),
 		accessPoints: state.accessPoints.map(ap => new AccessPointRecord(ap)),
-		loadingFollow: state.loadingFollow,
 		loadingAccessPoints: state.loadingAccessPoints,
+		loadingCheckins: state.loadingCheckins,
 		user: state.user,
 	}
 }
