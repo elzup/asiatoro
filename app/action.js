@@ -63,6 +63,13 @@ export function createUser(name: string) {
 	}
 }
 
+export function renameUser(name: string) {
+	return {
+		type: ActionTypes.RENAME_USER,
+		name,
+	}
+}
+
 export function setError(error: string | false) {
 	return {
 		type: ActionTypes.SET_ERROR,

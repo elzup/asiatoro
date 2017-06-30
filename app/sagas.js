@@ -92,6 +92,24 @@ function* createUser({ name }: { name: string }) {
 	yield put(updateUser(user))
 }
 
+function* renameUser({ name }: { name: string }) {
+	const pass = randomString(10)
+	const res = yield call(ac.postUser.bind(ac), { name, pass })
+	if (res.status === 400) {
+		yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
+		return
+	}
+	if (res.problem === "TIMEOUT_ERROR") {
+		yield put(setError(ErrorTypes.REQUEST_TIMEOUT))
+		return
+	}
+	const id = res.data.id
+	const token = res.data.token
+
+	const user = new UserRecord({ name, pass, id, token })
+	yield put(updateUser(user))
+}
+
 function* postFollow({
 	accessPoint,
 	follow,
@@ -142,6 +160,7 @@ function* sagas() {
 		fetchFollowAccessPoints
 	)
 	yield takeLatest(ActionTypes.CREATE_USER, createUser)
+	yield takeLatest(ActionTypes.RENAME_USER, renameUser)
 	yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
 	yield takeEvery(ActionTypes.POST_CHECKIN, postCheckin)
 	yield takeLatest(ActionTypes.USER_LOGOUT, logout)
