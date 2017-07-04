@@ -5904,9 +5904,9 @@ react-modal@^1.7.6:
     prop-types "^15.5.7"
     react-dom-factories "^1.0.0"
 
-react-native-background-job@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/react-native-background-job/-/react-native-background-job-1.2.3.tgz#20fa7e9c88947519de95df4d7b7e368c0bc55941"
+react-native-background-job@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-background-job/-/react-native-background-job-1.2.0.tgz#ab3c6784f4b0b4337137b687ac27d755071f323c"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"

@@ -36,6 +36,14 @@ class AsiatoroClient {
 		return res
 	}
 
+	async putRenameUser({ name, pass }: { name: string }) {
+		const res = await this.api.put("/v1/users", {
+			name,
+		})
+		console.log("res", res)
+		return res
+	}
+
 	async postFollow({ ap }: { ap: AccessPointRecord }) {
 		const res = await this.api.post("/v1/follows", {
 			ssid: ap.ssid,

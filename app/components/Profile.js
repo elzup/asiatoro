@@ -2,7 +2,7 @@
 
 import React from "react"
 
-import { UserRecord } from "../types"
+import type { UserRecord } from "../types"
 import {
 	Content,
 	Text,
@@ -25,9 +25,8 @@ type Props = {
 	user: UserRecord,
 	error: string,
 	loadingUser: boolean,
-	setUser: (user: UserRecord) => void,
-	setError: (error: string) => void,
-	createUser: (name: string) => void,
+	renameUser: (name: string) => void,
+	setError: (error: string | false) => void,
 	navigation: NavigationScreenProp
 }
 
@@ -57,10 +56,10 @@ export class Profile extends React.Component {
 		return (
 			<Content style={{ padding: 5 }}>
 				<Text>
-					Registered: {this.props.user.name}
+					ユーザ: {this.props.user.name}
 				</Text>
 				<Form>
-					<Text>ユーザ登録</Text>
+					<Text>名前変更</Text>
 					<Item style={{ marginBottom: 10 }} error={duplicateNameError}>
 						<Label>ユーザ名</Label>
 						<Input
@@ -86,7 +85,7 @@ export class Profile extends React.Component {
 					primary
 					disabled={this.state.name === ""}
 					onPress={() => {
-						this.props.createUser(this.state.name)
+						this.props.renameUser(this.state.name)
 					}}
 				>
 					<Text>確定</Text>

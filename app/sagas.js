@@ -93,8 +93,7 @@ function* createUser({ name }: { name: string }) {
 }
 
 function* renameUser({ name }: { name: string }) {
-	const pass = randomString(10)
-	const res = yield call(ac.postUser.bind(ac), { name, pass })
+	const res = yield call(ac.putRenameUser.bind(ac), { name })
 	if (res.status === 400) {
 		yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
 		return
@@ -103,11 +102,10 @@ function* renameUser({ name }: { name: string }) {
 		yield put(setError(ErrorTypes.REQUEST_TIMEOUT))
 		return
 	}
-	const id = res.data.id
-	const token = res.data.token
-
-	const user = new UserRecord({ name, pass, id, token })
-	yield put(updateUser(user))
+	const user = new UserRecord(yield select(state => state.user))
+	user.name = name
+	yield call(AsyncStorage.setItem, "user_name", user.name)
+	yield put(setUser(user))
 }
 
 function* postFollow({
