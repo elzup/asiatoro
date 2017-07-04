@@ -3,7 +3,7 @@
 import React from "react"
 
 import { UserRecord } from "../types"
-import { Content, Text, Spinner, Button, Input } from "native-base"
+import { Content, Text, Spinner, Button, Input, Form } from "native-base"
 import { ErrorTypes } from "../constants"
 import type { NavigationScreenProp } from "react-navigation/src/TypeDefinition"
 
@@ -42,9 +42,13 @@ export class Profile extends React.Component {
 		if (this.props.loadingUser) {
 			return <Spinner color="blue" />
 		}
+		const duplicateNameError =
+			this.props.error === ErrorTypes.USER_NAME_DUPLICATE
 		return (
 			<Content style={{ padding: 5 }}>
-				<Text>Registered: {this.props.user.name}</Text>
+				<Text>
+					Registered: {this.props.user.name}
+				</Text>
 				<Form>
 					<Text>ユーザ登録</Text>
 					<Item style={{ marginBottom: 10 }} error={duplicateNameError}>
