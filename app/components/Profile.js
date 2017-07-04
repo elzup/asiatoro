@@ -3,7 +3,17 @@
 import React from "react"
 
 import { UserRecord } from "../types"
-import { Content, Text, Spinner, Button, Input, Form } from "native-base"
+import {
+	Content,
+	Text,
+	Spinner,
+	Button,
+	Input,
+	Form,
+	Item,
+	Label,
+	Icon,
+} from "native-base"
 import { ErrorTypes } from "../constants"
 import type { NavigationScreenProp } from "react-navigation/src/TypeDefinition"
 
