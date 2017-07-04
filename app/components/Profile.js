@@ -74,7 +74,10 @@ export class Profile extends React.Component {
 								}
 							}}
 						/>
-						<Icon name="close-circle" />
+						<Icon
+							name="close-circle"
+							onPress={() => this.setState({ name: "" })}
+						/>
 					</Item>
 					<Text style={{ padding: 5 }}>
 						{duplicateNameError && "ユーザ名が使われています。"}
