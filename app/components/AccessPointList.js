@@ -33,7 +33,9 @@ export default class AccessPointList extends React.Component {
 		user: UserRecord
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		// this.props.logout();
+	}
 
 	renderNavigateTexts() {
 		const { accessPoints } = this.props

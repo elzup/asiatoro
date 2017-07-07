@@ -17,9 +17,7 @@ import {
 	Text,
 } from "native-base"
 
-type State = {
-	name: string
-}
+type State = {}
 
 export class Login extends React.Component {
 	props: {

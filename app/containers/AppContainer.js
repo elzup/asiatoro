@@ -48,7 +48,6 @@ const RootStack = StackNavigator(
 		},
 		LoginModal: {
 			screen: LoginScreen,
-			model: "modal",
 		},
 	},
 	{
