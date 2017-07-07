@@ -12,18 +12,18 @@ import sagas from "./sagas"
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
-	reducer,
-	composeWithDevTools(applyMiddleware(sagaMiddleware))
+  reducer,
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 
 sagaMiddleware.run(sagas)
 
 export default class Index extends Component {
-	render() {
-		return (
-			<Provider store={store}>
-				<AppContainer />
-			</Provider>
-		)
-	}
+  render() {
+    return (
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    )
+  }
 }
