@@ -90,10 +90,10 @@ class AppContainer extends Component {
       console.log("scheduled")
       BackgroundJob.schedule({
         jobKey: "checkinJob",
-        timeout: 5000,
-        period: __DEV__ ? 1000 * 5 : 1000 * 60, // 5 sec if debug OR 1 min
+        timeout: 5000
+        // period: __DEV__ ? 1000 * 5 : 1000 * 60 // 5 sec if debug OR 1 min
         // period: 1000 * 60 * 5, // 5 min
-        alwaysRunning: true // TODO: remove waiting solve lib issue
+        // alwaysRunning: true // TODO: remove waiting solve lib issue
       })
     } else {
       console.log("reload app")
