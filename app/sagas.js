@@ -89,7 +89,6 @@ function* createUser({ name }: { name: string }) {
   const token = res.data.token
 
   const user = new UserRecord({ name, pass, id, token })
-  console.log(hoge)
   yield put(updateUser(user))
 }
 

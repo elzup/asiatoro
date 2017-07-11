@@ -68,6 +68,7 @@ class AppContainer extends Component {
   componentDidMount() {
     this.props.loadUser()
     this.props.loadAccessPoints()
+    BackgroundJob.cancelAll()
     BackgroundJob.register({
       jobKey: "checkinJob",
       job: this.checkinJob.bind(this),

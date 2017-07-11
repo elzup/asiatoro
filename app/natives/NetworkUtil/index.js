@@ -18,21 +18,4 @@ export function* getAccessPoints(): Array<AccessPointRecord> {
       new AccessPointRecord({ ssid: "dummy-3号館", power: -50, bssid: "bssid3" })
     ]
   }
-  if (Platform.OS === "ios") {
-    const res = yield ReadAccessPoint.getAccessPoints()
-    return JSON.parse(res).map(v => new AccessPointRecord(v))
-  } else {
-    const res = yield NativeUtilModuleAndroid.getAccessPoints()
-    if (res === null) {
-      return []
-    }
-    // 空文字 SSID を除去
-    return res
-      .split("##")
-      .map(v => {
-        const [ssid, bssid, power] = v.split("#")
-        return new AccessPointRecord({ ssid, bssid, power: parseInt(power) })
-      })
-      .filter(ap => ap.ssid)
-  }
 }
