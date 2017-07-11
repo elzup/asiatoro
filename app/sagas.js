@@ -55,7 +55,7 @@ function* loadUser() {
   const token = yield call(AsyncStorage.getItem, "user_token")
   const name = yield call(AsyncStorage.getItem, "user_name")
   if (id === null || token === null || id === "0" || token === "") {
-    yield put(setUser(new UserRecord()))
+    yield put(setUser(new UserRecord({})))
     return
   }
   const user = new UserRecord({ id: parseInt(id), token, name })
@@ -134,12 +134,7 @@ function* postCheckin() {
     followAccessPints.filter(ap => ssids.includes(ap.ssid))
   )
   console.log(shouldCheckins)
-  shouldCheckins.forEach(async ap => {
-    const res = await ac.postCheckin({ ap })
-    if (res.problem) {
-      return false
-    }
-  })
+  const res = yield call(ac.postCheckinBalk.bind(ac), { aps: shouldCheckins })
 }
 
 function* logout() {

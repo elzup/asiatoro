@@ -2,6 +2,7 @@
 
 import { create } from "apisauce"
 import { UserRecord, AccessPointRecord } from "../types"
+import _ from "lodash"
 
 // const host = __DEV__ ? "http://localhost:3000" : "https://asiatoro.herokuapp.com"
 const host = "https://asiatoro.herokuapp.com"
@@ -63,6 +64,14 @@ class AsiatoroClient {
   async postCheckin({ ap }: { ap: AccessPointRecord }) {
     const res = await this.api.post("/v1/checkins", {
       ssid: ap.ssid
+    })
+    console.log("res", res)
+    return res
+  }
+
+  async postCheckinBalk({ aps }: { aps: Array<AccessPointRecord> }) {
+    const res = await this.api.post("/v1/checkins/balk", {
+      ssids: _.map(aps, "ssid")
     })
     console.log("res", res)
     return res
