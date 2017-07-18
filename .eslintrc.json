@@ -1,12 +1,6 @@
 {
   "parser": "babel-eslint",
-  "plugins": [
-    "react-native",
-    "react",
-    "flowtype",
-    "jsx-a11y",
-    "import"
-  ],
+  "plugins": ["react-native", "react", "flowtype", "jsx-a11y", "import"],
   "globals": {
     "__DEV__": false,
     "alert": false,
@@ -15,28 +9,6 @@
     "console": false
   },
   "rules": {
-    "comma-dangle": [
-      2,
-      "always-multiline"
-    ],
-    "indent": [
-      "error",
-      "tab",
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "react/jsx-indent": [
-      2,
-      "tab"
-    ],
-    "react/jsx-indent-props": [
-      2,
-      "tab"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ]
+    "semi": ["error", "never"]
   }
 }

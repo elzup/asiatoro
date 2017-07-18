@@ -5904,9 +5904,9 @@ react-modal@^1.7.6:
     prop-types "^15.5.7"
     react-dom-factories "^1.0.0"
 
-react-native-background-job@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-background-job/-/react-native-background-job-1.2.0.tgz#ab3c6784f4b0b4337137b687ac27d755071f323c"
+react-native-background-job@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-background-job/-/react-native-background-job-1.2.4.tgz#ac07baee455225aaca038d4dff9a598e045a0bba"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
@@ -5947,6 +5947,14 @@ react-native-tab-view@^0.0.65:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.65.tgz#b685ea3081ff7c96486cd997361026c407302c59"
   dependencies:
     prop-types "^15.5.8"
+
+react-native-vector-icons@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.2.0.tgz#0594b68debdd758dce4c565bf02e2d64d7004d82"
+  dependencies:
+    lodash "^4.0.0"
+    prop-types "^15.5.8"
+    yargs "^6.3.0"
 
 react-native-vector-icons@~4.1.1:
   version "4.1.1"
