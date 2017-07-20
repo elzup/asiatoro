@@ -15,6 +15,7 @@ import {
   View
 } from "native-base"
 import _ from "lodash"
+import { TimelineChart } from "./TimlineChart"
 
 import { AccessPointRecord, CheckinRecord, UserRecord } from "../types"
 
@@ -72,10 +73,11 @@ export default class FollowAccessPointList extends React.Component {
               }}
             >
               {_.sortBy(
-                ap.checkins,
+                ap.last_checkins,
                 (c: CheckinRecord) => -c.timestamp()
               ).map(ci => this.renderCheckinCardItem(ci))}
             </View>
+            <TimelineChart checkins={ac.today_checkins} />
           </Body>
         </CardItem>
       </Card>

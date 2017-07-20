@@ -75,5 +75,6 @@ export class AccessPointRecord {
   bssid: string
   power: number
   follow: boolean
-  checkins: Array<CheckinRecord>
+  last_checkins: Array<CheckinRecord>
+  today_checkins: Array<CheckinRecord>
 }
