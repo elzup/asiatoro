@@ -14,10 +14,10 @@
     "apisauce": "^0.14.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "native-base": "2.1.4",
+    "native-base": "^2.1.5",
     "random-string": "^0.2.0",
     "react": "16.0.0-alpha.12",
-    "react-native": "^0.45.1",
+    "react-native": "^0.46.0",
     "react-native-background-job": "^1.2.4",
     "react-native-pathjs-charts": "^0.0.30",
     "react-native-vector-icons": "^4.2.0",
@@ -52,10 +52,6 @@
     "preset": "react-native"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier-eslint --write",
-      "eslint",
-      "git add"
-    ]
+    "*.js": ["prettier-eslint --write", "eslint", "git add"]
   }
 }

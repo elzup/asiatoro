@@ -72,12 +72,11 @@ export default class FollowAccessPointList extends React.Component {
                 flexWrap: "wrap"
               }}
             >
-              {_.sortBy(
-                ap.last_checkins,
-                (c: CheckinRecord) => -c.timestamp()
+              {_.sortBy(ap.last_checkins, (c: CheckinRecord) =>
+                c.timestamp()
               ).map(ci => this.renderCheckinCardItem(ci))}
             </View>
-            <TimelineChart checkins={ac.today_checkins} />
+            <TimelineChart checkins={ap.today_checkins} />
           </Body>
         </CardItem>
       </Card>
