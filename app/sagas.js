@@ -44,7 +44,7 @@ function* fetchFollowAccessPoints() {
     const last_checkins = ap.last_checkins.filter(v => !!v).map(ci => {
       return new CheckinRecord({ ...ci, user: new UserRecord(ci.user) })
     })
-    const today_checkins = ap.today_Checkins.filter(v => !!v).map(ci => {
+    const today_checkins = ap.today_checkins.filter(v => !!v).map(ci => {
       return new CheckinRecord({ ...ci, user: new UserRecord(ci.user) })
     })
     return new AccessPointRecord({ ...ap, last_checkins })
