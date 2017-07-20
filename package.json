@@ -52,6 +52,10 @@
     "preset": "react-native"
   },
   "lint-staged": {
-    "*.js": ["prettier-eslint --write", "eslint", "git add"]
+    "*.js": [
+      "prettier --no-semi --single-quote --trailing-comma es5 --write \"app/**/*.js\"",
+      "eslint",
+      "git add"
+    ]
   }
 }

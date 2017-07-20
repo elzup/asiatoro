@@ -1,7 +1,7 @@
 // @flow
 
-import React from "react"
-import FAIcon from "react-native-vector-icons/FontAwesome"
+import React from 'react'
+import FAIcon from 'react-native-vector-icons/FontAwesome'
 import {
   Body,
   Card,
@@ -12,19 +12,19 @@ import {
   Icon,
   Spinner,
   Text,
-  View
-} from "native-base"
-import _ from "lodash"
-import { TimelineChart } from "./TimlineChart"
+  View,
+} from 'native-base'
+import _ from 'lodash'
+import { TimelineChart } from './TimlineChart'
 
-import { AccessPointRecord, CheckinRecord, UserRecord } from "../types"
+import { AccessPointRecord, CheckinRecord, UserRecord } from '../types'
 
 export default class FollowAccessPointList extends React.Component {
   props: {
     loadUser: Function,
     loadingCheckins: boolean,
     followAccessPoints: Array<AccessPointRecord>,
-    user: UserRecord
+    user: UserRecord,
   }
 
   renderCheckinCardItem(ci: CheckinRecord) {
@@ -36,13 +36,13 @@ export default class FollowAccessPointList extends React.Component {
           borderRadius: 3,
           margin: 2,
           padding: 2,
-          alignItems: "center"
+          alignItems: 'center',
         }}
       >
         <Icon
           active
           name="person"
-          style={{ color: ci.justNow() ? "black" : "#ddd" }}
+          style={{ color: ci.justNow() ? 'black' : '#ddd' }}
         />
         <Text>
           {ci.user.name}
@@ -67,9 +67,9 @@ export default class FollowAccessPointList extends React.Component {
           <Body>
             <View
               style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap"
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
               }}
             >
               {_.sortBy(ap.last_checkins, (c: CheckinRecord) =>
@@ -98,7 +98,7 @@ export default class FollowAccessPointList extends React.Component {
 
   renderCards() {
     return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
         {this.props.followAccessPoints.map(ap =>
           this.renderAccessPointCard(ap)
         )}
@@ -119,7 +119,7 @@ export default class FollowAccessPointList extends React.Component {
         <Fab
           direction="up"
           containerStyle={{}}
-          style={{ backgroundColor: "#5067FF" }}
+          style={{ backgroundColor: '#5067FF' }}
           position="bottomRight"
           onPress={() => {
             this.props.loadUser()

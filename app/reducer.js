@@ -1,9 +1,9 @@
 // @flow
 
-import { ActionTypes } from "./constants"
-import { UserRecord, AccessPointRecord } from "./types"
-import _ from "lodash"
-import { sortWithUniq } from "./utils/index"
+import { ActionTypes } from './constants'
+import { UserRecord, AccessPointRecord } from './types'
+import _ from 'lodash'
+import { sortWithUniq } from './utils/index'
 
 type State = {
   accessPoints: Array<any>,
@@ -12,7 +12,7 @@ type State = {
   userRegisterError: boolean,
   loadingAccessPoints: boolean,
   loadingUser: boolean,
-  loadingCheckins: boolean
+  loadingCheckins: boolean,
 }
 
 const initialState: State = {
@@ -22,7 +22,7 @@ const initialState: State = {
   userRegisterError: false,
   loadingAccessPoints: true,
   loadingUser: true,
-  loadingCheckins: true
+  loadingCheckins: true,
 }
 
 export default function(state: State = initialState, action: any) {
@@ -37,7 +37,7 @@ export default function(state: State = initialState, action: any) {
       return {
         ...state,
         accessPoints: sortWithUniq(apfollowOpted),
-        loadingAccessPoints: false
+        loadingAccessPoints: false,
       }
     case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END:
       const fssids2 = action.followAccessPoints.map(v => v.ssid)
@@ -48,13 +48,13 @@ export default function(state: State = initialState, action: any) {
         ...state,
         loadingCheckins: false,
         followAccessPoints: action.followAccessPoints,
-        accessPoints: sortWithUniq(aps)
+        accessPoints: sortWithUniq(aps),
       }
 
     case ActionTypes.POST_FOLLOW:
       return {
         ...state,
-        loadingCheckins: true
+        loadingCheckins: true,
       }
     case ActionTypes.LOAD_FOLLOW_ACCESS_POINTS:
       return { ...state, followAccessPoints: [], loadingCheckins: true }
@@ -67,7 +67,7 @@ export default function(state: State = initialState, action: any) {
         ...state,
         userRegisterError: action.error,
         loadingUser: false,
-        loadingCheckins: false
+        loadingCheckins: false,
       }
     default:
   }

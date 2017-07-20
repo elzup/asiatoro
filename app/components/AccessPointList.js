@@ -1,6 +1,6 @@
 // @flow
 
-import React from "react"
+import React from 'react'
 
 import {
   Content,
@@ -14,12 +14,12 @@ import {
   Left,
   Text,
   Container,
-  Fab
-} from "native-base"
-import FAIcon from "react-native-vector-icons/FontAwesome"
-import EnIcon from "react-native-vector-icons/Entypo"
+  Fab,
+} from 'native-base'
+import FAIcon from 'react-native-vector-icons/FontAwesome'
+import EnIcon from 'react-native-vector-icons/Entypo'
 
-import { UserRecord, AccessPointRecord } from "../types"
+import { UserRecord, AccessPointRecord } from '../types'
 
 export default class AccessPointList extends React.Component {
   props: {
@@ -29,7 +29,7 @@ export default class AccessPointList extends React.Component {
     loadingAccessPoints: boolean,
     loadAccessPoints: Function,
     logout: Function,
-    user: UserRecord
+    user: UserRecord,
   }
 
   componentDidMount() {
@@ -66,7 +66,7 @@ export default class AccessPointList extends React.Component {
           <View>
             <Text
               style={{
-                overflow: "hidden"
+                overflow: 'hidden',
               }}
             >
               {ap.ssid}
@@ -79,9 +79,9 @@ export default class AccessPointList extends React.Component {
         <Right>
           <Button
             style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between"
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
             transparent
             onPress={() => {
@@ -103,7 +103,7 @@ export default class AccessPointList extends React.Component {
     }
     return (
       <Container>
-        <Content contentContainerStyle={{ justifyContent: "space-between" }}>
+        <Content contentContainerStyle={{ justifyContent: 'space-between' }}>
           {this.renderNavigateTexts()}
           <View>
             <List>
@@ -114,7 +114,7 @@ export default class AccessPointList extends React.Component {
         <Fab
           direction="up"
           containerStyle={{}}
-          style={{ backgroundColor: "#5067FF" }}
+          style={{ backgroundColor: '#5067FF' }}
           position="bottomRight"
           onPress={() => {
             loadAccessPoints()

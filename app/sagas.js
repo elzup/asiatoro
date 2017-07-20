@@ -1,31 +1,31 @@
 // @flow
 
-import { delay } from "redux-saga"
+import { delay } from 'redux-saga'
 import {
   call,
   put,
   fork,
   takeLatest,
   takeEvery,
-  select
-} from "redux-saga/effects"
-import { AsyncStorage } from "react-native"
-import { ac } from "./networks/Client"
-import { CheckinRecord } from "./types"
-import randomString from "random-string"
-import { uniqBySSID } from "./utils"
+  select,
+} from 'redux-saga/effects'
+import { AsyncStorage } from 'react-native'
+import { ac } from './networks/Client'
+import { CheckinRecord } from './types'
+import randomString from 'random-string'
+import { uniqBySSID } from './utils'
 
-import { ActionTypes, ErrorTypes } from "./constants"
+import { ActionTypes, ErrorTypes } from './constants'
 import {
   setAccessPoints,
   setUser,
   setError,
   loadFollowAccessPoints,
   updateUser,
-  setFollowAccessPoints
-} from "./action"
-import { getAccessPoints } from "./natives/NetworkUtil"
-import { UserRecord, AccessPointRecord } from "./types"
+  setFollowAccessPoints,
+} from './action'
+import { getAccessPoints } from './natives/NetworkUtil'
+import { UserRecord, AccessPointRecord } from './types'
 
 function* fetchAccessPoint() {
   const dummyDelay = 300 // ms
@@ -54,10 +54,10 @@ function* fetchFollowAccessPoints() {
 }
 
 function* loadUser() {
-  const id = yield call(AsyncStorage.getItem, "user_id")
-  const token = yield call(AsyncStorage.getItem, "user_token")
-  const name = yield call(AsyncStorage.getItem, "user_name")
-  if (id === null || token === null || id === "0" || token === "") {
+  const id = yield call(AsyncStorage.getItem, 'user_id')
+  const token = yield call(AsyncStorage.getItem, 'user_token')
+  const name = yield call(AsyncStorage.getItem, 'user_name')
+  if (id === null || token === null || id === '0' || token === '') {
     yield put(setUser(new UserRecord({})))
     return
   }
@@ -68,10 +68,10 @@ function* loadUser() {
 }
 
 function* registerUser({ user }) {
-  yield call(AsyncStorage.setItem, "user_id", user.id.toString())
-  yield call(AsyncStorage.setItem, "user_token", user.token)
-  yield call(AsyncStorage.setItem, "user_pass", user.pass)
-  yield call(AsyncStorage.setItem, "user_name", user.name)
+  yield call(AsyncStorage.setItem, 'user_id', user.id.toString())
+  yield call(AsyncStorage.setItem, 'user_token', user.token)
+  yield call(AsyncStorage.setItem, 'user_pass', user.pass)
+  yield call(AsyncStorage.setItem, 'user_name', user.name)
   yield put(setUser(user))
   yield call(ac.setUser.bind(ac), user)
   yield put(loadFollowAccessPoints())
@@ -84,7 +84,7 @@ function* createUser({ name }: { name: string }) {
     yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
     return
   }
-  if (res.problem === "TIMEOUT_ERROR") {
+  if (res.problem === 'TIMEOUT_ERROR') {
     yield put(setError(ErrorTypes.REQUEST_TIMEOUT))
     return
   }
@@ -101,22 +101,22 @@ function* renameUser({ name }: { name: string }) {
     yield put(setError(ErrorTypes.USER_NAME_DUPLICATE))
     return
   }
-  if (res.problem === "TIMEOUT_ERROR") {
+  if (res.problem === 'TIMEOUT_ERROR') {
     yield put(setError(ErrorTypes.REQUEST_TIMEOUT))
     return
   }
   const user = new UserRecord(yield select(state => state.user))
   user.name = name
-  yield call(AsyncStorage.setItem, "user_name", user.name)
+  yield call(AsyncStorage.setItem, 'user_name', user.name)
   yield put(setUser(user))
 }
 
 function* postFollow({
   accessPoint,
-  follow
+  follow,
 }: {
   accessPoint: AccessPointRecord,
-  follow: boolean
+  follow: boolean,
 }) {
   if (follow) {
     yield call(ac.postFollow.bind(ac), { ap: accessPoint })
@@ -127,7 +127,7 @@ function* postFollow({
 }
 
 function* postCheckin() {
-  console.log("postCheckin?")
+  console.log('postCheckin?')
   const followAccessPints = yield select(state => state.followAccessPoints)
   const accessPoints = yield call(getAccessPoints)
   const ssids = accessPoints.map(ap => ap.ssid)
@@ -140,10 +140,10 @@ function* postCheckin() {
 }
 
 function* logout() {
-  yield call(AsyncStorage.setItem, "user_id", "")
-  yield call(AsyncStorage.setItem, "user_token", "")
-  yield call(AsyncStorage.setItem, "user_pass", "")
-  yield call(AsyncStorage.setItem, "user_name", "")
+  yield call(AsyncStorage.setItem, 'user_id', '')
+  yield call(AsyncStorage.setItem, 'user_token', '')
+  yield call(AsyncStorage.setItem, 'user_pass', '')
+  yield call(AsyncStorage.setItem, 'user_name', '')
   yield fork(loadUser)
 }
 

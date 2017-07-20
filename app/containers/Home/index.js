@@ -1,11 +1,11 @@
 // @flow
 
-import { connect } from "react-redux"
-import type { Dispatch } from "redux"
+import { connect } from 'react-redux'
+import type { Dispatch } from 'redux'
 
-import FollowAccessPointList from "../../components/FollowAccessPointList"
-import { AccessPointRecord } from "../../types"
-import { loadUser } from "../../action"
+import FollowAccessPointList from '../../components/FollowAccessPointList'
+import { AccessPointRecord } from '../../types'
+import { loadUser } from '../../action'
 
 function mapStateToProps(state) {
   return {
@@ -14,13 +14,13 @@ function mapStateToProps(state) {
     ),
     user: state.user,
     loadingCheckins: state.loadingCheckins,
-    loadingUser: state.loadingUser
+    loadingUser: state.loadingUser,
   }
 }
 
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
-    loadUser: () => dispatch(loadUser())
+    loadUser: () => dispatch(loadUser()),
   }
 }
 
