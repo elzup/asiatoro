@@ -1,79 +1,79 @@
 // @flow
 
-import { ActionTypes } from "./constants"
-import { AccessPointRecord, UserRecord } from "./types"
+import { ActionTypes } from './constants'
+import { AccessPointRecord, UserRecord } from './types'
 
 export function loadAccessPoints() {
   return {
-    type: ActionTypes.LOAD_ACCESS_POINTS
+    type: ActionTypes.LOAD_ACCESS_POINTS,
   }
 }
 
 export function setAccessPoints(accessPoints: AccessPointRecord) {
   return {
     type: ActionTypes.SET_ACCESS_POINTS,
-    accessPoints
+    accessPoints,
   }
 }
 
 export function loadFollowAccessPoints() {
   return {
-    type: ActionTypes.LOAD_FOLLOW_ACCESS_POINTS
+    type: ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,
   }
 }
 
 export function setNetworkError(error: any) {
   return {
     type: ActionTypes.SET_NETWORK_ERROR,
-    error
+    error,
   }
 }
 
 export function setFollowAccessPoints(followAccessPoints: any) {
   return {
     type: ActionTypes.LOAD_FOLLOW_ACCESS_POINTS_END,
-    followAccessPoints
+    followAccessPoints,
   }
 }
 
 export function updateUser(user: UserRecord) {
   return {
     type: ActionTypes.UPDATE_USER,
-    user
+    user,
   }
 }
 
 export function setUser(user: UserRecord) {
   return {
     type: ActionTypes.SET_USER,
-    user
+    user,
   }
 }
 
 export function loadUser() {
   return {
-    type: ActionTypes.LOAD_USER
+    type: ActionTypes.LOAD_USER,
   }
 }
 
 export function createUser(name: string) {
   return {
     type: ActionTypes.CREATE_USER,
-    name
+    name,
   }
 }
 
 export function renameUser(name: string) {
   return {
     type: ActionTypes.RENAME_USER,
-    name
+    name,
   }
 }
 
 export function setError(error: string | false) {
   return {
     type: ActionTypes.SET_ERROR,
-    error
+    error,
   }
 }
 
@@ -81,26 +81,26 @@ export function postFollow(accessPoint: AccessPointRecord, follow: boolean) {
   return {
     type: ActionTypes.POST_FOLLOW,
     accessPoint,
-    follow
+    follow,
   }
 }
 
 export function toggleFollow(accessPoint: AccessPointRecord) {
   return {
     type: ActionTypes.TOGGLE_FOLLOW,
-    accessPoint
+    accessPoint,
   }
 }
 
 export function postCheckin() {
-  console.log("action postCheckin?")
+  console.log('action postCheckin?')
   return {
-    type: ActionTypes.POST_CHECKIN
+    type: ActionTypes.POST_CHECKIN,
   }
 }
 
 export function logout() {
   return {
-    type: ActionTypes.USER_LOGOUT
+    type: ActionTypes.USER_LOGOUT,
   }
 }

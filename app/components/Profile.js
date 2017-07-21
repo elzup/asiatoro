@@ -1,11 +1,11 @@
 // @flow
 
-import React from "react"
+import React from 'react'
 
-import { UserRecord } from "../types"
-import { Content, Text, Spinner } from "native-base"
+import { UserRecord } from '../types'
+import { Content, Text, Spinner } from 'native-base'
 
-import type { NavigationScreenProp } from "react-navigation/src/TypeDefinition"
+import type { NavigationScreenProp } from 'react-navigation/src/TypeDefinition'
 
 type Props = {
   user: UserRecord,
@@ -14,17 +14,17 @@ type Props = {
   setUser: (user: UserRecord) => {},
   setError: (error: string) => {},
   createUser: (name: string) => {},
-  navigation: NavigationScreenProp
+  navigation: NavigationScreenProp,
 }
 
 type State = {
-  name: string
+  name: string,
 }
 
 export class Profile extends React.Component {
   props: Props
   state: State = {
-    name: ""
+    name: '',
   }
 
   componentDidMount() {}
@@ -34,7 +34,7 @@ export class Profile extends React.Component {
     this.setState({ name })
     if (!props.loadingUser && !props.user.isRegistered()) {
       // no Login
-      this.props.navigation.navigate("LoginModal")
+      this.props.navigation.navigate('LoginModal')
     }
   }
 

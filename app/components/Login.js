@@ -1,12 +1,12 @@
 // @flow
 
-import React from "react"
-import { BackHandler, View } from "react-native"
+import React from 'react'
+import { BackHandler, View } from 'react-native'
 
-import { UserRecord } from "../types"
-import { ErrorTypes } from "../constants"
+import { UserRecord } from '../types'
+import { ErrorTypes } from '../constants'
 
-import type { NavigationScreenProp } from "react-navigation/src/TypeDefinition"
+import type { NavigationScreenProp } from 'react-navigation/src/TypeDefinition'
 
 import {
   Button,
@@ -17,8 +17,8 @@ import {
   Item,
   Label,
   Spinner,
-  Text
-} from "native-base"
+  Text,
+} from 'native-base'
 
 type Props = {
   user: UserRecord,
@@ -27,30 +27,30 @@ type Props = {
   setUser: (user: UserRecord) => {},
   setError: (error: string | boolean) => {},
   createUser: (name: string) => {},
-  navigation: NavigationScreenProp
+  navigation: NavigationScreenProp,
 }
 
 type State = {
-  name: string
+  name: string,
 }
 
 export class Login extends React.Component {
   props: Props
   state: State = {
-    name: ""
+    name: '',
   }
 
   static navigationOptions = {
-    title: "ユーザー登録",
-    headerLeft: null
+    title: 'ユーザー登録',
+    headerLeft: null,
   }
 
   handleBackPress = () => {
-    console.log("back press")
+    console.log('back press')
   }
 
   componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress)
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
   }
 
   componentWillReceiveProps(props: Props) {
@@ -59,7 +59,7 @@ export class Login extends React.Component {
       this.props.navigation.goBack()
     }
     this.setState({ name })
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress)
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
   }
 
   renderRegisterForm() {
@@ -86,13 +86,13 @@ export class Login extends React.Component {
             <Icon name="close-circle" />
           </Item>
           <Text style={{ padding: 5 }}>
-            {duplicateNameError && "ユーザ名が使われています。"}
+            {duplicateNameError && 'ユーザ名が使われています。'}
           </Text>
         </Form>
         <Button
           block
           primary
-          disabled={this.state.name === ""}
+          disabled={this.state.name === ''}
           onPress={() => {
             this.props.createUser(this.state.name)
           }}
