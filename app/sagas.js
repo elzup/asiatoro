@@ -41,13 +41,9 @@ function* fetchFollowAccessPoints() {
     return
   }
   const followAccessPoints = res.data.map(ap => {
-    const last_checkins = ap.last_checkins.filter(v => !!v).map(ci => {
-      return new CheckinRecord({ ...ci, user: new UserRecord(ci.user) })
-    })
-    const today_checkins = ap.today_checkins.filter(v => !!v).map(ci => {
-      return new CheckinRecord({ ...ci, user: new UserRecord(ci.user) })
-    })
-    return new AccessPointRecord({ ...ap, last_checkins })
+    const last_checkins = ap.last_checkins.filter(v => !!v)
+    const today_checkins = ap.today_checkins.filter(v => !!v)
+    return new AccessPointRecord({ ...ap, last_checkins, today_checkins })
   })
   yield put(setFollowAccessPoints(followAccessPoints))
   yield fork(postCheckin)

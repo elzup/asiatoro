@@ -2,6 +2,7 @@
 
 import moment from 'moment'
 import { IconType } from '../themes/icon'
+import _ from 'lodash'
 
 moment.locale('ja', {
   weekdays: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
@@ -49,11 +50,20 @@ export class CheckinRecord {
   justNow() {
     return this.timestamp() >= moment().add(-15, 'm')
   }
+
+  chartNum() {
+    return this.timestamp().hour() + this.timestamp().minute() / 60
+  }
 }
 
 export class AccessPointRecord {
   constructor(params: Object) {
     Object.assign(this, params)
+    this.last_checkins = _.map(params.last_checkins, v => new CheckinRecord(v))
+    this.today_checkins = _.map(
+      params.today_checkins,
+      v => new CheckinRecord(v)
+    )
   }
 
   setFollow(follow: boolean) {
