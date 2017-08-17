@@ -148,6 +148,14 @@ function* logout() {
   yield fork(loadUser)
 }
 
+function* fcmSetup() {
+  console.log('fcm setup saga')
+}
+
+function* fcmRemove() {
+  console.log('fcm remove saga')
+}
+
 const rootSaga = function* root() {
   yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
   yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
@@ -161,6 +169,8 @@ const rootSaga = function* root() {
   yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
   yield takeEvery(ActionTypes.POST_CHECKIN, postCheckin)
   yield takeLatest(ActionTypes.USER_LOGOUT, logout)
+  yield takeLatest(ActionTypes.FCM_SETUP, fcmSetup)
+  yield takeLatest(ActionTypes.FCM_REMOVE, fcmRemove)
 }
 
 export default rootSaga

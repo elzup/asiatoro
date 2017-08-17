@@ -104,3 +104,22 @@ export function logout() {
     type: ActionTypes.USER_LOGOUT,
   }
 }
+
+export function fcmSetup() {
+  return {
+    type: ActionTypes.FCM_SETUP,
+  }
+}
+
+export function fcmRemove() {
+  return {
+    type: ActionTypes.FCM_REMOVE,
+  }
+}
+
+export function fcmSetToken(token: string) {
+  return {
+    type: ActionTypes.FCM_SET_TOKEN,
+    token,
+  }
+}

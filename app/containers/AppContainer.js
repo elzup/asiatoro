@@ -11,7 +11,13 @@ import { NetworksScreen } from './Networks'
 import { ProfileScreen } from './Profile'
 import { LoginScreen } from './Login'
 import { HomeScreen } from './Home'
-import { loadAccessPoints, loadUser, postCheckin } from '../action'
+import {
+  loadAccessPoints,
+  loadUser,
+  postCheckin,
+  fcmSetup,
+  fcmRemove,
+} from '../action'
 import { UserRecord } from '../types/index'
 import { sleep } from '../utils'
 
@@ -61,11 +67,14 @@ class AppContainer extends Component {
     loadUser: Function,
     loadAccessPoints: Function,
     postCheckin: Function,
+    fcmSetup: Function,
+    fcmRemove: Function,
   }
 
   componentDidMount() {
     this.props.loadUser()
     this.props.loadAccessPoints()
+    this.props.fcmSetup()
     AppRegistry.registerHeadlessTask(
       'postCheckin',
       this.checkinJobLoop.bind(this)
@@ -76,6 +85,7 @@ class AppContainer extends Component {
   componentWillUnmount() {
     console.log('WillMount remove jobs')
     AppState.removeEventListener('change', this._handleAppStateChange)
+    this.props.fcmRemove()
   }
 
   _handleAppStateChange = (nextAppState: AppEventState) => {
@@ -126,6 +136,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     loadUser: () => dispatch(loadUser()),
+    fcmSetup: () => dispatch(fcmSetup()),
+    fcmRemove: () => dispatch(fcmRemove()),
     loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),
     postCheckin: () => dispatch(postCheckin()),
   }

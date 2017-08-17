@@ -17,6 +17,10 @@ export const ActionTypes = {
   SET_NETWORK_ERROR: 'asiatoro/app/SET_NETWORK_ERROR',
 
   USER_LOGOUT: 'asiatoro/app/USER_LOGOUT',
+
+  FCM_SETUP: 'asiatoro/app/FCM_SETUP',
+  FCM_SET_TOKEN: 'asiatoro/app/FCM_SET_TOKEN',
+  FCM_REMOVE: 'asiatoro/app/FCM_REMOVE',
 }
 
 export const ErrorTypes = {

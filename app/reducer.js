@@ -13,6 +13,9 @@ type State = {
   loadingAccessPoints: boolean,
   loadingUser: boolean,
   loadingCheckins: boolean,
+  fcm: {
+    token: null,
+  },
 }
 
 const initialState: State = {
@@ -69,6 +72,8 @@ export default function(state: State = initialState, action: any) {
         loadingUser: false,
         loadingCheckins: false,
       }
+    case ActionTypes.FCM_SET_TOKEN:
+      return { ...state, fcm: { token: action.token } }
     default:
   }
   return state
