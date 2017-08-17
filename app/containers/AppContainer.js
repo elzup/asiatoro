@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { AppState, Platform } from 'react-native'
+import { AppState, Platform, AppRegistry } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 
