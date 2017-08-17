@@ -6,7 +6,6 @@ import com.elzup.asiatoro.nativeutil.NativeUtilPackage;
 import com.facebook.react.ReactApplication;
 import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.pilloxa.backgroundjob.BackgroundJobPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -29,7 +28,6 @@ public class MainApplication extends Application implements ReactApplication {
                     new MainReactPackage(),
             new SvgPackage(),
             new VectorIconsPackage(),
-            new BackgroundJobPackage(),
                     new NativeUtilPackage());
         }
     };

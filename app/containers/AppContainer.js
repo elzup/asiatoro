@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import { AppState, Platform } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
-import BackgroundJob from 'react-native-background-job'
 
 import type { Dispatch } from 'redux'
 
@@ -14,8 +13,7 @@ import { LoginScreen } from './Login'
 import { HomeScreen } from './Home'
 import { loadAccessPoints, loadUser, postCheckin } from '../action'
 import { UserRecord } from '../types/index'
-
-BackgroundJob.setGlobalWarnings(false)
+import { sleep } from '../utils'
 
 type AppEventState = 'change' | 'background'
 
@@ -68,12 +66,10 @@ class AppContainer extends Component {
   componentDidMount() {
     this.props.loadUser()
     this.props.loadAccessPoints()
-    BackgroundJob.cancelAll()
-    BackgroundJob.register({
-      jobKey: 'checkinJob',
-      job: this.checkinJob.bind(this),
-      networkType: BackgroundJob.NETWORK_TYPE_ANY,
-    })
+    AppRegistry.registerHeadlessTask(
+      'postCheckin',
+      this.checkinJobLoop.bind(this)
+    )
     AppState.addEventListener('change', this._handleAppStateChange)
   }
 
@@ -85,17 +81,10 @@ class AppContainer extends Component {
   _handleAppStateChange = (nextAppState: AppEventState) => {
     console.log('state')
     console.log(nextAppState)
-    BackgroundJob.cancelAll()
 
     if (nextAppState === 'background') {
       console.log('scheduled')
-      BackgroundJob.schedule({
-        jobKey: 'checkinJob',
-        timeout: 1000 * 60 * 5,
-        // period: __DEV__ ? 1000 * 5 : 1000 * 60 // 5 sec if debug OR 1 min
-        // period: 1000 * 60 * 5, // 5 min
-        // alwaysRunning: true // TODO: remove waiting solve lib issue
-      })
+      // TODO
     } else {
       console.log('reload app')
       this.props.loadUser()
@@ -103,7 +92,14 @@ class AppContainer extends Component {
     }
   }
 
-  checkinJob() {
+  async checkinJobLoop() {
+    while (true) {
+      sleep(1000)
+      await this.checkinJob()
+    }
+  }
+
+  async checkinJob() {
     if (!this.props.user.isRegistered()) {
       console.log("don't registered yat")
       return

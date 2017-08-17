@@ -9,3 +9,4 @@ export const uniqBySSID = (aps: Array<AccessPointRecord>) =>
   _.uniqBy(aps, 'ssid')
 export const sortWithUniq = (aps: Array<AccessPointRecord>) =>
   uniqBySSID(sortByScore(aps))
+export const sleep = msec => new Promise(resolve => setTimeout(resolve, msec))

@@ -125,6 +125,11 @@ function* postFollow({
 function* postCheckin() {
   console.log('postCheckin?')
   const followAccessPints = yield select(state => state.followAccessPoints)
+  const user: UserRecord = yield select(state => state.user)
+  if (!user.isRegistered()) {
+    console.log('no register')
+    return
+  }
   const accessPoints = yield call(getAccessPoints)
   const ssids = accessPoints.map(ap => ap.ssid)
   console.log(ssids)
