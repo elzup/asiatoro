@@ -148,7 +148,7 @@ function* logout() {
   yield fork(loadUser)
 }
 
-function* sagas() {
+const rootSaga = function* root() {
   yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
   yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
   yield takeLatest(ActionTypes.LOAD_USER, loadUser)
@@ -163,4 +163,4 @@ function* sagas() {
   yield takeLatest(ActionTypes.USER_LOGOUT, logout)
 }
 
-export default sagas
+export default rootSaga
