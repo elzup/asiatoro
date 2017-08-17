@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 
+
 import com.android.build.OutputFile
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -55,9 +56,9 @@ android {
     }
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
-            versionNameSuffix = "d"
-            resValue "string", "build_config_package", "com.elzup.asiatoro.debug"
+//            applicationIdSuffix ".debug"
+//            versionNameSuffix = "d"
+//            resValue "string", "build_config_package", "com.elzup.asiatoro.debug"
         }
         release {
             minifyEnabled enableProguardInReleaseBuilds
@@ -83,10 +84,14 @@ dependencies {
     compile project(':react-native-svg')
     compile project(':react-native-vector-icons')
     compile project(':react-native-background-job')
+    compile project(':react-native-fcm')
+    compile 'com.google.firebase:firebase-core:10.0.1' //this decides your firebase SDK version
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
+
+apply plugin: 'com.google.gms.google-services'
 
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
