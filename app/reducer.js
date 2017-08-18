@@ -14,7 +14,7 @@ type State = {
   loadingUser: boolean,
   loadingCheckins: boolean,
   fcm: {
-    token: null,
+    token: null | string,
   },
 }
 
@@ -26,6 +26,9 @@ const initialState: State = {
   loadingAccessPoints: true,
   loadingUser: true,
   loadingCheckins: true,
+  fcm: {
+    token: null,
+  },
 }
 
 export default function(state: State = initialState, action: any) {

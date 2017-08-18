@@ -19,6 +19,8 @@ import FCM, {
 } from 'react-native-fcm'
 
 import { ac } from './networks/Client'
+import firebaseClient from './networks/FirebaseClient'
+
 import { CheckinRecord } from './types'
 import randomString from 'random-string'
 import { uniqBySSID } from './utils'
@@ -158,7 +160,10 @@ function* logout() {
 
 function* fcmSetup() {
   console.log('fcm setup saga')
-  FCM.subscribeToTopic('elzup')
+  // FCM.subscribeToTopic('elzup')
+  const token = yield select(state => state.fcm.token)
+  firebaseClient.sendNotification('elzup')
+  console.log(token)
 }
 
 function* fcmRemove() {

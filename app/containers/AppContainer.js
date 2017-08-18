@@ -23,6 +23,7 @@ import {
   postCheckin,
   fcmSetup,
   fcmRemove,
+  fcmSetToken,
 } from '../action'
 import { UserRecord } from '../types/index'
 import { sleep } from '../utils'
@@ -75,6 +76,7 @@ class AppContainer extends Component {
     postCheckin: Function,
     fcmSetup: Function,
     fcmRemove: Function,
+    fcmSetToken: Function,
   }
 
   componentDidMount() {
@@ -89,9 +91,11 @@ class AppContainer extends Component {
   }
 
   async fcmSetup() {
-    FCM.requestPermissions() // for iOS
+    console.log(FCM)
     FCM.getFCMToken().then(token => {
       console.log(token)
+      this.props.fcmSetToken(token)
+      this.props.fcmSetup()
       // store fcm token in your server
     })
     this.notificationListener = FCM.on(FCMEvent.Notification, async notif => {
@@ -106,9 +110,9 @@ class AppContainer extends Component {
     })
     this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => {
       console.log(token)
+      this.props.fcmSetToken(token)
       // fcm token may not be available on first load, catch it here
     })
-    this.props.fcmSetup()
   }
 
   componentWillUnmount() {
@@ -169,6 +173,7 @@ function mapDispatchToProps(dispatch: Dispatch<*>) {
     loadUser: () => dispatch(loadUser()),
     fcmSetup: () => dispatch(fcmSetup()),
     fcmRemove: () => dispatch(fcmRemove()),
+    fcmSetToken: token => dispatch(fcmSetToken(token)),
     loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),
     postCheckin: () => dispatch(postCheckin()),
   }
