@@ -6,6 +6,12 @@ import { StackNavigator, TabNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 
 import type { Dispatch } from 'redux'
+import FCM, {
+  FCMEvent,
+  RemoteNotificationResult,
+  WillPresentNotificationResult,
+  NotificationType,
+} from 'react-native-fcm'
 
 import { NetworksScreen } from './Networks'
 import { ProfileScreen } from './Profile'
@@ -74,7 +80,7 @@ class AppContainer extends Component {
   componentDidMount() {
     this.props.loadUser()
     this.props.loadAccessPoints()
-    this.props.fcmSetup()
+    this.fcmSetup()
     AppRegistry.registerHeadlessTask(
       'postCheckin',
       this.checkinJobLoop.bind(this)
@@ -82,10 +88,35 @@ class AppContainer extends Component {
     AppState.addEventListener('change', this._handleAppStateChange)
   }
 
+  async fcmSetup() {
+    FCM.requestPermissions() // for iOS
+    FCM.getFCMToken().then(token => {
+      console.log(token)
+      // store fcm token in your server
+    })
+    this.notificationListener = FCM.on(FCMEvent.Notification, async notif => {
+      // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
+      if (notif.local_notification) {
+        //this is a local notification
+      }
+      if (notif.opened_from_tray) {
+        //app is open/resumed because user clicked banner
+      }
+      await someAsyncCall()
+    })
+    this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => {
+      console.log(token)
+      // fcm token may not be available on first load, catch it here
+    })
+    this.props.fcmSetup()
+  }
+
   componentWillUnmount() {
     console.log('WillMount remove jobs')
     AppState.removeEventListener('change', this._handleAppStateChange)
     this.props.fcmRemove()
+    this.notificationListener.remove()
+    this.refreshTokenListener.remove()
   }
 
   _handleAppStateChange = (nextAppState: AppEventState) => {

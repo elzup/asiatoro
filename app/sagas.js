@@ -10,6 +10,14 @@ import {
   select,
 } from 'redux-saga/effects'
 import { AsyncStorage } from 'react-native'
+
+import FCM, {
+  FCMEvent,
+  RemoteNotificationResult,
+  WillPresentNotificationResult,
+  NotificationType,
+} from 'react-native-fcm'
+
 import { ac } from './networks/Client'
 import { CheckinRecord } from './types'
 import randomString from 'random-string'
@@ -150,6 +158,7 @@ function* logout() {
 
 function* fcmSetup() {
   console.log('fcm setup saga')
+  FCM.subscribeToTopic('elzup')
 }
 
 function* fcmRemove() {
