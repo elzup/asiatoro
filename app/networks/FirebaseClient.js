@@ -9,7 +9,7 @@ class FirebaseClient {
     this.sendNotificationWithData = this.sendNotificationWithData.bind(this)
   }
 
-  sendNotification(token) {
+  async sendNotification(token) {
     let body = {
       to: token,
       notification: {

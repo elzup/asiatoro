@@ -160,9 +160,11 @@ function* logout() {
 
 function* fcmSetup() {
   console.log('fcm setup saga')
-  // FCM.subscribeToTopic('elzup')
+  console.log(' subscribe > elzup')
+  FCM.subscribeToTopic('elzup')
   const token = yield select(state => state.fcm.token)
-  firebaseClient.sendNotification('elzup')
+  console.log(' notification > elzup')
+  yield call(firebaseClient.sendNotification, 'elzup')
   console.log(token)
 }
 

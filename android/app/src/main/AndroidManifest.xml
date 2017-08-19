@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission
         android:name="android.permission.READ_PHONE_STATE"
         tools:node="remove"/>
@@ -22,6 +24,15 @@
         android:versionName="1.0.0"
         android:versionCode="1"
         android:theme="@style/AppTheme">
+        <receiver android:name="com.evollu.react.fcm.FIRLocalMessagingPublisher"/>
+        <receiver android:enabled="true" android:exported="true"  android:name="com.evollu.react.fcm.FIRSystemBootEventReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
         <service android:name="com.evollu.react.fcm.MessagingService" android:enabled="true" android:exported="true">
           <intent-filter>
             <action android:name="com.google.firebase.MESSAGING_EVENT"/>

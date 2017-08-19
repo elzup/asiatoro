@@ -106,7 +106,7 @@ class AppContainer extends Component {
       if (notif.opened_from_tray) {
         //app is open/resumed because user clicked banner
       }
-      await someAsyncCall()
+      // debugger
     })
     this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => {
       console.log(token)
