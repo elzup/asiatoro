@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { AppState, Platform, AppRegistry } from 'react-native'
+import { AppState, Platform } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 
@@ -83,10 +83,6 @@ class AppContainer extends Component {
     this.props.loadUser()
     this.props.loadAccessPoints()
     this.fcmSetup()
-    AppRegistry.registerHeadlessTask(
-      'postCheckin',
-      this.checkinJobLoop.bind(this)
-    )
     AppState.addEventListener('change', this._handleAppStateChange)
   }
 
@@ -134,26 +130,6 @@ class AppContainer extends Component {
       console.log('reload app')
       this.props.loadUser()
       this.props.loadAccessPoints()
-    }
-  }
-
-  async checkinJobLoop() {
-    while (true) {
-      sleep(1000)
-      await this.checkinJob()
-    }
-  }
-
-  async checkinJob() {
-    if (!this.props.user.isRegistered()) {
-      console.log("don't registered yat")
-      return
-    }
-    try {
-      console.log('checkin log.')
-      this.props.postCheckin()
-    } catch (e) {
-      console.log(e)
     }
   }
 
