@@ -58,3 +58,5 @@ flow-typed/npm/
 
 android/app/google-services.json
 ./app/networks/FirebaseConstants.js
+
+index.android.bundle

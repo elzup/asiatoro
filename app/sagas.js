@@ -171,7 +171,6 @@ function* watchCheckin({
 }) {
   const topic = checkinKey(user, ap)
   FCM.subscribeToTopic(topic)
-  FCM.subscribeToTopic('hoge')
 }
 
 function* unwatchCheckin({
