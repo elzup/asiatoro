@@ -3,7 +3,7 @@
 import { ActionTypes } from './constants'
 import { UserRecord, AccessPointRecord } from './types'
 import _ from 'lodash'
-import { sortWithUniq } from './utils/index'
+import { sortWithUniq, checkinKey } from './utils'
 import type { Watch } from './types/index'
 
 type State = {
@@ -17,7 +17,7 @@ type State = {
   fcm: {
     token: null | string,
   },
-  watches: Array<Watch>,
+  watches: Array<string>,
 }
 
 const initialState: State = {
@@ -81,15 +81,14 @@ export default function(state: State = initialState, action: any) {
     case ActionTypes.FCM_SET_TOKEN:
       return { ...state, fcm: { token: action.token } }
     case ActionTypes.WATCH_CHECKIN:
-      const newWatch: Watch = { userId: action.user.id, ssid: action.ap.ssid }
-      return { ...state, watches: [...state.watches, newWatch] }
+      return {
+        ...state,
+        watches: _.concat(state.watches, checkinKey(action.user, action.ap)),
+      }
     case ActionTypes.UNWATCH_CHECKIN:
       return {
         ...state,
-        watches: _.reject(state.watches, {
-          userId: action.user.id,
-          ssid: action.ap.ssid,
-        }),
+        watches: _.reject(state.watches, checkinKey(action.user, action.ap)),
       }
     default:
   }

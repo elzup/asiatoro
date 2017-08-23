@@ -19,6 +19,7 @@ import _ from 'lodash'
 import { AccessPointRecord, CheckinRecord, UserRecord } from '../types'
 import type { Watch } from '../types/index'
 import { TouchableOpacity } from 'react-native'
+import { checkinKey } from '../utils'
 
 export default class FollowAccessPointList extends React.Component {
   props: {
@@ -32,7 +33,14 @@ export default class FollowAccessPointList extends React.Component {
   }
 
   renderCheckinCardItem(ci: CheckinRecord, ap: AccessPointRecord) {
-    const { watchCheckin, unwatchCheckin } = this.props
+    const { watches, watchCheckin, unwatchCheckin } = this.props
+    let color = '#ddd'
+    if (ci.justNow()) {
+      color = 'black'
+    }
+    if (_.includes(watches, checkinKey(ci.user, ap))) {
+      color = '#ffb823'
+    }
     return (
       <TouchableOpacity
         key={ci.user.name}
@@ -48,11 +56,7 @@ export default class FollowAccessPointList extends React.Component {
           watchCheckin(ci.user, ap)
         }}
       >
-        <Icon
-          active
-          name="person"
-          style={{ color: ci.justNow() ? 'black' : '#ddd' }}
-        />
+        <Icon active name="person" style={{ color }} />
         <Text>
           {ci.user.name}
         </Text>
