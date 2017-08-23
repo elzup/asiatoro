@@ -123,3 +123,19 @@ export function fcmSetToken(token: string) {
     token,
   }
 }
+
+export function watchCheckin(user: UserRecord, ap: AccessPointRecord) {
+  return {
+    type: ActionTypes.WATCH_CHECKIN,
+    user,
+    ap,
+  }
+}
+
+export function unwatchCheckin(user: UserRecord, ap: AccessPointRecord) {
+  return {
+    type: ActionTypes.UNWATCH_CHECKIN,
+    user,
+    ap,
+  }
+}

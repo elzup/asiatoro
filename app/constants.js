@@ -16,6 +16,9 @@ export const ActionTypes = {
   SET_ERROR: 'asiatoro/app/SET_ERROR',
   SET_NETWORK_ERROR: 'asiatoro/app/SET_NETWORK_ERROR',
 
+  WATCH_CHECKIN: 'asiatoro/app/WATCH_CHECKIN',
+  UNWATCH_CHECKIN: 'asiatoro/app/UNWATCH_CHECKIN',
+
   USER_LOGOUT: 'asiatoro/app/USER_LOGOUT',
 
   FCM_SETUP: 'asiatoro/app/FCM_SETUP',

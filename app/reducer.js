@@ -4,6 +4,7 @@ import { ActionTypes } from './constants'
 import { UserRecord, AccessPointRecord } from './types'
 import _ from 'lodash'
 import { sortWithUniq } from './utils/index'
+import type { Watch } from './types/index'
 
 type State = {
   accessPoints: Array<any>,
@@ -16,6 +17,7 @@ type State = {
   fcm: {
     token: null | string,
   },
+  watches: Array<Watch>,
 }
 
 const initialState: State = {
@@ -29,6 +31,7 @@ const initialState: State = {
   fcm: {
     token: null,
   },
+  watches: [],
 }
 
 export default function(state: State = initialState, action: any) {
@@ -77,6 +80,17 @@ export default function(state: State = initialState, action: any) {
       }
     case ActionTypes.FCM_SET_TOKEN:
       return { ...state, fcm: { token: action.token } }
+    case ActionTypes.WATCH_CHECKIN:
+      const newWatch: Watch = { userId: action.user.id, ssid: action.ap.ssid }
+      return { ...state, watches: [...state.watches, newWatch] }
+    case ActionTypes.UNWATCH_CHECKIN:
+      return {
+        ...state,
+        watches: _.reject(state.watches, {
+          userId: action.user.id,
+          ssid: action.ap.ssid,
+        }),
+      }
     default:
   }
   return state
