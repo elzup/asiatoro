@@ -6,25 +6,14 @@ import { StackNavigator, TabNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 
 import type { Dispatch } from 'redux'
-import FCM, {
-  FCMEvent,
-  RemoteNotificationResult,
-  WillPresentNotificationResult,
-  NotificationType,
-} from 'react-native-fcm'
+import FCM, { FCMEvent } from 'react-native-fcm'
 import checkinTaskManager from '../services/checkinLoop'
 
 import { NetworksScreen } from './Networks'
 import { ProfileScreen } from './Profile'
 import { LoginScreen } from './Login'
 import { HomeScreen } from './Home'
-import {
-  loadAccessPoints,
-  loadUser,
-  fcmSetup,
-  fcmRemove,
-  fcmSetToken,
-} from '../action'
+import { loadAccessPoints, loadUser, fcmRemove, fcmSetToken } from '../action'
 import { UserRecord } from '../types/index'
 
 type AppEventState = 'change' | 'background'
@@ -72,7 +61,6 @@ class AppContainer extends Component {
     user: UserRecord,
     loadUser: Function,
     loadAccessPoints: Function,
-    fcmSetup: Function,
     fcmRemove: Function,
     fcmSetToken: Function,
   }
@@ -86,13 +74,9 @@ class AppContainer extends Component {
   }
 
   async fcmSetup() {
-    console.log(FCM)
-    FCM.getFCMToken().then(token => {
-      console.log(token)
-      this.props.fcmSetToken(token)
-      this.props.fcmSetup()
-      // store fcm token in your server
-    })
+    const token = await FCM.getFCMToken()
+    this.props.fcmSetToken(token)
+
     this.notificationListener = FCM.on(FCMEvent.Notification, async notif => {
       // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
       if (notif.local_notification) {
@@ -145,7 +129,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     loadUser: () => dispatch(loadUser()),
-    fcmSetup: () => dispatch(fcmSetup()),
     fcmRemove: () => dispatch(fcmRemove()),
     fcmSetToken: token => dispatch(fcmSetToken(token)),
     loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),

@@ -19,11 +19,9 @@ import FCM, {
 } from 'react-native-fcm'
 
 import { ac } from './networks/Client'
-import firebaseClient from './networks/FirebaseClient'
 
-import { CheckinRecord } from './types'
 import randomString from 'random-string'
-import { uniqBySSID } from './utils'
+import { uniqBySSID, checkinKey } from './utils'
 
 import { ActionTypes, ErrorTypes } from './constants'
 import {
@@ -158,18 +156,33 @@ function* logout() {
   yield fork(loadUser)
 }
 
-function* fcmSetup() {
-  console.log('fcm setup saga')
-  console.log(' subscribe > elzup')
-  FCM.subscribeToTopic('elzup')
-  const token = yield select(state => state.fcm.token)
-  console.log(' notification > elzup')
-  yield call(firebaseClient.sendNotification, 'elzup')
-  console.log(token)
-}
+function* fcmSetup() {}
 
 function* fcmRemove() {
   console.log('fcm remove saga')
+}
+
+function* watchCheckin({
+  user,
+  ap,
+}: {
+  user: UserRecord,
+  ap: AccessPointRecord,
+}) {
+  const topic = checkinKey(user, ap)
+  FCM.subscribeToTopic(topic)
+  FCM.subscribeToTopic('hoge')
+}
+
+function* unwatchCheckin({
+  user,
+  ap,
+}: {
+  user: UserRecord,
+  ap: AccessPointRecord,
+}) {
+  const topic = checkinKey(user, ap)
+  FCM.unsubscribeFromTopic(topic)
 }
 
 const rootSaga = function* root() {
@@ -187,6 +200,8 @@ const rootSaga = function* root() {
   yield takeLatest(ActionTypes.USER_LOGOUT, logout)
   yield takeLatest(ActionTypes.FCM_SETUP, fcmSetup)
   yield takeLatest(ActionTypes.FCM_REMOVE, fcmRemove)
+  yield takeLatest(ActionTypes.WATCH_CHECKIN, watchCheckin)
+  yield takeLatest(ActionTypes.UNWATCH_CHECKIN, unwatchCheckin)
 }
 
 export default rootSaga

@@ -15,4 +15,4 @@ export const bgSleep = msec =>
   new Promise(resolve => BackgroundTimer.setInterval(resolve, msec))
 
 export const checkinKey = (user: UserRecord, ap: AccessPointRecord) =>
-  `${user.id}#${ap.ssid}`
+  `${user.id}.${ap.id}`
