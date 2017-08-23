@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { AppState, Platform } from 'react-native'
+import { AppState, Platform, AppRegistry } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 
@@ -12,6 +12,7 @@ import FCM, {
   WillPresentNotificationResult,
   NotificationType,
 } from 'react-native-fcm'
+import checkinTaskManager from '../services/checkinLoop'
 
 import { NetworksScreen } from './Networks'
 import { ProfileScreen } from './Profile'
@@ -20,13 +21,11 @@ import { HomeScreen } from './Home'
 import {
   loadAccessPoints,
   loadUser,
-  postCheckin,
   fcmSetup,
   fcmRemove,
   fcmSetToken,
 } from '../action'
 import { UserRecord } from '../types/index'
-import { sleep } from '../utils'
 
 type AppEventState = 'change' | 'background'
 
@@ -73,7 +72,6 @@ class AppContainer extends Component {
     user: UserRecord,
     loadUser: Function,
     loadAccessPoints: Function,
-    postCheckin: Function,
     fcmSetup: Function,
     fcmRemove: Function,
     fcmSetToken: Function,
@@ -84,6 +82,7 @@ class AppContainer extends Component {
     this.props.loadAccessPoints()
     this.fcmSetup()
     AppState.addEventListener('change', this._handleAppStateChange)
+    checkinTaskManager.start()
   }
 
   async fcmSetup() {
@@ -125,7 +124,6 @@ class AppContainer extends Component {
 
     if (nextAppState === 'background') {
       console.log('scheduled')
-      // TODO
     } else {
       console.log('reload app')
       this.props.loadUser()
@@ -151,7 +149,6 @@ function mapDispatchToProps(dispatch: Dispatch<*>) {
     fcmRemove: () => dispatch(fcmRemove()),
     fcmSetToken: token => dispatch(fcmSetToken(token)),
     loadAccessPoints: accessPoints => dispatch(loadAccessPoints()),
-    postCheckin: () => dispatch(postCheckin()),
   }
 }
 

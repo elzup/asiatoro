@@ -5,6 +5,7 @@ import android.app.Application;
 import com.elzup.asiatoro.nativeutil.NativeUtilPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.react.ReactApplication;
+import com.ocetnik.timer.BackgroundTimerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new BackgroundTimerPackage(),
                     new VectorIconsPackage(),
                     new FIRMessagingPackage(),
 

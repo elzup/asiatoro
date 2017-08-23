@@ -81,6 +81,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-background-timer')
     compile project(':react-native-vector-icons')
     compile project(':react-native-fcm')
     compile 'com.google.firebase:firebase-core:10.0.1' //this decides your firebase SDK version

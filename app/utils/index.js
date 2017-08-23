@@ -2,6 +2,7 @@
 
 import { AccessPointRecord } from '../types'
 import _ from 'lodash'
+import BackgroundTimer from 'react-native-background-timer'
 
 const powerScore = (v: AccessPointRecord) => -(v.follow * 1000 + v.power)
 const sortByScore = (aps: Array<AccessPointRecord>) => _.sortBy(aps, powerScore)
@@ -10,3 +11,5 @@ export const uniqBySSID = (aps: Array<AccessPointRecord>) =>
 export const sortWithUniq = (aps: Array<AccessPointRecord>) =>
   uniqBySSID(sortByScore(aps))
 export const sleep = msec => new Promise(resolve => setTimeout(resolve, msec))
+export const bgSleep = msec =>
+  new Promise(resolve => BackgroundTimer.setInterval(resolve, msec))
