@@ -5,7 +5,7 @@ import type { Dispatch } from 'redux'
 
 import FollowAccessPointList from '../../components/FollowAccessPointList'
 import { AccessPointRecord } from '../../types'
-import { loadUser } from '../../action'
+import { loadUser, watchCheckin, unwatchCheckin } from '../../action'
 
 function mapStateToProps(state) {
   return {
@@ -13,6 +13,7 @@ function mapStateToProps(state) {
       ap => new AccessPointRecord(ap)
     ),
     user: state.user,
+    watches: state.watches,
     loadingCheckins: state.loadingCheckins,
     loadingUser: state.loadingUser,
   }
@@ -21,6 +22,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     loadUser: () => dispatch(loadUser()),
+    watchCheckin: (user, ap) => dispatch(watchCheckin(user, ap)),
+    unwatchCheckin: (user, ap) => dispatch(unwatchCheckin(user, ap)),
   }
 }
 

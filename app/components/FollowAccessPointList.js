@@ -17,6 +17,8 @@ import {
 import _ from 'lodash'
 
 import { AccessPointRecord, CheckinRecord, UserRecord } from '../types'
+import type { Watch } from '../types/index'
+import { TouchableOpacity } from 'react-native'
 
 export default class FollowAccessPointList extends React.Component {
   props: {
@@ -24,11 +26,15 @@ export default class FollowAccessPointList extends React.Component {
     loadingCheckins: boolean,
     followAccessPoints: Array<AccessPointRecord>,
     user: UserRecord,
+    watches: Array<Watch>,
+    watchCheckin: (user, ap) => {},
+    unwatchCheckin: (user, ap) => {},
   }
 
-  renderCheckinCardItem(ci: CheckinRecord) {
+  renderCheckinCardItem(ci: CheckinRecord, ap: AccessPointRecord) {
+    const { watchCheckin, unwatchCheckin } = this.props
     return (
-      <View
+      <TouchableOpacity
         key={ci.user.name}
         style={{
           width: 70,
@@ -36,6 +42,10 @@ export default class FollowAccessPointList extends React.Component {
           margin: 2,
           padding: 2,
           alignItems: 'center',
+        }}
+        onPress={() => {
+          console.log('press')
+          watchCheckin(ci.user, ap)
         }}
       >
         <Icon
@@ -49,7 +59,7 @@ export default class FollowAccessPointList extends React.Component {
         <Text style={{ fontSize: 10 }}>
           {ci.timestamp().fromNow()}
         </Text>
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -73,7 +83,7 @@ export default class FollowAccessPointList extends React.Component {
             >
               {_.sortBy(ap.last_checkins, (c: CheckinRecord) =>
                 c.timestamp()
-              ).map(ci => this.renderCheckinCardItem(ci))}
+              ).map(ci => this.renderCheckinCardItem(ci, ap))}
             </View>
           </Body>
         </CardItem>
