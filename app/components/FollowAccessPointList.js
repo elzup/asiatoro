@@ -38,7 +38,8 @@ export default class FollowAccessPointList extends React.Component {
     if (ci.justNow()) {
       color = 'black'
     }
-    if (_.includes(watches, checkinKey(ci.user, ap))) {
+    const watch = _.includes(watches, checkinKey(ci.user, ap))
+    if (watch) {
       color = '#ffb823'
     }
     return (
@@ -52,8 +53,14 @@ export default class FollowAccessPointList extends React.Component {
           alignItems: 'center',
         }}
         onPress={() => {
-          console.log('press')
-          watchCheckin(ci.user, ap)
+          if (ci.justNow()) {
+            return
+          }
+          if (watch) {
+            unwatchCheckin(ci.user, ap)
+          } else {
+            watchCheckin(ci.user, ap)
+          }
         }}
       >
         <Icon active name="person" style={{ color }} />

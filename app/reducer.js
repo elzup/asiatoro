@@ -88,7 +88,9 @@ export default function(state: State = initialState, action: any) {
     case ActionTypes.UNWATCH_CHECKIN:
       return {
         ...state,
-        watches: _.reject(state.watches, checkinKey(action.user, action.ap)),
+        watches: _.difference(state.watches, [
+          checkinKey(action.user, action.ap),
+        ]),
       }
     default:
   }
