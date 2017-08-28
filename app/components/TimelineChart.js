@@ -18,6 +18,7 @@ function heat(n) {
 export function TimelineChart({ checkins }: Props) {
   const userNames: Array<string> = _.uniq(_.map(checkins, v => v.user.name))
   const users = {}
+  const now = moment()
   _.each(userNames, name => {
     users[name] = new Array(24).fill(false)
   })
@@ -40,7 +41,6 @@ export function TimelineChart({ checkins }: Props) {
     10: 12,
     15: 8,
     16: 12,
-    17: 12,
   }
   userNames.push('elw')
   return (
@@ -48,7 +48,7 @@ export function TimelineChart({ checkins }: Props) {
       <Grid>
         <Col style={{ width: '20%' }}>
           <Text>
-            {moment().format('MM/DD')}
+            {now.format('MM/DD')}
           </Text>
         </Col>
         <Col>
@@ -90,6 +90,12 @@ export function TimelineChart({ checkins }: Props) {
                   style={{
                     flex: 1,
                     backgroundColor: heat(users[name][h]),
+                    ...(now.hour() === h
+                      ? {
+                          borderRightColor: 'red',
+                          borderRightWidth: 3,
+                        }
+                      : {}),
                   }}
                 />
               )}
