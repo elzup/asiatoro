@@ -75,6 +75,7 @@ class AppContainer extends Component {
 
   async fcmSetup() {
     const token = await FCM.getFCMToken()
+    console.log(token)
     this.props.fcmSetToken(token)
 
     this.notificationListener = FCM.on(FCMEvent.Notification, async notif => {
@@ -85,7 +86,6 @@ class AppContainer extends Component {
       if (notif.opened_from_tray) {
         //app is open/resumed because user clicked banner
       }
-      // debugger
     })
     this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => {
       console.log(token)

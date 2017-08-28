@@ -21,8 +21,8 @@ moment.locale('ja', {
 })
 
 export type Watch = {|
-  userId: number,
-  ssid: string,
+  user: UserRecord,
+  ap: AccessPointRecord,
 |}
 
 export class UserRecord {

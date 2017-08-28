@@ -3,6 +3,7 @@
 import { create } from 'apisauce'
 import { UserRecord, AccessPointRecord } from '../types'
 import _ from 'lodash'
+import type { Watch } from '../types'
 
 // const host = __DEV__ ? "http://localhost:3000" : "https://asiatoro.herokuapp.com"
 const host = 'https://asiatoro.herokuapp.com'
@@ -56,6 +57,24 @@ class AsiatoroClient {
   async deleteFollow({ ap }: { ap: AccessPointRecord }) {
     const res = await this.api.delete('/v1/follows', {
       ssid: ap.ssid,
+    })
+    console.log('res', res)
+    return res
+  }
+
+  async postWatch({ user, ap }: Watch) {
+    const res = await this.api.post('/v1/watch', {
+      user_id: user.id,
+      access_point_id: ap.id,
+    })
+    console.log('res', res)
+    return res
+  }
+
+  async deleteWatch({ user, ap }: Watch) {
+    const res = await this.api.delete('/v1/watch', {
+      user_id: user.id,
+      access_point_id: ap.id,
     })
     console.log('res', res)
     return res

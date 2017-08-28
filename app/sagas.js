@@ -3,37 +3,30 @@
 import { delay } from 'redux-saga'
 import {
   call,
-  put,
   fork,
-  takeLatest,
-  takeEvery,
+  put,
   select,
+  takeEvery,
+  takeLatest,
 } from 'redux-saga/effects'
 import { AsyncStorage } from 'react-native'
-
-import FCM, {
-  FCMEvent,
-  RemoteNotificationResult,
-  WillPresentNotificationResult,
-  NotificationType,
-} from 'react-native-fcm'
 
 import { ac } from './networks/Client'
 
 import randomString from 'random-string'
-import { uniqBySSID, checkinKey } from './utils'
+import { uniqBySSID } from './utils'
 
 import { ActionTypes, ErrorTypes } from './constants'
 import {
-  setAccessPoints,
-  setUser,
-  setError,
   loadFollowAccessPoints,
-  updateUser,
+  setAccessPoints,
+  setError,
   setFollowAccessPoints,
+  setUser,
+  updateUser,
 } from './action'
 import { getAccessPoints } from './natives/NetworkUtil'
-import { UserRecord, AccessPointRecord } from './types'
+import { AccessPointRecord, UserRecord } from './types'
 
 function* fetchAccessPoint() {
   const dummyDelay = 300 // ms
@@ -162,26 +155,12 @@ function* fcmRemove() {
   console.log('fcm remove saga')
 }
 
-function* watchCheckin({
-  user,
-  ap,
-}: {
-  user: UserRecord,
-  ap: AccessPointRecord,
-}) {
-  const topic = checkinKey(user, ap)
-  FCM.subscribeToTopic(topic)
+function* watchCheckin({ watch }: { watch: Watch }) {
+  const res = yield call(ac.postWatch.bind(ac), watch)
 }
 
-function* unwatchCheckin({
-  user,
-  ap,
-}: {
-  user: UserRecord,
-  ap: AccessPointRecord,
-}) {
-  const topic = checkinKey(user, ap)
-  FCM.unsubscribeFromTopic(topic)
+function* unwatchCheckin({ watch }: { watch: Watch }) {
+  const res = yield call(ac.deleteWatch.bind(ac), watch)
 }
 
 const rootSaga = function* root() {

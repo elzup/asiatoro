@@ -1,10 +1,9 @@
 // @flow
 
 import { ActionTypes } from './constants'
-import { UserRecord, AccessPointRecord } from './types'
+import { UserRecord, AccessPointRecord, Watch } from './types'
 import _ from 'lodash'
 import { sortWithUniq, checkinKey } from './utils'
-import type { Watch } from './types/index'
 
 type State = {
   accessPoints: Array<any>,
@@ -17,7 +16,7 @@ type State = {
   fcm: {
     token: null | string,
   },
-  watches: Array<string>,
+  watches: Array<Watch>,
 }
 
 const initialState: State = {
@@ -83,14 +82,12 @@ export default function(state: State = initialState, action: any) {
     case ActionTypes.WATCH_CHECKIN:
       return {
         ...state,
-        watches: _.concat(state.watches, checkinKey(action.user, action.ap)),
+        watches: _.concat(state.watches, action.watch),
       }
     case ActionTypes.UNWATCH_CHECKIN:
       return {
         ...state,
-        watches: _.difference(state.watches, [
-          checkinKey(action.user, action.ap),
-        ]),
+        watches: _.difference(state.watches, [action.watch]),
       }
     default:
   }

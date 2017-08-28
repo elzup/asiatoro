@@ -29,8 +29,8 @@ export default class FollowAccessPointList extends React.Component {
     followAccessPoints: Array<AccessPointRecord>,
     user: UserRecord,
     watches: Array<Watch>,
-    watchCheckin: (user, ap) => {},
-    unwatchCheckin: (user, ap) => {},
+    watchCheckin: Watch => {},
+    unwatchCheckin: Watch => {},
   }
 
   renderCheckinCardItem(ci: CheckinRecord, ap: AccessPointRecord) {
@@ -58,9 +58,9 @@ export default class FollowAccessPointList extends React.Component {
             return
           }
           if (watch) {
-            unwatchCheckin(ci.user, ap)
+            unwatchCheckin({ user: ci.user, ap })
           } else {
-            watchCheckin(ci.user, ap)
+            watchCheckin({ user: ci.user, ap })
           }
         }}
       >
@@ -75,7 +75,7 @@ export default class FollowAccessPointList extends React.Component {
     )
   }
 
-  renderAccessPointCard(ap: AccessPointRecord) {
+  renderAccessPointCard(ap: { ap: AccessPointRecord }) {
     return (
       <Card key={ap.ssid}>
         <CardItem header>

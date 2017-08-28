@@ -22,8 +22,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     loadUser: () => dispatch(loadUser()),
-    watchCheckin: (user, ap) => dispatch(watchCheckin(user, ap)),
-    unwatchCheckin: (user, ap) => dispatch(unwatchCheckin(user, ap)),
+    watchCheckin: watch => dispatch(watchCheckin(watch)),
+    unwatchCheckin: watch => dispatch(unwatchCheckin(watch)),
   }
 }
 

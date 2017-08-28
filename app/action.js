@@ -2,6 +2,7 @@
 
 import { ActionTypes } from './constants'
 import { AccessPointRecord, UserRecord } from './types'
+import type { Watch } from './types/index'
 
 export function loadAccessPoints() {
   return {
@@ -124,18 +125,16 @@ export function fcmSetToken(token: string) {
   }
 }
 
-export function watchCheckin(user: UserRecord, ap: AccessPointRecord) {
+export function watchCheckin(watch: Watch) {
   return {
     type: ActionTypes.WATCH_CHECKIN,
-    user,
-    ap,
+    watch,
   }
 }
 
-export function unwatchCheckin(user: UserRecord, ap: AccessPointRecord) {
+export function unwatchCheckin(watch: Watch) {
   return {
     type: ActionTypes.UNWATCH_CHECKIN,
-    user,
-    ap,
+    watch,
   }
 }
