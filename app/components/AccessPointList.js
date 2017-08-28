@@ -88,7 +88,6 @@ export default class AccessPointList extends React.Component {
               this.props.postFollow(ap, !ap.follow)
             }}
           >
-            <EnIcon active name={ap.powerIconType()} size={20} color="black" />
             <Icon active={ap.follow} name="star" />
           </Button>
         </Right>
