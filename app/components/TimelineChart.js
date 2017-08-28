@@ -25,24 +25,6 @@ export function TimelineChart({ checkins }: Props) {
   _.each(checkins, (v: CheckinRecord) => {
     users[v.user.name][v.timestamp().hour()] += 1
   })
-  users['el1'] = { 6: 6, 7: 12, 8: 12, 9: 12, 10: 3 }
-  userNames.push('el1')
-  users['elw'] = {
-    0: 12,
-    1: 12,
-    2: 12,
-    3: 12,
-    4: 12,
-    5: 12,
-    6: 11,
-    7: 12,
-    8: 6,
-    9: 6,
-    10: 12,
-    15: 8,
-    16: 12,
-  }
-  userNames.push('elw')
   return (
     <Content style={{ width: '100%' }}>
       <Grid>
