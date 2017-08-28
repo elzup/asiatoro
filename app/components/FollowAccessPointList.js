@@ -15,7 +15,7 @@ import {
   View,
 } from 'native-base'
 import _ from 'lodash'
-import { TimelineChart } from './Time'
+import { TimelineChart } from './TimelineChart'
 
 import { AccessPointRecord, CheckinRecord, UserRecord } from '../types'
 import type { Watch } from '../types/index'

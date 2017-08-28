@@ -2,12 +2,17 @@
 
 import React from 'react'
 import _ from 'lodash'
-import { Scatterplot } from 'react-native-pathjs-charts'
-import type { CheckinRecord, UserRecord } from '../types'
-import { Content, View, Grid, Col, Text } from 'native-base'
+import moment from 'moment'
+import type { CheckinRecord } from '../types'
+import { Col, Content, Grid, Text, View } from 'native-base'
 
 type Props = {
   checkins: Array<CheckinRecord>,
+}
+
+function heat(n) {
+  // max 12 per hour (once 5 minutes)
+  return ['#fff', '#ddf', '#88f', '#44f', '#00f'][Math.min(Math.ceil(n / 3), 4)]
 }
 
 export function TimelineChart({ checkins }: Props) {
@@ -17,10 +22,33 @@ export function TimelineChart({ checkins }: Props) {
     users[name] = new Array(24).fill(false)
   })
   _.each(checkins, (v: CheckinRecord) => {
-    users[v.user.name][v.timestamp().hour()] = true
+    users[v.user.name][v.timestamp().hour()] += 1
   })
   return (
-    <Content style={{ background: 'red', width: '100%' }}>
+    <Content style={{ width: '100%' }}>
+      <Grid>
+        <Col style={{ width: '20%' }}>
+          <Text>
+            {moment().format('MM/DD')}
+          </Text>
+        </Col>
+        <Col>
+          <View
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Text>0</Text>
+            <Text>6</Text>
+            <Text>12</Text>
+            <Text>18</Text>
+            <Text>24</Text>
+          </View>
+        </Col>
+      </Grid>
       {_.map(userNames, name =>
         <Grid key={name}>
           <Col style={{ width: '20%' }}>
@@ -42,13 +70,9 @@ export function TimelineChart({ checkins }: Props) {
                   key={h}
                   style={{
                     flex: 1,
-                    backgroundColor: users[name][h] ? 'red' : 'white',
+                    backgroundColor: heat(users[name][h]),
                   }}
-                >
-                  <Text>
-                    {users[name][h] ? h : ''}
-                  </Text>
-                </View>
+                />
               )}
             </View>
           </Col>
