@@ -13,6 +13,9 @@ import {
   Item,
   Label,
   Icon,
+  View,
+  Grid,
+  Row,
 } from 'native-base'
 import { ErrorTypes } from '../constants'
 import type { NavigationScreenProp } from 'react-navigation/src/TypeDefinition'
@@ -55,11 +58,20 @@ export class Profile extends React.Component {
       this.props.error === ErrorTypes.USER_NAME_DUPLICATE
     return (
       <Content style={{ padding: 5 }}>
-        <Text>
-          ユーザ: {this.props.user.name}
-        </Text>
+        <View
+          style={{
+            justifyContent: 'center',
+            flex: 1,
+            height: 200,
+            alignItems: 'center',
+          }}
+        >
+          <Icon active name="person" style={{ color: 'black', fontSize: 60 }} />
+          <Text style={{ fontSize: 30 }}>
+            {this.props.user.name}
+          </Text>
+        </View>
         <Form>
-          <Text>名前変更</Text>
           <Item style={{ marginBottom: 10 }} error={duplicateNameError}>
             <Label>ユーザ名</Label>
             <Input
@@ -91,7 +103,7 @@ export class Profile extends React.Component {
             this.props.renameUser(this.state.name)
           }}
         >
-          <Text>確定</Text>
+          <Text>変更</Text>
         </Button>
       </Content>
     )
