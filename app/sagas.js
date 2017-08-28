@@ -10,6 +10,7 @@ import {
   takeLatest,
 } from 'redux-saga/effects'
 import { AsyncStorage } from 'react-native'
+import FCM from 'react-native-fcm'
 
 import { ac } from './networks/Client'
 
@@ -62,6 +63,8 @@ function* loadUser() {
   yield put(setUser(user))
   ac.setUser(user)
   yield put(loadFollowAccessPoints())
+  const fToken = yield call(FCM.getFCMToken)
+  const res = yield call(ac.putFcmUser.bind(ac), { token: fToken })
 }
 
 function* registerUser({ user }) {
@@ -149,12 +152,6 @@ function* logout() {
   yield fork(loadUser)
 }
 
-function* fcmSetup() {}
-
-function* fcmRemove() {
-  console.log('fcm remove saga')
-}
-
 function* watchCheckin({ watch }: { watch: Watch }) {
   const res = yield call(ac.postWatch.bind(ac), watch)
 }
@@ -166,7 +163,7 @@ function* unwatchCheckin({ watch }: { watch: Watch }) {
 const rootSaga = function* root() {
   yield takeLatest(ActionTypes.LOAD_ACCESS_POINTS, fetchAccessPoint)
   yield takeLatest(ActionTypes.UPDATE_USER, registerUser)
-  yield takeLatest(ActionTypes.LOAD_USER, loadUser)
+  yield takeEvery(ActionTypes.LOAD_USER, loadUser)
   yield takeLatest(
     ActionTypes.LOAD_FOLLOW_ACCESS_POINTS,
     fetchFollowAccessPoints
@@ -176,8 +173,6 @@ const rootSaga = function* root() {
   yield takeLatest(ActionTypes.POST_FOLLOW, postFollow)
   yield takeEvery(ActionTypes.POST_CHECKIN, postCheckin)
   yield takeLatest(ActionTypes.USER_LOGOUT, logout)
-  yield takeLatest(ActionTypes.FCM_SETUP, fcmSetup)
-  yield takeLatest(ActionTypes.FCM_REMOVE, fcmRemove)
   yield takeLatest(ActionTypes.WATCH_CHECKIN, watchCheckin)
   yield takeLatest(ActionTypes.UNWATCH_CHECKIN, unwatchCheckin)
 }

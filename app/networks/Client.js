@@ -38,7 +38,15 @@ class AsiatoroClient {
     return res
   }
 
-  async putRenameUser({ name, pass }: { name: string }) {
+  async putFcmUser({ token }) {
+    const res = await this.api.put('/v1/users', {
+      fcm_token: token,
+    })
+    console.log('res', res)
+    return res
+  }
+
+  async putRenameUser({ name }: { name: string }) {
     const res = await this.api.put('/v1/users', {
       name,
     })
@@ -63,7 +71,7 @@ class AsiatoroClient {
   }
 
   async postWatch({ user, ap }: Watch) {
-    const res = await this.api.post('/v1/watch', {
+    const res = await this.api.post('/v1/watches', {
       user_id: user.id,
       access_point_id: ap.id,
     })
@@ -72,7 +80,7 @@ class AsiatoroClient {
   }
 
   async deleteWatch({ user, ap }: Watch) {
-    const res = await this.api.delete('/v1/watch', {
+    const res = await this.api.delete('/v1/watches', {
       user_id: user.id,
       access_point_id: ap.id,
     })

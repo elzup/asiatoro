@@ -74,10 +74,6 @@ class AppContainer extends Component {
   }
 
   async fcmSetup() {
-    const token = await FCM.getFCMToken()
-    console.log(token)
-    this.props.fcmSetToken(token)
-
     this.notificationListener = FCM.on(FCMEvent.Notification, async notif => {
       // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
       if (notif.local_notification) {
@@ -88,7 +84,6 @@ class AppContainer extends Component {
       }
     })
     this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => {
-      console.log(token)
       this.props.fcmSetToken(token)
       // fcm token may not be available on first load, catch it here
     })
