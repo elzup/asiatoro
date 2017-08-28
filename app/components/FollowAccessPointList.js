@@ -39,7 +39,10 @@ export default class FollowAccessPointList extends React.Component {
     if (ci.justNow()) {
       color = 'black'
     }
-    const watch = _.includes(watches, checkinKey(ci.user, ap))
+    const watch = _.find(
+      watches,
+      w => w.user.id === ci.user.id && w.ap.id === ap.id
+    )
     if (watch) {
       color = '#ffb823'
     }
