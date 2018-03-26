@@ -25,6 +25,7 @@ import {
   setFollowAccessPoints,
   setUser,
   updateUser,
+  fcmSetToken,
 } from './action'
 import { getAccessPoints } from './natives/NetworkUtil'
 import { AccessPointRecord, UserRecord } from './types'
@@ -64,6 +65,7 @@ function* loadUser() {
   ac.setUser(user)
   yield put(loadFollowAccessPoints())
   const fToken = yield call(FCM.getFCMToken)
+  yield put(fcmSetToken(fToken))
   const res = yield call(ac.putFcmUser.bind(ac), { token: fToken })
 }
 
